@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <RootNamespace>N_Tier.Api.IntegrationTests</RootNamespace>
+        <RootNamespace>TennisTour.Api.IntegrationTests</RootNamespace>
 
         <IsPackable>false</IsPackable>
     </PropertyGroup>
@@ -17,7 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\N-Tier.API\N-Tier.API.csproj"/>
+        <ProjectReference Include="..\..\src\TennisTour.API\TennisTour.API.csproj"/>
     </ItemGroup>
 
 </Project>

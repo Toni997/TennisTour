@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <RootNamespace>N_Tier.Application</RootNamespace>
+        <RootNamespace>TennisTour.Application</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\N-Tier.DataAccess\N-Tier.DataAccess.csproj"/>
+        <ProjectReference Include="..\TennisTour.DataAccess\TennisTour.DataAccess.csproj"/>
     </ItemGroup>
 
 </Project>
