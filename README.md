@@ -27,6 +27,8 @@ TennisTour is like ATP/WTA Tour, except it's not actually real
 * Every tournament happens once a year
 * Every tournament has a deadline for registering, after which it generates the main draw
 * Only the achievement in the last edition of a tournmanet is counted toward official ranking points
+* For performance reasons, the database will not be fully normalized
+  * For example, there will be a rankings table, which will be updated periodically 
 
 ### Bonus Features (If Time Allows)
 * Contenders can schedule a friendly match with other contenders
@@ -41,7 +43,7 @@ TennisTour is like ATP/WTA Tour, except it's not actually real
 
 ## Database Model
 
-![TennisTour Database Model](https://raw.githubusercontent.com/OSS-Csharp-Seminar/TennisTour/main/github/images/DbModel.jpg?token=GHSAT0AAAAAACBOXJEOSSZPKQYIUM2MYCS4ZB6EO4A)
+![TennisTour Database Model](https://raw.githubusercontent.com/OSS-Csharp-Seminar/TennisTour/main/github/images/DbModel.jpg?token=GHSAT0AAAAAACBOXJEP4DUPHAKZYMZEF6IGZB6FWQQ)
 
 ## Authors
 
