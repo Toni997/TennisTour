@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
-using N_Tier.Application.MappingProfiles;
-using N_Tier.DataAccess.Repositories;
-using N_Tier.Shared.Services;
+using TennisTour.Application.MappingProfiles;
+using TennisTour.DataAccess.Repositories;
+using TennisTour.Shared.Services;
 using NSubstitute;
 
-namespace N_Tier.Application.UnitTests.Services;
+namespace TennisTour.Application.UnitTests.Services;
 
 public class BaseServiceTestConfiguration
 {

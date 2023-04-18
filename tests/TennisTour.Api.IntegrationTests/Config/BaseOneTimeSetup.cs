@@ -9,16 +9,16 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using N_Tier.API;
-using N_Tier.Api.IntegrationTests.Config.Constants;
-using N_Tier.Api.IntegrationTests.Helpers.Services;
-using N_Tier.Application.Helpers;
-using N_Tier.Application.Services;
-using N_Tier.DataAccess.Identity;
-using N_Tier.DataAccess.Persistence;
+using TennisTour.API;
+using TennisTour.Api.IntegrationTests.Config.Constants;
+using TennisTour.Api.IntegrationTests.Helpers.Services;
+using TennisTour.Application.Helpers;
+using TennisTour.Application.Services;
+using TennisTour.DataAccess.Identity;
+using TennisTour.DataAccess.Persistence;
 using NUnit.Framework;
 
-namespace N_Tier.Api.IntegrationTests.Config;
+namespace TennisTour.Api.IntegrationTests.Config;
 
 [SetUpFixture]
 public class BaseOneTimeSetup

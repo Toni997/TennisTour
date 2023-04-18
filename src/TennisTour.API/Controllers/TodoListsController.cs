@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using N_Tier.Application.Models;
-using N_Tier.Application.Models.TodoItem;
-using N_Tier.Application.Models.TodoList;
-using N_Tier.Application.Services;
+using TennisTour.Application.Models;
+using TennisTour.Application.Models.TodoItem;
+using TennisTour.Application.Models.TodoList;
+using TennisTour.Application.Services;
 
-namespace N_Tier.API.Controllers;
+namespace TennisTour.API.Controllers;
 
 [Authorize]
 public class TodoListsController : ApiController

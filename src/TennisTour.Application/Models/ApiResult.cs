@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Models;
+﻿namespace TennisTour.Application.Models;
 
 public class ApiResult<T>
 {

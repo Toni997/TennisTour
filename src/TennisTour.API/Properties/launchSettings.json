@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "N_Tier.API": {
+    "TennisTour.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",

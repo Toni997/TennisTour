@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Models.User;
+﻿namespace TennisTour.Application.Models.User;
 
 public class LoginUserModel
 {

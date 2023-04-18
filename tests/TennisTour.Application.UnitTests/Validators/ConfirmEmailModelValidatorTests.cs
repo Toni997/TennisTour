@@ -1,10 +1,10 @@
 ﻿using FizzWare.NBuilder;
 using FluentValidation.TestHelper;
-using N_Tier.Application.Models.User;
-using N_Tier.Application.Models.Validators.User;
+using TennisTour.Application.Models.User;
+using TennisTour.Application.Models.Validators.User;
 using Xunit;
 
-namespace N_Tier.Application.UnitTests.Validators;
+namespace TennisTour.Application.UnitTests.Validators;
 
 public class ConfirmEmailModelValidatorTests
 {

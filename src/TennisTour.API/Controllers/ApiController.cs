@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace N_Tier.API.Controllers;
+namespace TennisTour.API.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Common.Email;
+﻿namespace TennisTour.Application.Common.Email;
 
 public class EmailAttachment
 {

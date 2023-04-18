@@ -1,9 +1,9 @@
-﻿using N_Tier.Application.Exceptions;
-using N_Tier.Application.Models;
-using N_Tier.Core.Exceptions;
+﻿using TennisTour.Application.Exceptions;
+using TennisTour.Application.Models;
+using TennisTour.Core.Exceptions;
 using Newtonsoft.Json;
 
-namespace N_Tier.API.Middleware;
+namespace TennisTour.API.Middleware;
 
 public class ExceptionHandlingMiddleware
 {

@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Models.Validators.TodoItem;
+﻿namespace TennisTour.Application.Models.Validators.TodoItem;
 
 public static class TodoItemValidatorConfiguration
 {

@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using N_Tier.Application.Models;
-using N_Tier.Application.Models.TodoItem;
-using N_Tier.Core.Entities;
-using N_Tier.DataAccess.Repositories;
+using TennisTour.Application.Models;
+using TennisTour.Application.Models.TodoItem;
+using TennisTour.Core.Entities;
+using TennisTour.DataAccess.Repositories;
 
-namespace N_Tier.Application.Services.Impl;
+namespace TennisTour.Application.Services.Impl;
 
 public class TodoItemService : ITodoItemService
 {

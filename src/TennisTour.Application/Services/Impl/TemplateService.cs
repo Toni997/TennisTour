@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace N_Tier.Application.Services.Impl;
+namespace TennisTour.Application.Services.Impl;
 
 public class TemplateService : ITemplateService
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
-using N_Tier.Application.Common.Email;
+using TennisTour.Application.Common.Email;
 
-namespace N_Tier.Application.Services.DevImpl;
+namespace TennisTour.Application.Services.DevImpl;
 
 public class DevEmailService : IEmailService
 {

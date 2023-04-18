@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Api.IntegrationTests.Config.Constants;
+﻿namespace TennisTour.Api.IntegrationTests.Config.Constants;
 
 public static class UserConstants
 {

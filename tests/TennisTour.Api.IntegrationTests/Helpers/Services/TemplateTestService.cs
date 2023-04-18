@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using N_Tier.Application.Services;
+using TennisTour.Application.Services;
 
-namespace N_Tier.Api.IntegrationTests.Helpers.Services;
+namespace TennisTour.Api.IntegrationTests.Helpers.Services;
 
 public class TemplateTestService : ITemplateService
 {

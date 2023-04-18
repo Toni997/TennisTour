@@ -1,10 +1,10 @@
 ﻿using FizzWare.NBuilder;
 using FluentValidation.TestHelper;
-using N_Tier.Application.Models.TodoItem;
-using N_Tier.Application.Models.Validators.TodoItem;
+using TennisTour.Application.Models.TodoItem;
+using TennisTour.Application.Models.Validators.TodoItem;
 using Xunit;
 
-namespace N_Tier.Application.UnitTests.Validators;
+namespace TennisTour.Application.UnitTests.Validators;
 
 public class UpdateTodoItemModelValidatorTests
 {

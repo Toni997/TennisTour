@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
-namespace N_Tier.API;
+namespace TennisTour.API;
 
 public static class ApiDependencyInjection
 {

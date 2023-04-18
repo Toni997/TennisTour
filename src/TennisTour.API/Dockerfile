@@ -1,4 +1,4 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
+﻿#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 #Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
 #For more information, please see https://aka.ms/containercompat
@@ -10,16 +10,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
 WORKDIR /src
-COPY ["N-Tier.API/N-Tier.API.csproj", "N-Tier.API/"]
-RUN dotnet restore "N-Tier.API/N-Tier.API.csproj"
+COPY ["TennisTour.API/TennisTour.API.csproj", "TennisTour.API/"]
+RUN dotnet restore "TennisTour.API/TennisTour.API.csproj"
 COPY . .
-WORKDIR "/src/N-Tier.API"
-RUN dotnet build "N-Tier.API.csproj" -c Release -o /app/build
+WORKDIR "/src/TennisTour.API"
+RUN dotnet build "TennisTour.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "N-Tier.API.csproj" -c Release -o /app/publish
+RUN dotnet publish "TennisTour.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "N-Tier.API.dll"]
+ENTRYPOINT ["dotnet", "TennisTour.API.dll"]

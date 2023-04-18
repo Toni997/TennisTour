@@ -1,6 +1,6 @@
-﻿using N_Tier.Application.Common.Email;
+﻿using TennisTour.Application.Common.Email;
 
-namespace N_Tier.Application.Services;
+namespace TennisTour.Application.Services;
 
 public interface IEmailService
 {

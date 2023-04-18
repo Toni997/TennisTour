@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Helpers;
+﻿namespace TennisTour.Application.Helpers;
 
 public static class RandomGenerator
 {

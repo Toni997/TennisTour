@@ -1,7 +1,7 @@
-﻿using N_Tier.Core.Entities;
-using N_Tier.DataAccess.Persistence;
+﻿using TennisTour.Core.Entities;
+using TennisTour.DataAccess.Persistence;
 
-namespace N_Tier.DataAccess.Repositories.Impl;
+namespace TennisTour.DataAccess.Repositories.Impl;
 
 public class TodoListRepository : BaseRepository<TodoList>, ITodoListRepository
 {

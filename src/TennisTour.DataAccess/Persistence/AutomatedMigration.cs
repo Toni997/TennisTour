@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using N_Tier.DataAccess.Identity;
+using TennisTour.DataAccess.Identity;
 
-namespace N_Tier.DataAccess.Persistence;
+namespace TennisTour.DataAccess.Persistence;
 
 public static class AutomatedMigration
 {

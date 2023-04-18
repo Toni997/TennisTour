@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using N_Tier.DataAccess.Persistence;
+using TennisTour.DataAccess.Persistence;
 
-namespace N_Tier.DataAccess.Persistence.Migrations
+namespace TennisTour.DataAccess.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
     partial class DatabaseContextModelSnapshot : ModelSnapshot
@@ -154,7 +154,7 @@ namespace N_Tier.DataAccess.Persistence.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("N_Tier.Core.Entities.TodoItem", b =>
+            modelBuilder.Entity("TennisTour.Core.Entities.TodoItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -195,7 +195,7 @@ namespace N_Tier.DataAccess.Persistence.Migrations
                     b.ToTable("TodoItems");
                 });
 
-            modelBuilder.Entity("N_Tier.Core.Entities.TodoList", b =>
+            modelBuilder.Entity("TennisTour.Core.Entities.TodoList", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -223,7 +223,7 @@ namespace N_Tier.DataAccess.Persistence.Migrations
                     b.ToTable("TodoLists");
                 });
 
-            modelBuilder.Entity("N_Tier.DataAccess.Identity.ApplicationUser", b =>
+            modelBuilder.Entity("TennisTour.DataAccess.Identity.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -299,7 +299,7 @@ namespace N_Tier.DataAccess.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("N_Tier.DataAccess.Identity.ApplicationUser", null)
+                    b.HasOne("TennisTour.DataAccess.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -308,7 +308,7 @@ namespace N_Tier.DataAccess.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("N_Tier.DataAccess.Identity.ApplicationUser", null)
+                    b.HasOne("TennisTour.DataAccess.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -323,7 +323,7 @@ namespace N_Tier.DataAccess.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("N_Tier.DataAccess.Identity.ApplicationUser", null)
+                    b.HasOne("TennisTour.DataAccess.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -332,16 +332,16 @@ namespace N_Tier.DataAccess.Persistence.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("N_Tier.DataAccess.Identity.ApplicationUser", null)
+                    b.HasOne("TennisTour.DataAccess.Identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("N_Tier.Core.Entities.TodoItem", b =>
+            modelBuilder.Entity("TennisTour.Core.Entities.TodoItem", b =>
                 {
-                    b.HasOne("N_Tier.Core.Entities.TodoList", "List")
+                    b.HasOne("TennisTour.Core.Entities.TodoList", "List")
                         .WithMany("Items")
                         .HasForeignKey("ListId")
                         .OnDelete(DeleteBehavior.Cascade);

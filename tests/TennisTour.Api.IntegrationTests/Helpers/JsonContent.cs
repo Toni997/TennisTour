@@ -2,7 +2,7 @@
 using System.Text;
 using Newtonsoft.Json;
 
-namespace N_Tier.Api.IntegrationTests.Helpers;
+namespace TennisTour.Api.IntegrationTests.Helpers;
 
 public class JsonContent : StringContent
 {

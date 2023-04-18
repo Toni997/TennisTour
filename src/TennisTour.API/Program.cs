@@ -1,6 +1,6 @@
-using N_Tier.DataAccess.Persistence;
+using TennisTour.DataAccess.Persistence;
 
-namespace N_Tier.API;
+namespace TennisTour.API;
 
 public static class Program
 {

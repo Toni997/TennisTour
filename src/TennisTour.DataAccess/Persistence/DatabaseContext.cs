@@ -1,12 +1,12 @@
 ﻿using System.Reflection;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using N_Tier.Core.Common;
-using N_Tier.Core.Entities;
-using N_Tier.DataAccess.Identity;
-using N_Tier.Shared.Services;
+using TennisTour.Core.Common;
+using TennisTour.Core.Entities;
+using TennisTour.DataAccess.Identity;
+using TennisTour.Shared.Services;
 
-namespace N_Tier.DataAccess.Persistence;
+namespace TennisTour.DataAccess.Persistence;
 
 public class DatabaseContext : IdentityDbContext<ApplicationUser>
 {

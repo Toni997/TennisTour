@@ -1,10 +1,10 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using N_Tier.Core.Common;
-using N_Tier.Core.Exceptions;
-using N_Tier.DataAccess.Persistence;
+using TennisTour.Core.Common;
+using TennisTour.Core.Exceptions;
+using TennisTour.DataAccess.Persistence;
 
-namespace N_Tier.DataAccess.Repositories.Impl;
+namespace TennisTour.DataAccess.Repositories.Impl;
 
 public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : BaseEntity
 {

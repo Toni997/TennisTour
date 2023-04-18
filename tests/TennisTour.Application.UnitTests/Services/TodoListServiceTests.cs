@@ -4,14 +4,14 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using FizzWare.NBuilder;
 using FluentAssertions;
-using N_Tier.Application.Exceptions;
-using N_Tier.Application.Models.TodoList;
-using N_Tier.Application.Services.Impl;
-using N_Tier.Core.Entities;
+using TennisTour.Application.Exceptions;
+using TennisTour.Application.Models.TodoList;
+using TennisTour.Application.Services.Impl;
+using TennisTour.Core.Entities;
 using NSubstitute;
 using Xunit;
 
-namespace N_Tier.Application.UnitTests.Services;
+namespace TennisTour.Application.UnitTests.Services;
 
 public class TodoListServiceTests : BaseServiceTestConfiguration
 {

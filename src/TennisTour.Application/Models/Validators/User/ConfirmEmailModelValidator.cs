@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using N_Tier.Application.Models.User;
+using TennisTour.Application.Models.User;
 
-namespace N_Tier.Application.Models.Validators.User;
+namespace TennisTour.Application.Models.Validators.User;
 
 public class ConfirmEmailModelValidator : AbstractValidator<ConfirmEmailModel>
 {

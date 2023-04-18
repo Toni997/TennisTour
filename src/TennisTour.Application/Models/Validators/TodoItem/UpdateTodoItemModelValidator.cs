@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
-using N_Tier.Application.Models.TodoItem;
+using TennisTour.Application.Models.TodoItem;
 
-namespace N_Tier.Application.Models.Validators.TodoItem;
+namespace TennisTour.Application.Models.Validators.TodoItem;
 
 public class UpdateTodoItemModelValidator : AbstractValidator<UpdateTodoItemModel>
 {

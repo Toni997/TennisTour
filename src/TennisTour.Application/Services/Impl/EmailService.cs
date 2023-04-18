@@ -1,8 +1,8 @@
 ﻿using MailKit.Net.Smtp;
 using MimeKit;
-using N_Tier.Application.Common.Email;
+using TennisTour.Application.Common.Email;
 
-namespace N_Tier.Application.Services.Impl;
+namespace TennisTour.Application.Services.Impl;
 
 public class EmailService : IEmailService
 {

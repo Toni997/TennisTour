@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using N_Tier.Application.Models;
+using TennisTour.Application.Models;
 
-namespace N_Tier.Api.IntegrationTests.Helpers;
+namespace TennisTour.Api.IntegrationTests.Helpers;
 
 public static class CheckResponse
 {

@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Models.TodoItem;
+﻿namespace TennisTour.Application.Models.TodoItem;
 
 public class TodoItemResponseModel : BaseResponseModel
 {

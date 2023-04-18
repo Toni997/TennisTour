@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Services;
+﻿namespace TennisTour.Application.Services;
 
 public interface ITemplateService
 {

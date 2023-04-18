@@ -1,6 +1,6 @@
-﻿using N_Tier.DataAccess.Persistence;
+﻿using TennisTour.DataAccess.Persistence;
 
-namespace N_Tier.API.Middleware;
+namespace TennisTour.API.Middleware;
 
 public class TransactionMiddleware
 {

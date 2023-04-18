@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using N_Tier.Application.Exceptions;
-using N_Tier.Application.Models;
-using N_Tier.Application.Models.TodoList;
-using N_Tier.Core.Entities;
-using N_Tier.DataAccess.Repositories;
-using N_Tier.Shared.Services;
+using TennisTour.Application.Exceptions;
+using TennisTour.Application.Models;
+using TennisTour.Application.Models.TodoList;
+using TennisTour.Core.Entities;
+using TennisTour.DataAccess.Repositories;
+using TennisTour.Shared.Services;
 
-namespace N_Tier.Application.Services.Impl;
+namespace TennisTour.Application.Services.Impl;
 
 public class TodoListService : ITodoListService
 {

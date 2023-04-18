@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Core.Common
+﻿namespace TennisTour.Core.Common
 {
     public abstract class BaseEntity
     {

@@ -1,5 +1,5 @@
-﻿using N_Tier.Core.Entities;
+﻿using TennisTour.Core.Entities;
 
-namespace N_Tier.DataAccess.Repositories;
+namespace TennisTour.DataAccess.Repositories;
 
 public interface ITodoItemRepository : IBaseRepository<TodoItem> { }

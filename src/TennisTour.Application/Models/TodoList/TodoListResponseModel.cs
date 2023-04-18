@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Models.TodoList;
+﻿namespace TennisTour.Application.Models.TodoList;
 
 public class TodoListResponseModel : BaseResponseModel
 {

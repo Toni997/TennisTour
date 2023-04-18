@@ -3,9 +3,9 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using N_Tier.DataAccess.Identity;
+using TennisTour.DataAccess.Identity;
 
-namespace N_Tier.Application.Helpers;
+namespace TennisTour.Application.Helpers;
 
 public static class JwtHelper
 {

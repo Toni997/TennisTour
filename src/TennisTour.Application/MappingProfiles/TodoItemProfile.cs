@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using N_Tier.Application.Models.TodoItem;
-using N_Tier.Core.Entities;
+using TennisTour.Application.Models.TodoItem;
+using TennisTour.Core.Entities;
 
-namespace N_Tier.Application.MappingProfiles;
+namespace TennisTour.Application.MappingProfiles;
 
 public class TodoItemProfile : Profile
 {

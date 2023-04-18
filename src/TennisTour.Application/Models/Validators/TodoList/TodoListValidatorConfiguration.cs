@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Models.Validators.TodoList;
+﻿namespace TennisTour.Application.Models.Validators.TodoList;
 
 public static class TodoListValidatorConfiguration
 {

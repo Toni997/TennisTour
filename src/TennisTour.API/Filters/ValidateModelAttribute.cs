@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using N_Tier.Application.Models;
+using TennisTour.Application.Models;
 
-namespace N_Tier.API.Filters;
+namespace TennisTour.API.Filters;
 
 public class ValidateModelAttribute : Attribute, IAsyncResultFilter
 {

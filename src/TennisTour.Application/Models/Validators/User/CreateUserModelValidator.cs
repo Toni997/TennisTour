@@ -1,9 +1,9 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
-using N_Tier.Application.Models.User;
-using N_Tier.DataAccess.Identity;
+using TennisTour.Application.Models.User;
+using TennisTour.DataAccess.Identity;
 
-namespace N_Tier.Application.Models.Validators.User;
+namespace TennisTour.Application.Models.Validators.User;
 
 public class CreateUserModelValidator : AbstractValidator<CreateUserModel>
 {

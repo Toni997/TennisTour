@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using FluentAssertions;
-using N_Tier.Application.Services.Impl;
+using TennisTour.Application.Services.Impl;
 using Xunit;
 
-namespace N_Tier.Application.UnitTests.Services;
+namespace TennisTour.Application.UnitTests.Services;
 
 public class TemplateServiceTests
 {

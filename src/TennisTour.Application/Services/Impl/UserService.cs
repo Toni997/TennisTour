@@ -2,15 +2,15 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using N_Tier.Application.Common.Email;
-using N_Tier.Application.Exceptions;
-using N_Tier.Application.Helpers;
-using N_Tier.Application.Models;
-using N_Tier.Application.Models.User;
-using N_Tier.Application.Templates;
-using N_Tier.DataAccess.Identity;
+using TennisTour.Application.Common.Email;
+using TennisTour.Application.Exceptions;
+using TennisTour.Application.Helpers;
+using TennisTour.Application.Models;
+using TennisTour.Application.Models.User;
+using TennisTour.Application.Templates;
+using TennisTour.DataAccess.Identity;
 
-namespace N_Tier.Application.Services.Impl;
+namespace TennisTour.Application.Services.Impl;
 
 public class UserService : IUserService
 {
@@ -51,7 +51,7 @@ public class UserService : IUserService
         var emailBody = _templateService.ReplaceInTemplate(emailTemplate,
             new Dictionary<string, string> { { "{UserId}", user.Id }, { "{Token}", token } });
 
-        await _emailService.SendEmailAsync(EmailMessage.Create(user.Email, emailBody, "[N-Tier]Confirm your email"));
+        await _emailService.SendEmailAsync(EmailMessage.Create(user.Email, emailBody, "[TennisTour]Confirm your email"));
 
         return new CreateUserResponseModel
         {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using N_Tier.DataAccess.Identity;
+using TennisTour.DataAccess.Identity;
 
-namespace N_Tier.DataAccess.Persistence;
+namespace TennisTour.DataAccess.Persistence;
 
 public static class DatabaseContextSeed
 {

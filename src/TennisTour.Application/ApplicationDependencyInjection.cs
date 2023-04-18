@@ -2,15 +2,15 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using N_Tier.Application.Common.Email;
-using N_Tier.Application.MappingProfiles;
-using N_Tier.Application.Services;
-using N_Tier.Application.Services.DevImpl;
-using N_Tier.Application.Services.Impl;
-using N_Tier.Shared.Services;
-using N_Tier.Shared.Services.Impl;
+using TennisTour.Application.Common.Email;
+using TennisTour.Application.MappingProfiles;
+using TennisTour.Application.Services;
+using TennisTour.Application.Services.DevImpl;
+using TennisTour.Application.Services.Impl;
+using TennisTour.Shared.Services;
+using TennisTour.Shared.Services.Impl;
 
-namespace N_Tier.Application;
+namespace TennisTour.Application;
 
 public static class ApplicationDependencyInjection
 {

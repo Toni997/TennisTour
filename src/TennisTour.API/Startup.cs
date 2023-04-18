@@ -1,11 +1,11 @@
-using FluentValidation.AspNetCore;
-using N_Tier.API.Filters;
-using N_Tier.API.Middleware;
-using N_Tier.Application;
-using N_Tier.Application.Models.Validators;
-using N_Tier.DataAccess;
+﻿using FluentValidation.AspNetCore;
+using TennisTour.API.Filters;
+using TennisTour.API.Middleware;
+using TennisTour.Application;
+using TennisTour.Application.Models.Validators;
+using TennisTour.DataAccess;
 
-namespace N_Tier.API;
+namespace TennisTour.API;
 
 public class Startup
 {
@@ -49,7 +49,7 @@ public class Startup
 
         app.UseSwagger();
 
-        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "N-Tier V1"); });
+        app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "TennisTour V1"); });
 
         app.UseRouting();
 

@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Models.Validators.User;
+﻿namespace TennisTour.Application.Models.Validators.User;
 
 public static class UserValidatorConfiguration
 {

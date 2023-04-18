@@ -1,7 +1,7 @@
-﻿using N_Tier.Application.Models;
-using N_Tier.Application.Models.TodoItem;
+﻿using TennisTour.Application.Models;
+using TennisTour.Application.Models.TodoItem;
 
-namespace N_Tier.Application.Services;
+namespace TennisTour.Application.Services;
 
 public interface ITodoItemService
 {

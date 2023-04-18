@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace N_Tier.Core.Exceptions
+namespace TennisTour.Core.Exceptions
 {
     [Serializable]
     public class ResourceNotFoundException : Exception

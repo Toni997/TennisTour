@@ -7,16 +7,16 @@ using FizzWare.NBuilder;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using N_Tier.Api.IntegrationTests.Config;
-using N_Tier.Api.IntegrationTests.Config.Constants;
-using N_Tier.Api.IntegrationTests.Helpers;
-using N_Tier.Application.Models;
-using N_Tier.Application.Models.TodoList;
-using N_Tier.Core.Entities;
-using N_Tier.DataAccess.Persistence;
+using TennisTour.Api.IntegrationTests.Config;
+using TennisTour.Api.IntegrationTests.Config.Constants;
+using TennisTour.Api.IntegrationTests.Helpers;
+using TennisTour.Application.Models;
+using TennisTour.Application.Models.TodoList;
+using TennisTour.Core.Entities;
+using TennisTour.DataAccess.Persistence;
 using NUnit.Framework;
 
-namespace N_Tier.Api.IntegrationTests.Tests;
+namespace TennisTour.Api.IntegrationTests.Tests;
 
 [TestFixture]
 public class TodoListEndpointTests : BaseOneTimeSetup

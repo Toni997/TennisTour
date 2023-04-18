@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Templates;
+﻿namespace TennisTour.Application.Templates;
 
 public static class TemplateConstants
 {

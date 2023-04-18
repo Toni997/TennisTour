@@ -1,4 +1,4 @@
-﻿namespace N_Tier.Application.Exceptions;
+﻿namespace TennisTour.Application.Exceptions;
 
 [Serializable]
 public class BadRequestException : Exception

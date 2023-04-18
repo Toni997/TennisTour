@@ -1,6 +1,6 @@
-﻿using N_Tier.Core.Common;
+﻿using TennisTour.Core.Common;
 
-namespace N_Tier.Core.Entities
+namespace TennisTour.Core.Entities
 {
     public class TodoList : BaseEntity, IAuditedEntity
     {

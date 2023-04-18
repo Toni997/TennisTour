@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
-using N_Tier.Core.Common;
+using TennisTour.Core.Common;
 
-namespace N_Tier.DataAccess.Repositories;
+namespace TennisTour.DataAccess.Repositories;
 
 public interface IBaseRepository<TEntity> where TEntity : BaseEntity
 {

@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using N_Tier.DataAccess.Identity;
-using N_Tier.DataAccess.Persistence;
-using N_Tier.DataAccess.Repositories;
-using N_Tier.DataAccess.Repositories.Impl;
+using TennisTour.DataAccess.Identity;
+using TennisTour.DataAccess.Persistence;
+using TennisTour.DataAccess.Repositories;
+using TennisTour.DataAccess.Repositories.Impl;
 
-namespace N_Tier.DataAccess;
+namespace TennisTour.DataAccess;
 
 public static class DataAccessDependencyInjection
 {
@@ -36,7 +36,7 @@ public static class DataAccessDependencyInjection
         if (databaseConfig.UseInMemoryDatabase)
             services.AddDbContext<DatabaseContext>(options =>
             {
-                options.UseInMemoryDatabase("NTierDatabase");
+                options.UseInMemoryDatabase("TennisTourDatabase");
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
         else
@@ -70,7 +70,6 @@ public static class DataAccessDependencyInjection
     }
 }
 
-// TODO move outside?
 public class DatabaseConfiguration
 {
     public bool UseInMemoryDatabase { get; set; }

@@ -7,16 +7,16 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using MockQueryable.NSubstitute;
-using N_Tier.Application.Common.Email;
-using N_Tier.Application.Exceptions;
-using N_Tier.Application.Models.User;
-using N_Tier.Application.Services;
-using N_Tier.Application.Services.Impl;
-using N_Tier.DataAccess.Identity;
+using TennisTour.Application.Common.Email;
+using TennisTour.Application.Exceptions;
+using TennisTour.Application.Models.User;
+using TennisTour.Application.Services;
+using TennisTour.Application.Services.Impl;
+using TennisTour.DataAccess.Identity;
 using NSubstitute;
 using Xunit;
 
-namespace N_Tier.Application.UnitTests.Services;
+namespace TennisTour.Application.UnitTests.Services;
 
 public class UserServiceTests : BaseServiceTestConfiguration
 {

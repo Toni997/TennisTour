@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using N_Tier.Core.Entities;
+using TennisTour.Core.Entities;
 
-namespace N_Tier.DataAccess.Persistence.Configurations;
+namespace TennisTour.DataAccess.Persistence.Configurations;
 
 public class TodoListConfiguration : IEntityTypeConfiguration<TodoList>
 {

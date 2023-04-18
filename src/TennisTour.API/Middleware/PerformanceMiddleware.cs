@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace N_Tier.API.Middleware;
+namespace TennisTour.API.Middleware;
 
 public class PerformanceMiddleware
 {

@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using N_Tier.Application.Models;
-using N_Tier.Application.Models.User;
-using N_Tier.Application.Services;
+using TennisTour.Application.Models;
+using TennisTour.Application.Models.User;
+using TennisTour.Application.Services;
 
-namespace N_Tier.API.Controllers;
+namespace TennisTour.API.Controllers;
 
 public class UsersController : ApiController
 {
