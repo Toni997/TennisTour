@@ -19,7 +19,7 @@ TennisTour is like ATP/WTA Tour, except it's not actually real
 ### Key Features
 * User System
   * Three roles: User, Contender, Administrator
-* Users can see all the tournaments, players and their H2H stats, schedule, rankings, etc.
+* Users can see all the tournaments, contenders and their H2H stats, schedule, rankings, etc.
 * Users can become contenders, allowing them to sign up for tournaments and plan their tour
 * Contenders can sign up for any tournament, but only the top X ranked will get in
 * Users that are not logged in can view everything, but can't follow favorite contenders
