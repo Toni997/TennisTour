@@ -43,7 +43,7 @@ TennisTour is like ATP/WTA Tour, except it's not actually real
 
 ## Database Model
 
-![TennisTour Database Model](https://raw.githubusercontent.com/OSS-Csharp-Seminar/TennisTour/main/github/images/DbModel.jpg?token=GHSAT0AAAAAACBOXJEOU33VE7SKHKWA2L54ZCBYZEA)
+![TennisTour Database Model](https://github.com/OSS-Csharp-Seminar/TennisTour/blob/d592c572ad5141fe73dcbe46d1fd3b91f8845ab4/github/images/DbModel.jpg)
 
 ## Authors
 
