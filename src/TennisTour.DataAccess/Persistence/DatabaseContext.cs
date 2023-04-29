@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TennisTour.Core.Common;
 using TennisTour.Core.Entities;
-using TennisTour.DataAccess.Identity;
 using TennisTour.Shared.Services;
 
 namespace TennisTour.DataAccess.Persistence;
@@ -18,8 +17,14 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<TodoItem> TodoItems { get; set; }
-
     public DbSet<TodoList> TodoLists { get; set; }
+    public DbSet<Tournament> Tournaments { get; set; }
+    public DbSet<TournamentEdition> TournamentEditions { get; set; }
+    public DbSet<TournamentRegistration> TournamentRegistrations { get; set; }
+    public DbSet<Match> Matches { get; set; }
+    public DbSet<MatchSet> MatchSets { get; set; }
+    public DbSet<Ranking> Rankings { get; set; }
+    public DbSet<ContenderInfo> ContenderInfos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

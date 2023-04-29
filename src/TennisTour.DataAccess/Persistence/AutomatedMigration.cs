@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using TennisTour.DataAccess.Identity;
+using TennisTour.Core.Entities;
 
 namespace TennisTour.DataAccess.Persistence;
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TennisTour.DataAccess.Identity;
+using TennisTour.Core.Entities;
 using TennisTour.DataAccess.Persistence;
 using TennisTour.DataAccess.Repositories;
 using TennisTour.DataAccess.Repositories.Impl;
@@ -27,6 +27,13 @@ public static class DataAccessDependencyInjection
     {
         services.AddScoped<ITodoItemRepository, TodoItemRepository>();
         services.AddScoped<ITodoListRepository, TodoListRepository>();
+        services.AddScoped<ITournamentRepository, TournamentRepository>();
+        services.AddScoped<ITournamentEditionRepository, TournamentEditionRepository>();
+        services.AddScoped<ITournamentRegistrationRepository, TournamentRegistrationRepository>();
+        services.AddScoped<IMatchRepository, MatchRepository>();
+        services.AddScoped<IMatchSetRepository, MatchSetRepository>();
+        services.AddScoped<IRankingRepository, RankingRepository>();
+        services.AddScoped<IContenderInfoRepository, ContenderInfoRepository>();
     }
 
     private static void AddDatabase(this IServiceCollection services, IConfiguration configuration)
@@ -36,7 +43,7 @@ public static class DataAccessDependencyInjection
         if (databaseConfig.UseInMemoryDatabase)
             services.AddDbContext<DatabaseContext>(options =>
             {
-                options.UseInMemoryDatabase("TennisTourDatabase");
+                options.UseInMemoryDatabase("TennisTour");
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
             });
         else
@@ -48,6 +55,7 @@ public static class DataAccessDependencyInjection
     private static void AddIdentity(this IServiceCollection services)
     {
         services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<DatabaseContext>();
 
         services.Configure<IdentityOptions>(options =>

@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using TennisTour.Application.Models.User;
-using TennisTour.DataAccess.Identity;
+using TennisTour.Core.Entities;
 
 namespace TennisTour.Application.Models.Validators.User;
 
