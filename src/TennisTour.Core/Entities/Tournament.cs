@@ -13,9 +13,8 @@ namespace TennisTour.Core.Entities
         public string Name { get; set; }
         public Series Series { get; set; }
         public Surface Surface { get; set; }
-        public Series NumberOfRounds { get; set; }
+        public int NumberOfRounds { get; set; }
 
         public virtual ICollection<TournamentEdition> TournamentEditions { get; set; }
-        public virtual ICollection<TournamentRegistration> TournamentRegistrations { get; set; }
     }
 }
