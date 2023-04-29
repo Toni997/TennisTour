@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using TennisTour.DataAccess.Identity;
+using TennisTour.Core.Entities;
+using TennisTour.Core.Helpers;
 
 namespace TennisTour.DataAccess.Persistence;
 
@@ -12,6 +13,9 @@ public static class DatabaseContextSeed
             var user = new ApplicationUser { UserName = "admin", Email = "admin@admin.com", EmailConfirmed = true };
 
             await userManager.CreateAsync(user, "Admin123.?");
+            await userManager.AddToRoleAsync(user, Roles.Admin);
+            await userManager.AddToRoleAsync(user, Roles.User);
+            await context.SaveChangesAsync();
         }
 
         await context.SaveChangesAsync();

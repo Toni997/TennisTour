@@ -8,7 +8,7 @@ using TennisTour.Application.Helpers;
 using TennisTour.Application.Models;
 using TennisTour.Application.Models.User;
 using TennisTour.Application.Templates;
-using TennisTour.DataAccess.Identity;
+using TennisTour.Core.Entities;
 
 namespace TennisTour.Application.Services.Impl;
 

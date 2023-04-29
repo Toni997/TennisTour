@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using TennisTour.Application.Models.User;
-using TennisTour.DataAccess.Identity;
+using TennisTour.Core.Entities;
 
 namespace TennisTour.Application.MappingProfiles;
 

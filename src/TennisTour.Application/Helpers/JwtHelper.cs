@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using TennisTour.DataAccess.Identity;
+using TennisTour.Core.Entities;
 
 namespace TennisTour.Application.Helpers;
 
