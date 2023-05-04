@@ -12,7 +12,7 @@ using TennisTour.Application.Exceptions;
 using TennisTour.Application.Models.User;
 using TennisTour.Application.Services;
 using TennisTour.Application.Services.Impl;
-using TennisTour.DataAccess.Identity;
+using TennisTour.Core.Entities;
 using NSubstitute;
 using Xunit;
 

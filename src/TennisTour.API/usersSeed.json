@@ -1,0 +1,396 @@
+﻿[
+  {
+    "UserName": "admin",
+    "Email": "admin@admin.com",
+    "EmailConfirmed": true
+  },
+  {
+    "UserName": "user",
+    "Email": "user@user.com",
+    "EmailConfirmed": true
+  },
+  {
+    "UserName": "ndjokovic",
+    "Email": "ndjokovic@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Novak",
+      "LastName": "Djokovic",
+      "DateOfBirth": "1987-08-22",
+      "WeightKg": 77,
+      "HeightCm": 188,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2001-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 1,
+      "Points": 10000,
+      "PreviousRank": 2,
+      "PreviousPoints": 8000,
+      "BestRank": 1,
+      "BestRankDate": "2022-01-01"
+    }
+  },
+  {
+    "UserName": "calcaraz",
+    "Email": "calcaraz@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Carlos",
+      "LastName": "Alcaraz",
+      "DateOfBirth": "2003-05-05",
+      "WeightKg": 70,
+      "HeightCm": 183,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2018-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 2,
+      "Points": 8000,
+      "PreviousRank": 1,
+      "PreviousPoints": 10000,
+      "BestRank": 1,
+      "BestRankDate": "2021-06-01"
+    }
+  },
+  {
+    "UserName": "rnadal",
+    "Email": "rnadal@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Rafael",
+      "LastName": "Nadal",
+      "DateOfBirth": "1986-06-03",
+      "WeightKg": 85,
+      "HeightCm": 185,
+      "BackhandType": 1,
+      "DominantHand": 0,
+      "TurnedProOn": "2001-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 3,
+      "Points": 7000,
+      "PreviousRank": 4,
+      "PreviousPoints": 6000,
+      "BestRank": 3,
+      "BestRankDate": "2020-12-01"
+    }
+  },
+  {
+    "UserName": "bcoric",
+    "Email": "bcoric@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Borna",
+      "LastName": "Coric",
+      "DateOfBirth": "1996-11-14",
+      "WeightKg": 75,
+      "HeightCm": 185,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2013-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 4,
+      "Points": 6000,
+      "PreviousRank": 3,
+      "PreviousPoints": 7000,
+      "BestRank": 2,
+      "BestRankDate": "2021-09-01"
+    }
+  },
+  {
+    "UserName": "mcilic",
+    "Email": "mcilic@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Marin",
+      "LastName": "Cilic",
+      "DateOfBirth": "1988-09-28",
+      "WeightKg": 89,
+      "HeightCm": 198,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2005-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 5,
+      "Points": 5500,
+      "PreviousRank": 6,
+      "PreviousPoints": 5000,
+      "BestRank": 4,
+      "BestRankDate": "2019-10-01"
+    }
+  },
+  {
+    "UserName": "dmedvedev",
+    "Email": "dmedvedev@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Daniil",
+      "LastName": "Medvedev",
+      "DateOfBirth": "1996-02-11",
+      "WeightKg": 83,
+      "HeightCm": 198,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2014-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 6,
+      "Points": 5000,
+      "PreviousRank": 5,
+      "PreviousPoints": 5500,
+      "BestRank": 5,
+      "BestRankDate": "2020-05-01"
+    }
+  },
+  {
+    "UserName": "cruud",
+    "Email": "cruud@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Casper",
+      "LastName": "Ruud",
+      "DateOfBirth": "1998-12-22",
+      "WeightKg": 75,
+      "HeightCm": 183,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2015-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 7,
+      "Points": 4500,
+      "PreviousRank": 8,
+      "PreviousPoints": 4000,
+      "BestRank": 6,
+      "BestRankDate": "2019-08-01"
+    }
+  },
+  {
+    "UserName": "jsinner",
+    "Email": "jsinner@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Jannik",
+      "LastName": "Sinner",
+      "DateOfBirth": "2001-08-16",
+      "WeightKg": 75,
+      "HeightCm": 188,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2018-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 8,
+      "Points": 4000,
+      "PreviousRank": 7,
+      "PreviousPoints": 4500,
+      "BestRank": 7,
+      "BestRankDate": "2022-02-01"
+    }
+  },
+  {
+    "UserName": "hrune",
+    "Email": "hrune@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Holger Vitus",
+      "LastName": "Nodskov Rune",
+      "DateOfBirth": "2003-04-29",
+      "WeightKg": 75,
+      "HeightCm": 185,
+      "BackhandType": 1,
+      "DominantHand": 0,
+      "TurnedProOn": null,
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 9,
+      "Points": 3500,
+      "PreviousRank": 10,
+      "PreviousPoints": 3000,
+      "BestRank": 8,
+      "BestRankDate": "2018-11-01"
+    }
+  },
+  {
+    "UserName": "faugeraliassime",
+    "Email": "faugeraliassime@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Félix",
+      "LastName": "Auger-Aliassime",
+      "DateOfBirth": "2000-08-08",
+      "WeightKg": 88,
+      "HeightCm": 193,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2017-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 10,
+      "Points": 3000,
+      "PreviousRank": 9,
+      "PreviousPoints": 3500,
+      "BestRank": 9,
+      "BestRankDate": "2020-09-01"
+    }
+  },
+  {
+    "UserName": "tfritz",
+    "Email": "tfritz@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Taylor",
+      "LastName": "Fritz",
+      "DateOfBirth": "1997-10-28",
+      "WeightKg": 91,
+      "HeightCm": 193,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2015-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 11,
+      "Points": 2500,
+      "PreviousRank": 12,
+      "PreviousPoints": 2000,
+      "BestRank": 10,
+      "BestRankDate": "2019-02-01"
+    }
+  },
+  {
+    "UserName": "ftiafoe",
+    "Email": "ftiafoe@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Frances",
+      "LastName": "Tiafoe",
+      "DateOfBirth": "1998-01-20",
+      "WeightKg": 84,
+      "HeightCm": 188,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2015-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 12,
+      "Points": 2000,
+      "PreviousRank": 11,
+      "PreviousPoints": 2500,
+      "BestRank": 11,
+      "BestRankDate": "2022-03-01"
+    }
+  },
+  {
+    "UserName": "cnorrie",
+    "Email": "cnorrie@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Cameron",
+      "LastName": "Norrie",
+      "DateOfBirth": "1995-08-23",
+      "WeightKg": 80,
+      "HeightCm": 188,
+      "BackhandType": 1,
+      "DominantHand": 0,
+      "TurnedProOn": "2017-05-08",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 13,
+      "Points": 1800,
+      "PreviousRank": 14,
+      "PreviousPoints": 1600,
+      "BestRank": 13,
+      "BestRankDate": "2021-11-01"
+    }
+  },
+  {
+    "UserName": "stsitsipas",
+    "Email": "stsitsipas@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Stefanos",
+      "LastName": "Tsitsipas",
+      "DateOfBirth": "1998-08-12",
+      "WeightKg": 86,
+      "HeightCm": 193,
+      "BackhandType": 0,
+      "DominantHand": 1,
+      "TurnedProOn": "2016-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 14,
+      "Points": 1600,
+      "PreviousRank": 13,
+      "PreviousPoints": 1800,
+      "BestRank": 12,
+      "BestRankDate": "2020-08-01"
+    }
+  },
+  {
+    "UserName": "azverev",
+    "Email": "azverev@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Alexander",
+      "LastName": "Zverev",
+      "DateOfBirth": "1997-04-20",
+      "WeightKg": 86,
+      "HeightCm": 198,
+      "BackhandType": 1,
+      "DominantHand": 1,
+      "TurnedProOn": "2013-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 15,
+      "Points": 1400,
+      "PreviousRank": 16,
+      "PreviousPoints": 1200,
+      "BestRank": 15,
+      "BestRankDate": "2019-07-01"
+    }
+  },
+  {
+    "UserName": "amurray",
+    "Email": "amurray@gmail.com",
+    "EmailConfirmed": true,
+    "ContenderInfo": {
+      "FirstName": "Andy",
+      "LastName": "Murray",
+      "DateOfBirth": "1987-05-15",
+      "WeightKg": 84,
+      "HeightCm": 191,
+      "BackhandType": 1,
+      "DominantHand": 0,
+      "TurnedProOn": "2005-01-01",
+      "RetiredOn": null
+    },
+    "Ranking": {
+      "Rank": 16,
+      "Points": 1200,
+      "PreviousRank": 15,
+      "PreviousPoints": 1400,
+      "BestRank": 14,
+      "BestRankDate": "2022-01-01"
+    }
+  }
+]
