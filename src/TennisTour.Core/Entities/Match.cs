@@ -13,10 +13,10 @@ namespace TennisTour.Core.Entities
         public ApplicationUser ContenderOne { get; set; }
         public ApplicationUser ContenderTwo { get; set; }
         public ApplicationUser? Winner { get; set; }
-        [ForeignKey("NextMatch")]
-        public Guid? NextMatchId { get; set; }
         public virtual Match NextMatch { get; set; }
+        public Guid? NextMatchId { get; set; }
         public TournamentEdition TournamentEdition { get; set; }
+        public Guid TournamentEditionId { get; set; }
         public int Round { get; set; }
 
         public ICollection<MatchSet> MatchSets { get; set; }

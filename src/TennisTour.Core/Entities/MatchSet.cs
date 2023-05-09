@@ -14,5 +14,6 @@ namespace TennisTour.Core.Entities
         public int LoserTiebreakPoints { get; set; }
         public int Order { get; set; }
         public virtual Match Match { get; set; }
+        public Guid MatchId { get; set; }
     }
 }
