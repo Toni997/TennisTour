@@ -1,5 +1,6 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
+@using TennisTour.UI.Shared
 
 <PageTitle>Weather forecast</PageTitle>
 
@@ -36,11 +37,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-    
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
- 
     }
-//#if (IsWasm)
     public class WeatherForecast
     {
         public DateTime Date { get; set; }
@@ -51,5 +49,4 @@ else
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
     }
-//#endif
 }

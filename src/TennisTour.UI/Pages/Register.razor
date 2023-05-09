@@ -1,0 +1,70 @@
+﻿@page "/register"
+@using System.Text;
+@using System.Text.Json;
+@using Newtonsoft.Json;
+@using TennisTour.Application.Helpers;
+@using TennisTour.Application.Models.User;
+@using TennisTour.Application.Models;
+@using TennisTour.UI.Common;
+
+<h1>Register</h1>
+
+
+
+<label>
+	Username:
+	<input type="text" @bind-value="Username" />
+</label>
+<label>
+	Password:
+	<input type="password" @bind-value="Password" />
+</label>
+<label>
+	Email:
+	<input type="email" @bind-value="Email" />
+</label>
+<button type="button" @onclick="TryRegister">Register</button>
+
+@if (!string.IsNullOrEmpty(StatusMessage))
+{
+	<p style="color:#FF0000">@StatusMessage</p>
+}
+
+
+
+@code {
+	private string Username { get; set; }
+	private string Password { get; set; }
+	private string Email { get; set; }
+	private string StatusMessage { get; set; }
+
+
+	private async Task TryRegister()
+	{
+		var client = new HttpClient();
+		var registerUserModel = new CreateUserModel();
+		registerUserModel.Username = Username;
+		registerUserModel.Password = Password;
+		registerUserModel.Email = Email;
+		var content = new JsonNewtonContent(registerUserModel);
+		var result = await client.PostAsync(Constants.baseUrl + "/Users", content);
+		if(!result.IsSuccessStatusCode)
+		{
+			var apiResult = JsonConvert.DeserializeObject<ApiResult<CreateUserResponseModel>>(await result.Content.ReadAsStringAsync());
+			if(apiResult?.Succeeded == true)
+			{
+				StatusMessage = "Successfully registered user!";
+			}
+			else
+			{
+				StatusMessage = string.Join(",", apiResult?.Errors ?? new List<string>());
+			}
+		
+		} else
+		{
+			StatusMessage = await result.Content.ReadAsStringAsync();
+
+		}
+		Console.WriteLine(StatusMessage);
+	}
+}
