@@ -34,6 +34,8 @@ public static class DatabaseContextSeed
                 user.FavoritedByUsers?.Clear();
                 await userManager.DeleteAsync(user);
             }
+
+            await context.SaveChangesAsync();
         }
 
         if (ShouldInsertSeedData)
@@ -43,9 +45,9 @@ public static class DatabaseContextSeed
             await SeedTournamentEditionsData(context);
             await SeedTournamentRegistrationsData(context);
             await SeedMatchesData(context);
-        }
 
-        await context.SaveChangesAsync();
+            await context.SaveChangesAsync();
+        }
     }
 
     private static async Task SeedUsersData(DatabaseContext context, UserManager<ApplicationUser> userManager)
