@@ -45,7 +45,7 @@ public class TodoItemServiceTests : BaseServiceTestConfiguration
         var todoList = Builder<TodoList>.CreateNew().Build();
         var todoItem = Builder<TodoItem>.CreateNew().With(ti => ti.Id = Guid.NewGuid()).Build();
 
-        TodoListRepository.GetFirstAsync(Arg.Any<Expression<Func<TodoList, bool>>>()).Returns(todoList);
+        TodoListRepository.GetOneAsync(Arg.Any<Expression<Func<TodoList, bool>>>()).Returns(todoList);
         TodoItemRepository.AddAsync(Arg.Any<TodoItem>()).Returns(todoItem);
 
         // Act
@@ -53,7 +53,7 @@ public class TodoItemServiceTests : BaseServiceTestConfiguration
 
         // Assert
         result.Id.Should().Be(todoItem.Id);
-        await TodoListRepository.Received().GetFirstAsync(Arg.Any<Expression<Func<TodoList, bool>>>());
+        await TodoListRepository.Received().GetOneAsync(Arg.Any<Expression<Func<TodoList, bool>>>());
         await TodoItemRepository.Received().AddAsync(Arg.Any<TodoItem>());
     }
 
@@ -62,7 +62,7 @@ public class TodoItemServiceTests : BaseServiceTestConfiguration
     {
         // Arrange
         var todoItem = Builder<TodoItem>.CreateNew().With(c => c.Id = Guid.NewGuid()).Build();
-        TodoItemRepository.GetFirstAsync(Arg.Any<Expression<Func<TodoItem, bool>>>()).Returns(todoItem);
+        TodoItemRepository.GetOneAsync(Arg.Any<Expression<Func<TodoItem, bool>>>()).Returns(todoItem);
         TodoItemRepository.DeleteAsync(Arg.Any<TodoItem>()).Returns(todoItem);
 
         // Act
@@ -70,7 +70,7 @@ public class TodoItemServiceTests : BaseServiceTestConfiguration
 
         // Assert
         result.Id.Should().Be(todoItem.Id);
-        await TodoItemRepository.Received().GetFirstAsync(Arg.Any<Expression<Func<TodoItem, bool>>>());
+        await TodoItemRepository.Received().GetOneAsync(Arg.Any<Expression<Func<TodoItem, bool>>>());
         await TodoItemRepository.Received().DeleteAsync(Arg.Any<TodoItem>());
     }
 }

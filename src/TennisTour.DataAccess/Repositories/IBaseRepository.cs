@@ -1,13 +1,19 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using System.Linq.Expressions;
 using TennisTour.Core.Common;
 
 namespace TennisTour.DataAccess.Repositories;
 
 public interface IBaseRepository<TEntity> where TEntity : BaseEntity
 {
-    Task<TEntity> GetFirstAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<TEntity> GetByIdAsync(Guid id);
 
-    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> predicate);
+    Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>,
+        IIncludableQueryable<TEntity, object>> includes = null);
+
+    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null);
 
     Task<TEntity> AddAsync(TEntity entity);
 
