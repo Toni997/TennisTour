@@ -2,9 +2,11 @@
 @using System.Text;
 @using Microsoft.AspNetCore.Components.Authorization;
 @using Newtonsoft.Json;
+@using System.Security.Claims;
 @using TennisTour.Application.Helpers;
 @using TennisTour.Application.Models.User;
 @using TennisTour.Application.Models;
+@using TennisTour.UI.AuthProviders;
 @using TennisTour.UI.Common;
 @using MudBlazor
 @inject HttpClient client;
@@ -33,8 +35,10 @@
 	private string Password { get; set; }
 	private string StatusMessage { get; set; }
 	private bool errorVisibility = false;
-	[CascadingParameter]
-	private Task<AuthenticationState>? authenticationState { get; set; }
+	@inject NavigationManager NavigationManager;
+	[Inject]
+	 private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
 
 	InputType PasswordInput = InputType.Password;
 	string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
@@ -55,6 +59,7 @@
 		}
 	}
 
+
 	private async Task TryLogin()
 	{
 		var loginUserModel = new LoginUserModel();
@@ -64,21 +69,32 @@
 		var result = await client.PostAsync(Constants.baseUrl + "/Users/authenticate", content);
 		if(result.Content != null)
 		{
+
 			var response = JsonConvert.DeserializeObject<ApiResult<LoginResponseModel>>(await result.Content.ReadAsStringAsync());
 			if(response?.Errors.Any() == true)
 			{
 				StatusMessage = String.Join(", ", response.Errors);
-			} else
+				errorVisibility = true;
+			} else if(response?.Result != null)
 			{
-				StatusMessage = "Unknown error";
+
+				((UiAuthStateProvider)AuthenticationStateProvider).SetAuthenticationState(response.Result.Token);
+				errorVisibility = false;
+				NavigationManager.NavigateTo("/");
+			}
+			else
+			{
+				StatusMessage = "Unknown eerror";
+				errorVisibility = true;
 			}
 
 		} else
 		{
 			StatusMessage = result?.ReasonPhrase ?? "";
+			errorVisibility = true;
 
 		}
-		errorVisibility = true;
+		
 		Console.WriteLine(StatusMessage);
 	}
 }
