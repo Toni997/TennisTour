@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TennisTour.DataAccess.Persistence;
 
@@ -11,9 +12,10 @@ using TennisTour.DataAccess.Persistence;
 namespace TennisTour.DataAccess.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230515030843_LoserTiebreakPointsNullable")]
+    partial class LoserTiebreakPointsNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,22 +53,22 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ed53272b-1c75-4f83-ba18-2f0e5b7bce0d",
-                            ConcurrencyStamp = "798a95c7-ab95-459a-a2ba-3037d3b4a1e4",
+                            Id = "3cdd9dd1-c3dc-4a66-8462-812be5614bac",
+                            ConcurrencyStamp = "46d37f04-5659-4e54-9952-1232984b99a8",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "cd9da8aa-73f6-42de-b836-1da13a3fb92d",
-                            ConcurrencyStamp = "46e07b16-2c40-4651-9ca0-f5e1cda2bb55",
+                            Id = "1dd01c7b-b22d-456a-95de-1e6a68b94101",
+                            ConcurrencyStamp = "7899b6aa-fe19-4b1b-a732-beec1b2a719a",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "281f545f-c3a9-4090-abeb-02a0e45ce730",
-                            ConcurrencyStamp = "70684209-035f-43ee-92ec-568ee2e2c858",
+                            Id = "365c3618-7f52-4c15-aeb6-c8e29169470a",
+                            ConcurrencyStamp = "02db18b9-5b1a-44c1-b24f-ed91ed8b0eda",
                             Name = "Contender",
                             NormalizedName = "CONTENDER"
                         });
@@ -314,8 +316,8 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NextMatchupControlNumber")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("NextMatchId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Round")
                         .HasColumnType("int");
@@ -337,6 +339,8 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.HasIndex("ContenderOneId");
 
                     b.HasIndex("ContenderTwoId");
+
+                    b.HasIndex("NextMatchId");
 
                     b.HasIndex("TournamentEditionId");
 
@@ -674,6 +678,11 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("TennisTour.Core.Entities.Match", "NextMatch")
+                        .WithMany()
+                        .HasForeignKey("NextMatchId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("TennisTour.Core.Entities.TournamentEdition", "TournamentEdition")
                         .WithMany("Matches")
                         .HasForeignKey("TournamentEditionId")
@@ -688,6 +697,8 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.Navigation("ContenderOne");
 
                     b.Navigation("ContenderTwo");
+
+                    b.Navigation("NextMatch");
 
                     b.Navigation("TournamentEdition");
 

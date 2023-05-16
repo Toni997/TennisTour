@@ -11,9 +11,8 @@ namespace TennisTour.Core.Entities
 {
     public class ContenderInfo : BaseEntity
     {
-        [ForeignKey("Contender")]
-        public string ContenderId { get; set; }
         public ApplicationUser Contender { get; set; }
+        public string ContenderId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }

@@ -302,25 +302,25 @@
   {
     "ContenderId": "a102c8f8-29cb-49dc-853d-527a0c94bfed",
     "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
-    "IsAccepted": false
+    "IsAccepted": true
   },
   {
     "ContenderId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
     "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
-    "IsAccepted": false
+    "IsAccepted": true
   },
   {
     "ContenderId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
     "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
-    "IsAccepted": false
-  },
-  {
-    "ContenderId": "8652a2b3-7db9-4527-9e4a-d5d068f5398b",
-    "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
-    "IsAccepted": false
+    "IsAccepted": true
   },
   {
     "ContenderId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
+    "IsAccepted": true
+  },
+  {
+    "ContenderId": "8652a2b3-7db9-4527-9e4a-d5d068f5398b",
     "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
     "IsAccepted": false
   }

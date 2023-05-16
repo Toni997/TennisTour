@@ -14,11 +14,15 @@ namespace TennisTour.DataAccess.Persistence.Configurations
         public void Configure(EntityTypeBuilder<TournamentRegistration> builder)
         {
             builder.HasOne(tr => tr.Contender)
-                .WithMany(c => c.TournamentRegistrations)
+                .WithMany(u => u.TournamentRegistrations)
+                .HasForeignKey(tr => tr.ContenderId)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(tr => tr.TournamentEdition)
-               .WithMany(c => c.TournamentRegistrations)
+               .WithMany(te => te.TournamentRegistrations)
+               .HasForeignKey(tr => tr.TournamentEditionId)
+               .IsRequired()
                .OnDelete(DeleteBehavior.Cascade);
         }
     }

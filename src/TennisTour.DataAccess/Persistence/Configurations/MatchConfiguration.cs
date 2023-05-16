@@ -16,12 +16,26 @@ namespace TennisTour.DataAccess.Persistence.Configurations
         {
             builder.HasMany(m => m.MatchSets)
                 .WithOne(ms => ms.Match)
+                .HasForeignKey(ms => ms.MatchId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasOne(m => m.NextMatch)
+            builder.HasOne(m => m.ContenderOne)
                 .WithMany()
-                .HasForeignKey(m => m.NextMatchId)
+                .HasForeignKey(m => m.ContenderOneId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(m => m.ContenderTwo)
+                .WithMany()
+                .HasForeignKey(m => m.ContenderTwoId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(m => m.Winner)
+                .WithMany()
+                .HasForeignKey(m => m.WinnerId)
+                .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

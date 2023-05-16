@@ -10,9 +10,8 @@ namespace TennisTour.Core.Entities
 {
     public class Ranking : BaseEntity
     {
-        [ForeignKey("Contender")]
-        public string ContenderId { get; set; }
         public ApplicationUser Contender { get; set; }
+        public string ContenderId { get; set; }
         public int Rank { get; set; }
         public int Points { get; set; }
         public int? PreviousRank { get; set; }
