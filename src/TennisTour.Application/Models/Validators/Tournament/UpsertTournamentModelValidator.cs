@@ -10,23 +10,27 @@ using TennisTour.Core.Enums;
 
 namespace TennisTour.Application.Models.Validators.Tournament
 {
-    public class CreateTournamentModelValidator : AbstractValidator<CreateTournamentModel>
+    public class UpsertTournamentModelValidator : AbstractValidator<UpsertTournamentModel>
     {
-        public CreateTournamentModelValidator()
+        public UpsertTournamentModelValidator()
         {
             RuleFor(t => t.Name)
+                .NotNull().NotEmpty()
                 .Length(min: TournamentValidatorConfiguration.MinimumNameLength, max: TournamentValidatorConfiguration.MaximumNameLength)
                 .WithMessage($"Name has to be at least {TournamentValidatorConfiguration.MinimumNameLength} characters long");
 
             RuleFor(t => t.Series)
+                .NotNull().NotEmpty()
                 .IsInEnum()
                 .WithMessage("Series not valid");
 
             RuleFor(t => t.Surface)
+                .NotNull().NotEmpty()
                 .IsInEnum()
                 .WithMessage("Surface not valid");
 
             RuleFor(t => t.NumberOfRounds)
+                .NotNull().NotEmpty()
                 .GreaterThanOrEqualTo(0)
                 .WithMessage("Number of rounds can't be negative");
         }

@@ -8,7 +8,7 @@ using TennisTour.Core.Enums;
 
 namespace TennisTour.Application.Models.Tournament
 {
-    public class CreateTournamentModel
+    public class UpsertTournamentModel
     {
         public string Name { get; set; }
         public Series Series { get; set; }
@@ -16,5 +16,5 @@ namespace TennisTour.Application.Models.Tournament
         public int NumberOfRounds { get; set; }
     }
 
-    public class CreateTournamentResponseModel : BaseResponseModel { }
+    public class UpsertTournamentResponseModel : BaseResponseModel { }
 }

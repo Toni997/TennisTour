@@ -43,14 +43,26 @@ namespace TennisTour.Application.Services.Impl
             return _mapper.Map<TournamentResponseModel>(tournaments);
         }
 
-        public async Task<CreateTournamentResponseModel> CreateAsync(CreateTournamentModel createTournamentModel,
+        public async Task<UpsertTournamentResponseModel> CreateAsync(UpsertTournamentModel createTournamentModel,
             CancellationToken cancellationToken = default)
         {
             var tournament = _mapper.Map<Tournament>(createTournamentModel);
 
-            return new CreateTournamentResponseModel
+            return new UpsertTournamentResponseModel
             {
                 Id = (await _tournamentRepository.AddAsync(tournament)).Id
+            };
+        }
+
+        public async Task<UpsertTournamentResponseModel> UpdateAsync(Guid id, UpsertTournamentModel upsertTournamentModel)
+        {
+            var tournament = await _tournamentRepository.GetByIdAsync(id);
+
+            _mapper.Map(upsertTournamentModel, tournament);
+
+            return new UpsertTournamentResponseModel
+            {
+                Id = (await _tournamentRepository.UpdateAsync(tournament)).Id
             };
         }
 

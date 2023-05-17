@@ -33,17 +33,27 @@ namespace TennisTour.API.Controllers
                 .Success(await _tournamentService.GetByIdWithTournamentEditionsAsync(id)));
         }
 
+        [Authorize(Roles = Roles.Admin)]
         [HttpPost]
-        public async Task<IActionResult> CreateAsync(CreateTournamentModel createTournamentModel)
+        public async Task<IActionResult> CreateAsync(UpsertTournamentModel createTournamentModel)
         {
-            return Ok(ApiResult<CreateTournamentResponseModel>.Success(
+            return Ok(ApiResult<UpsertTournamentResponseModel>.Success(
                 await _tournamentService.CreateAsync(createTournamentModel)));
+        }
+
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateAsync(Guid id, UpsertTournamentModel updateTurnamentModel)
+        {
+            return Ok(ApiResult<UpsertTournamentResponseModel>.Success(
+                await _tournamentService.UpdateAsync(id, updateTurnamentModel)));
         }
 
         [Authorize(Roles = Roles.Admin)]
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> DeleteAsync(Guid id)
         {
+            // TODO check if any tournament editions exist before allowing delete
             return Ok(ApiResult<BaseResponseModel>
                 .Success(await _tournamentService.DeleteAsync(id)));
         }
