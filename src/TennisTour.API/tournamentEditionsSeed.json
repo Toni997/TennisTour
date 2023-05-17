@@ -1,0 +1,43 @@
+﻿[
+  {
+    "Id": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "DateStart": "2023-01-16T00:00:00Z",
+    "DateEnd": "2023-01-29T00:00:00Z",
+    "IsRegistrationTimeOver": true,
+    "WinnerId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "TournamentId": "f8d9a7d7-1067-4c07-b89d-9265fda5ed5a"
+  },
+  {
+    "Id": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "DateStart": "2022-06-26T00:00:00Z",
+    "DateEnd": "2022-07-09T00:00:00Z",
+    "IsRegistrationTimeOver": true,
+    "WinnerId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "TournamentId": "52a055a2-64f7-4cb2-a2cc-3125aa5a6161"
+  },
+  {
+    "Id": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "DateStart": "2023-04-15T00:00:00Z",
+    "DateEnd": "2023-04-23T00:00:00Z",
+    "IsRegistrationTimeOver": true,
+    "WinnerId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "TournamentId": "14c6ec20-6f47-463f-a46b-562501e00a13"
+  },
+  {
+    "Id": "63211d48-5c23-43ee-b8fc-f23256343ab5",
+    "DateStart": "2023-02-20T00:00:00Z",
+    "DateEnd": "2023-02-26T00:00:00Z",
+    "IsRegistrationTimeOver": true,
+    "WinnerId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "TournamentId": "e69a7c8c-59d6-4a32-9188-79e742b24d51"
+  },
+  {
+    "Id": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
+    "DateStart": "2022-11-12T00:00:00Z",
+    "DateEnd": "2022-11-19T00:00:00Z",
+    "IsRegistrationTimeOver": true,
+    "WinnerId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "TournamentId": "c16b9cf0-7295-4605-b965-ba7cc2d1c01e"
+  }
+]
+

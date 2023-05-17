@@ -15,6 +15,8 @@ namespace TennisTour.DataAccess.Persistence.Configurations
         {
             builder.HasMany(te => te.Matches)
                 .WithOne(m => m.TournamentEdition)
+                .HasForeignKey(m => m.TournamentEditionId)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
