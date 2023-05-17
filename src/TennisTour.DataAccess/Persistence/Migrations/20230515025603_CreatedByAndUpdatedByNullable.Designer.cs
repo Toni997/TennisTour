@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TennisTour.DataAccess.Persistence;
 
@@ -11,9 +12,10 @@ using TennisTour.DataAccess.Persistence;
 namespace TennisTour.DataAccess.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230515025603_CreatedByAndUpdatedByNullable")]
+    partial class CreatedByAndUpdatedByNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,22 +53,22 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ed53272b-1c75-4f83-ba18-2f0e5b7bce0d",
-                            ConcurrencyStamp = "798a95c7-ab95-459a-a2ba-3037d3b4a1e4",
+                            Id = "7632b424-d358-47c3-a0e0-344dabacda10",
+                            ConcurrencyStamp = "357e2bf0-6c67-453a-928d-1adf635039c9",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "cd9da8aa-73f6-42de-b836-1da13a3fb92d",
-                            ConcurrencyStamp = "46e07b16-2c40-4651-9ca0-f5e1cda2bb55",
+                            Id = "99ed97da-867a-44e3-b16f-e1a82b99f9e8",
+                            ConcurrencyStamp = "2183881b-4e71-4fbe-93d8-59ad8f3582ab",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "281f545f-c3a9-4090-abeb-02a0e45ce730",
-                            ConcurrencyStamp = "70684209-035f-43ee-92ec-568ee2e2c858",
+                            Id = "cfc3e4c1-ea03-4263-8f07-1a9adc499818",
+                            ConcurrencyStamp = "1ad6e284-ce6f-46dd-9baa-8eb49d0887cb",
                             Name = "Contender",
                             NormalizedName = "CONTENDER"
                         });
@@ -314,8 +316,8 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NextMatchupControlNumber")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("NextMatchId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Round")
                         .HasColumnType("int");
@@ -338,6 +340,8 @@ namespace TennisTour.DataAccess.Persistence.Migrations
 
                     b.HasIndex("ContenderTwoId");
 
+                    b.HasIndex("NextMatchId");
+
                     b.HasIndex("TournamentEditionId");
 
                     b.HasIndex("WinnerId");
@@ -357,7 +361,7 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.Property<int>("ContenderTwoGamesCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("LoserTiebreakPoints")
+                    b.Property<int>("LoserTiebreakPoints")
                         .HasColumnType("int");
 
                     b.Property<Guid>("MatchId")
@@ -674,6 +678,11 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("TennisTour.Core.Entities.Match", "NextMatch")
+                        .WithMany()
+                        .HasForeignKey("NextMatchId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("TennisTour.Core.Entities.TournamentEdition", "TournamentEdition")
                         .WithMany("Matches")
                         .HasForeignKey("TournamentEditionId")
@@ -688,6 +697,8 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.Navigation("ContenderOne");
 
                     b.Navigation("ContenderTwo");
+
+                    b.Navigation("NextMatch");
 
                     b.Navigation("TournamentEdition");
 

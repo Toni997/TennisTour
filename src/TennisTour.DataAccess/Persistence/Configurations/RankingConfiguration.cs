@@ -15,6 +15,8 @@ namespace TennisTour.DataAccess.Persistence.Configurations
         {
             builder.HasOne(r => r.Contender)
                 .WithOne(c => c.Ranking)
+                .HasForeignKey<Ranking>(r => r.ContenderId)
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

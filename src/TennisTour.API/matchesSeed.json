@@ -1,0 +1,1795 @@
+﻿[
+  {
+    "Id": "ea51d646-0cff-493f-8c9c-90eb502f02cf",
+    "ContenderOneId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "ContenderTwoId": "c721f978-30da-41ed-a2cc-8d3d5fcfbde8",
+    "WinnerId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 0,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 3,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "9ec2c00e-b247-420b-bcca-b8baed3c5c88",
+    "ContenderOneId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "ContenderTwoId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "WinnerId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 5,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "a7c8b85d-ee66-42bb-b7fd-6c6e2de813f3",
+    "ContenderOneId": "a102c8f8-29cb-49dc-853d-527a0c94bfed",
+    "ContenderTwoId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "WinnerId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 2,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 1,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "e94b1f64-1bdd-4aa0-8136-f2c7173c34bb",
+    "ContenderOneId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "ContenderTwoId": "8652a2b3-7db9-4527-9e4a-d5d068f5398b",
+    "WinnerId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 2,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 2,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 0,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 2,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "005f491c-6973-4016-8276-e7a32ffc5c82",
+    "ContenderOneId": "3911e0f5-7f11-44d1-9d11-95c28d7a5f0f",
+    "ContenderTwoId": "fbd437cf-3b7b-4f54-8b6e-5c9f9820c09a",
+    "WinnerId": "fbd437cf-3b7b-4f54-8b6e-5c9f9820c09a",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 3,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "66688f84-98df-42da-9243-3a7ccec516b6",
+    "ContenderOneId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "ContenderTwoId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "WinnerId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 3,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "dc6f9f6c-fbd0-43aa-a8e0-4a41eff0b090",
+    "ContenderOneId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "ContenderTwoId": "e9f2a02c-670a-469f-8d12-9e7682345d61",
+    "WinnerId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 4,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 4,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 5,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "6d309b1b-7d55-4385-b9f8-683c6e063ded",
+    "ContenderOneId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "ContenderTwoId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "WinnerId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 4,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 4,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "1b8f851a-79cb-4ab0-a0a3-b539e252c338",
+    "ContenderOneId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "ContenderTwoId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "WinnerId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 1,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 1,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "1cea4bad-3b92-437c-81db-5d9fc0c75015",
+    "ContenderOneId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "ContenderTwoId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "WinnerId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 1,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 6,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "a3cb4279-bd19-4155-a8a6-afd5dbb756c0",
+    "ContenderOneId": "fbd437cf-3b7b-4f54-8b6e-5c9f9820c09a",
+    "ContenderTwoId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "WinnerId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 2,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "eac892df-8d44-4194-a308-feb4795e59aa",
+    "ContenderOneId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "ContenderTwoId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "WinnerId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 2,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 5,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 8,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 3,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "f0f54e92-6c63-43d1-9521-3316be4e09ab",
+    "ContenderOneId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "ContenderTwoId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "WinnerId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 1,
+		"Round": 3,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 5,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 2,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "addf3a1b-ce24-4346-8917-7378f3fab1c4",
+    "ContenderOneId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "ContenderTwoId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "WinnerId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 1,
+		"Round": 3,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 1,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 0,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "988d799a-53c4-415e-8fcd-0c679facb690",
+    "ContenderOneId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "ContenderTwoId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "WinnerId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "TournamentEditionId": "6c25e4f7-1be4-4c68-9e3a-f1c293f8d67e",
+    "NextMatchupControlNumber": 0,
+		"Round": 4,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 0,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 8,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "c66465fd-bf70-4955-9880-45236585f373",
+    "ContenderOneId": "c721f978-30da-41ed-a2cc-8d3d5fcfbde8",
+    "ContenderTwoId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "WinnerId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "eb2004f2-5a2b-4390-994d-40ae3176d639",
+    "ContenderOneId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "ContenderTwoId": "3911e0f5-7f11-44d1-9d11-95c28d7a5f0f",
+    "WinnerId": "3911e0f5-7f11-44d1-9d11-95c28d7a5f0f",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 5,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 2,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "3cf33b26-a08f-4a92-947c-2e499c4101ac",
+    "ContenderOneId": "fbd437cf-3b7b-4f54-8b6e-5c9f9820c09a",
+    "ContenderTwoId": "a102c8f8-29cb-49dc-853d-527a0c94bfed",
+    "WinnerId": "fbd437cf-3b7b-4f54-8b6e-5c9f9820c09a",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 2,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "0d90b71e-2e2c-4816-9213-adb19a5bf956",
+    "ContenderOneId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "ContenderTwoId": "8652a2b3-7db9-4527-9e4a-d5d068f5398b",
+    "WinnerId": "8652a2b3-7db9-4527-9e4a-d5d068f5398b",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 2,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 6,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 0,
+        "ContenderTwoGamesCount": 5,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "f278151e-f949-4cb3-be48-bd30a540923b",
+    "ContenderOneId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "ContenderTwoId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "WinnerId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 3,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 1,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "55ed5ea3-2f56-4a1b-8717-2afebc3fed75",
+    "ContenderOneId": "e9f2a02c-670a-469f-8d12-9e7682345d61",
+    "ContenderTwoId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "WinnerId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 3,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "3bda320b-3022-4ac9-84e1-08bed1fe923c",
+    "ContenderOneId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "ContenderTwoId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "WinnerId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 4,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 4,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "72cb9557-0f1f-48cb-bccd-c65066734271",
+    "ContenderOneId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "ContenderTwoId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "WinnerId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 4,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 10,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "9f25a8f0-3f10-43d4-bf34-0ba9386cde3b",
+    "ContenderOneId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "ContenderTwoId": "3911e0f5-7f11-44d1-9d11-95c28d7a5f0f",
+    "WinnerId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 1,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "409a10c4-1138-41b6-bf46-435869dbac06",
+    "ContenderOneId": "fbd437cf-3b7b-4f54-8b6e-5c9f9820c09a",
+    "ContenderTwoId": "8652a2b3-7db9-4527-9e4a-d5d068f5398b",
+    "WinnerId": "8652a2b3-7db9-4527-9e4a-d5d068f5398b",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 1,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 2,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "a3a256fd-7062-481b-86d7-352c4c5f0a1d",
+    "ContenderOneId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "ContenderTwoId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "WinnerId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 2,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 2,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "e9ddc428-84ac-4710-a194-48b053edd93d",
+    "ContenderOneId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "ContenderTwoId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "WinnerId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 2,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 5,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 2,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 5,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "6ad5f6f0-3bb7-4286-bd8a-2d9cfc1be5cf",
+    "ContenderOneId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "ContenderTwoId": "8652a2b3-7db9-4527-9e4a-d5d068f5398b",
+    "WinnerId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 1,
+		"Round": 3,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 5,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 6,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "83623aa5-1b83-4c74-9415-b0fca223c63b",
+    "ContenderOneId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "ContenderTwoId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "WinnerId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 1,
+		"Round": 3,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 1,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 4,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "8d8430ad-aee7-466f-ae19-489385e68ae3",
+    "ContenderOneId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "ContenderTwoId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "WinnerId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "TournamentEditionId": "3446a237-3bdc-4c53-88c6-9c017dfc93ea",
+    "NextMatchupControlNumber": 0,
+		"Round": 4,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 7,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "89ff2e0e-4e27-4997-904e-56a158a56c8b",
+    "ContenderOneId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "ContenderTwoId": "c721f978-30da-41ed-a2cc-8d3d5fcfbde8",
+    "WinnerId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 2,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 2,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 0,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "a3c0a068-71dc-4d30-bbae-8e8fa11aba21",
+    "ContenderOneId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "ContenderTwoId": "fbd437cf-3b7b-4f54-8b6e-5c9f9820c09a",
+    "WinnerId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 2,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "a06ce1d4-83a9-4911-993a-6496e125a081",
+    "ContenderOneId": "a102c8f8-29cb-49dc-853d-527a0c94bfed",
+    "ContenderTwoId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "WinnerId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 2,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 3,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "f88d6a35-5064-4324-ae73-be67bab929e7",
+    "ContenderOneId": "3911e0f5-7f11-44d1-9d11-95c28d7a5f0f",
+    "ContenderTwoId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "WinnerId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 2,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": 6,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 5,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 5,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "7ea1e751-fe79-4e61-9721-29a87be0fae7",
+    "ContenderOneId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "ContenderTwoId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "WinnerId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 3,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "d091c75b-4698-4a55-9519-aadeb9557114",
+    "ContenderOneId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "ContenderTwoId": "e9f2a02c-670a-469f-8d12-9e7682345d61",
+    "WinnerId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 3,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 2,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 0,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "f7400be7-5599-437a-b37d-d7fb1116ae8a",
+    "ContenderOneId": "8652a2b3-7db9-4527-9e4a-d5d068f5398b",
+    "ContenderTwoId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "WinnerId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 4,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 5,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "9de45728-6645-4a54-bba2-2ca914ad4171",
+    "ContenderOneId": "c52d1d67-9745-4e9f-ba17-41d12d2f739e",
+    "ContenderTwoId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "WinnerId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 4,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 4,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "347522f1-faad-4c83-9844-eb4bbd7d4aeb",
+    "ContenderOneId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "ContenderTwoId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "WinnerId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 1,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 2,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "34564968-1499-45c0-b4ef-a319bdeb1bab",
+    "ContenderOneId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "ContenderTwoId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "WinnerId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 1,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 5,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "cc6763fd-2bdb-45be-bd9d-ef6f9145f2fb",
+    "ContenderOneId": "0d8f5395-34dc-4f7d-a7b3-4484b07c2212",
+    "ContenderTwoId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "WinnerId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 2,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 2,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "768d8601-5d78-4465-9d95-951720b3c2ba",
+    "ContenderOneId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "ContenderTwoId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "WinnerId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 2,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 2,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 5,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "230e27bf-5786-4d4e-9d12-d4b6827329d7",
+    "ContenderOneId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "ContenderTwoId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "WinnerId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 1,
+		"Round": 3,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "ff071bf7-dbae-47a5-afc6-9928976a7107",
+    "ContenderOneId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "ContenderTwoId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "WinnerId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 1,
+		"Round": 3,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 3,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 4
+      }
+    ]
+  },
+  {
+    "Id": "68115dea-b87a-4607-b182-d97ea5e00a04",
+    "ContenderOneId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "ContenderTwoId": "9f0e4d4c-034f-4325-95f7-350b974ab8a5",
+    "WinnerId": "4f3108f3-df8f-4a1d-b249-4e4b8c4fba62",
+    "TournamentEditionId": "b35fa5cf-90c6-4d81-b2e8-447d7f8dc79e",
+    "NextMatchupControlNumber": 0,
+		"Round": 4,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 5,
+        "Order": 3
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 7,
+        "Order": 4
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 2,
+        "Order": 5
+      }
+    ]
+  },
+  {
+    "Id": "908b23bf-48fa-4a76-b30a-c84afe740871",
+    "ContenderOneId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "ContenderTwoId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "WinnerId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "TournamentEditionId": "63211d48-5c23-43ee-b8fc-f23256343ab5",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      }
+    ]
+  },
+  {
+    "Id": "efa97573-fa30-4dd7-aa31-839ba1b379c6",
+    "ContenderOneId": "c721f978-30da-41ed-a2cc-8d3d5fcfbde8",
+    "ContenderTwoId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "WinnerId": "c721f978-30da-41ed-a2cc-8d3d5fcfbde8",
+    "TournamentEditionId": "63211d48-5c23-43ee-b8fc-f23256343ab5",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 2,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 2,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "8946c61b-b450-4d29-8271-d913ba5134e7",
+    "ContenderOneId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "ContenderTwoId": "c721f978-30da-41ed-a2cc-8d3d5fcfbde8",
+    "WinnerId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "TournamentEditionId": "63211d48-5c23-43ee-b8fc-f23256343ab5",
+    "NextMatchupControlNumber": 0,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 8,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "eb39ac25-1969-49c6-8a36-aa1f3254582d",
+    "ContenderOneId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "ContenderTwoId": "c721f978-30da-41ed-a2cc-8d3d5fcfbde8",
+    "WinnerId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      }
+    ]
+  },
+  {
+    "Id": "7a0c22eb-7567-4fc1-9b0b-a7965f2d9826",
+    "ContenderOneId": "f4d73cf7-3e6e-4c11-87eb-61f1c0633e1a",
+    "ContenderTwoId": "a102c8f8-29cb-49dc-853d-527a0c94bfed",
+    "WinnerId": "a102c8f8-29cb-49dc-853d-527a0c94bfed",
+    "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
+    "NextMatchupControlNumber": 1,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 3,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "3a5090fc-cf7b-4b70-87ff-bb5f1d0b5ad0",
+    "ContenderOneId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "ContenderTwoId": "e3d607c6-8c19-43ec-91eb-4a8c1654b5b7",
+    "WinnerId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
+    "NextMatchupControlNumber": 2,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 5,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "1d7de661-a716-4b0c-b65c-d1a7f7f77734",
+    "ContenderOneId": "27b78d3f-7a18-4a23-a82e-96299420be8b",
+    "ContenderTwoId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "WinnerId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
+    "NextMatchupControlNumber": 2,
+		"Round": 1,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 5,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      }
+    ]
+  },
+  {
+    "Id": "e147faaa-e13c-4917-8629-e70a24930a40",
+    "ContenderOneId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "ContenderTwoId": "a102c8f8-29cb-49dc-853d-527a0c94bfed",
+    "WinnerId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
+    "NextMatchupControlNumber": 1,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 7,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": 4,
+        "Order": 2
+      }
+    ]
+  },
+  {
+    "Id": "17accf0d-1eab-4106-bc4c-4a608cd2b768",
+    "ContenderOneId": "7d3500a9-1e39-40cb-bc4e-fd7c9e4d1537",
+    "ContenderTwoId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "WinnerId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
+    "NextMatchupControlNumber": 1,
+		"Round": 2,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 4,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 3
+      }
+    ]
+  },
+  {
+    "Id": "3aa16f54-956a-4775-893a-fc67626a75cb",
+    "ContenderOneId": "d19b78c1-0a5a-4462-b2da-3d66aa77bb63",
+    "ContenderTwoId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "WinnerId": "cde5591e-34bb-4758-bcf1-8c5b7fddc4e8",
+    "TournamentEditionId": "5a1f9d1f-c6c5-4018-87d2-dbbcd82b2d3e",
+    "NextMatchupControlNumber": 0,
+		"Round": 3,
+    "MatchSets": [
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 3,
+        "LoserTiebreakPoints": null,
+        "Order": 1
+      },
+      {
+        "ContenderOneGamesCount": 4,
+        "ContenderTwoGamesCount": 6,
+        "LoserTiebreakPoints": null,
+        "Order": 2
+      },
+      {
+        "ContenderOneGamesCount": 6,
+        "ContenderTwoGamesCount": 7,
+        "LoserTiebreakPoints": 6,
+        "Order": 3
+      }
+    ]
+  }
+]
