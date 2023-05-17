@@ -6,6 +6,7 @@ using TennisTour.Application.Models.Tournament;
 using TennisTour.Application.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using TennisTour.Core.Helpers;
+using TennisTour.Application.Models.TodoItem;
 
 namespace TennisTour.API.Controllers
 {
@@ -30,6 +31,13 @@ namespace TennisTour.API.Controllers
         {
             return Ok(ApiResult<TournamentResponseModel>
                 .Success(await _tournamentService.GetByIdWithTournamentEditionsAsync(id)));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync(CreateTournamentModel createTournamentModel)
+        {
+            return Ok(ApiResult<CreateTournamentResponseModel>.Success(
+                await _tournamentService.CreateAsync(createTournamentModel)));
         }
 
         [Authorize(Roles = Roles.Admin)]

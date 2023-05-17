@@ -35,16 +35,18 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
 
     public new async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
+        var dateTimeNow = DateTime.Now;
         foreach (var entry in ChangeTracker.Entries<IAuditedEntity>())
             switch (entry.State)
             {
                 case EntityState.Added:
                     entry.Entity.CreatedBy = _claimService.GetUserId();
-                    entry.Entity.CreatedOn = DateTime.Now;
+                    entry.Entity.CreatedOn = dateTimeNow;
+                    entry.Entity.UpdatedOn = dateTimeNow;
                     break;
                 case EntityState.Modified:
                     entry.Entity.UpdatedBy = _claimService.GetUserId();
-                    entry.Entity.UpdatedOn = DateTime.Now;
+                    entry.Entity.UpdatedOn = dateTimeNow;
                     break;
             }
 

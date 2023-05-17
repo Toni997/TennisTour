@@ -5,8 +5,9 @@ namespace TennisTour.Application.Services
 {
     public interface ITournamentService
     {
-        Task<BaseResponseModel> DeleteAsync(Guid id);
-        Task<IEnumerable<TournamentResponseModel>> GetAllOrderedByNameWithTournamentEditionsAsync();
-        Task<TournamentResponseModel> GetByIdWithTournamentEditionsAsync(Guid id);
+        Task<CreateTournamentResponseModel> CreateAsync(CreateTournamentModel createTournamentModel, CancellationToken cancellationToken = default);
+        Task<BaseResponseModel> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<TournamentResponseModel>> GetAllOrderedByNameWithTournamentEditionsAsync(CancellationToken cancellationToken = default);
+        Task<TournamentResponseModel> GetByIdWithTournamentEditionsAsync(Guid id, CancellationToken cancellationToken = default);
     }
 }
