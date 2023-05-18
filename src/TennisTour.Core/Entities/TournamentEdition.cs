@@ -13,7 +13,9 @@ namespace TennisTour.Core.Entities
         public DateTime DateEnd { get; set; }
         public bool IsRegistrationTimeOver { get; set; }
         public ApplicationUser Winner { get; set; }
+        public string? WinnerId { get; set; }
         public Tournament Tournament { get; set; }
+        public Guid TournamentId { get; set; }
 
         public virtual ICollection<Match> Matches { get; set; }
         public virtual ICollection<TournamentRegistration> TournamentRegistrations { get; set; }

@@ -1,0 +1,72 @@
+﻿[
+  {
+    "Id": "f8d9a7d7-1067-4c07-b89d-9265fda5ed5a",
+    "Name": "Australian Open",
+    "Series": 4,
+    "Surface": 2,
+    "NumberOfRounds": 4
+  },
+  {
+    "Id": "14c6ec20-6f47-463f-a46b-562501e00a13",
+    "Name": "Monte-Carlo Masters",
+    "Series": 3,
+    "Surface": 1,
+    "NumberOfRounds": 4
+  },
+  {
+    "Id": "52a055a2-64f7-4cb2-a2cc-3125aa5a6161",
+    "Name": "Wimbledon",
+    "Series": 4,
+    "Surface": 0,
+    "NumberOfRounds": 4
+  },
+  {
+    "Id": "e69a7c8c-59d6-4a32-9188-79e742b24d51",
+    "Name": "Rio Open",
+    "Series": 0,
+    "Surface": 1,
+    "NumberOfRounds": 2
+  },
+  {
+    "Id": "c16b9cf0-7295-4605-b965-ba7cc2d1c01e",
+    "Name": "ATP Finals",
+    "Series": 5,
+    "Surface": 2,
+    "NumberOfRounds": 3
+  },
+  {
+    "Id": "a7c4eac8-3215-429a-88f3-8f04d7e236c4",
+    "Name": "U.S. Open",
+    "Series": 4,
+    "Surface": 2,
+    "NumberOfRounds": 4
+  },
+  {
+    "Id": "6bbaa3d3-950c-4f4f-91b6-1f615181f712",
+    "Name": "Indian Wells Masters",
+    "Series": 3,
+    "Surface": 2,
+    "NumberOfRounds": 4
+  },
+  {
+    "Id": "71d0969e-28b3-4314-aa90-5313f84c221d",
+    "Name": "Roland Garros",
+    "Series": 4,
+    "Surface": 1,
+    "NumberOfRounds": 4
+  },
+  {
+    "Id": "052a952f-0f25-4f01-a25e-3c34cb4e3ebd",
+    "Name": "Dubai Tennis Championships",
+    "Series": 3,
+    "Surface": 2,
+    "NumberOfRounds": 3
+  },
+  {
+    "Id": "02b39cdd-7e6d-41af-bd9b-5f90b238ded4",
+    "Name": "Barcelona Open",
+    "Series": 3,
+    "Surface": 1,
+    "NumberOfRounds": 3
+  }
+]
