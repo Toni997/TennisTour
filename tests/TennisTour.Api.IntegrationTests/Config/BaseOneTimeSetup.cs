@@ -14,9 +14,9 @@ using TennisTour.Api.IntegrationTests.Config.Constants;
 using TennisTour.Api.IntegrationTests.Helpers.Services;
 using TennisTour.Application.Helpers;
 using TennisTour.Application.Services;
-using TennisTour.DataAccess.Identity;
 using TennisTour.DataAccess.Persistence;
 using NUnit.Framework;
+using TennisTour.Core.Entities;
 
 namespace TennisTour.Api.IntegrationTests.Config;
 

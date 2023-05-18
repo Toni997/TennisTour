@@ -1,0 +1,52 @@
+﻿@page "/login"
+@using System.Text;
+@using TennisTour.Frontend.Common;
+@using TennisTour.Frontend.Helpers;
+@using TennisTour.Frontend.Models;
+
+<h1>Login</h1>
+
+
+
+<label>
+	Username:
+	<input type="text" @bind-value="Username" />
+</label>
+<label>
+	Password:
+	<input type="password" @bind-value="Password" />
+</label>
+<button type="button" @onclick="TryLogin">Login</button>
+
+@if (!string.IsNullOrEmpty(StatusMessage))
+{
+	<p style="color:#FF0000">@StatusMessage</p>
+}
+
+
+
+@code {
+	private string Username { get; set; }
+	private string Password { get; set; }
+	private string StatusMessage { get; set; }
+
+
+	private async Task TryLogin()
+	{
+		var client = new HttpClient();
+		var loginUserModel = new LoginUserModel();
+		loginUserModel.Username = Username;
+		loginUserModel.Password = Password;
+		var content = new JsonNewtonContent(loginUserModel);
+		var result = await client.PostAsync(Constants.baseUrl + "/Users/authenticate", content);
+		if(!result.IsSuccessStatusCode)
+		{
+			StatusMessage = await result.Content.ReadAsStringAsync();
+		} else
+		{
+			StatusMessage = await result.Content.ReadAsStringAsync();
+
+		}
+		Console.WriteLine(StatusMessage);
+	}
+}
