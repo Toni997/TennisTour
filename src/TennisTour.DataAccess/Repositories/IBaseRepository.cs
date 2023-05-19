@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Query;
 using System.Linq.Expressions;
 using TennisTour.Core.Common;
+using TennisTour.DataAccess.Models;
+using X.PagedList;
 
 namespace TennisTour.DataAccess.Repositories;
 
@@ -11,7 +13,12 @@ public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>,
         IIncludableQueryable<TEntity, object>> includes = null);
 
-    Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression = null,
+    Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null);
+
+    Task<IPagedList<TEntity>> GetAllPagedAsync(PagedRequestParams requestParams,
+            Expression<Func<TEntity, bool>> expression = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null);
 

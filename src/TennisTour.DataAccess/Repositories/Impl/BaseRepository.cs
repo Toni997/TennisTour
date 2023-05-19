@@ -4,7 +4,9 @@ using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using TennisTour.Core.Common;
 using TennisTour.Core.Exceptions;
+using TennisTour.DataAccess.Models;
 using TennisTour.DataAccess.Persistence;
+using X.PagedList;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TennisTour.DataAccess.Repositories.Impl;
@@ -67,7 +69,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return entity;
     }
 
-    public async Task<List<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression = null,
+    public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null)
     {
@@ -78,6 +80,20 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         query = OrderBy(orderBy, query);
 
         return await query.ToListAsync();
+    }
+
+    public async Task<IPagedList<TEntity>> GetAllPagedAsync(PagedRequestParams requestParams,
+            Expression<Func<TEntity, bool>> expression = null,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null)
+    {
+        var query = Query();
+
+        query = Expression(expression, query);
+        query = Include(includes, query);
+        query = OrderBy(orderBy, query);
+
+        return await query.ToPagedListAsync(requestParams.PageNumber, requestParams.PageSize);
     }
 
     public async Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>,

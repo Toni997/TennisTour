@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Core.Entities;
+using X.PagedList;
 
 namespace TennisTour.DataAccess.Repositories
 {
@@ -11,6 +12,6 @@ namespace TennisTour.DataAccess.Repositories
     {
         Task<Tournament> GetByIdWithTournamentEditionsAsync(Guid id);
 
-        Task<List<Tournament>> GetAllOrderedByNameWithTournamentEditionsAsync();
+        Task<IList<Tournament>> GetAllOrderedByNameWithTournamentEditionsAsync();
     }
 }

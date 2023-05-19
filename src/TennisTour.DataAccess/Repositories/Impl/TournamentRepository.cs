@@ -6,7 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Core.Entities;
+using TennisTour.DataAccess.Models;
 using TennisTour.DataAccess.Persistence;
+using X.PagedList;
 
 namespace TennisTour.DataAccess.Repositories.Impl
 {
@@ -29,7 +31,7 @@ namespace TennisTour.DataAccess.Repositories.Impl
             return await GetOneAsync(x => x.Id == id, Includes);
         }
 
-        public async Task<List<Tournament>> GetAllOrderedByNameWithTournamentEditionsAsync()
+        public async Task<IList<Tournament>> GetAllOrderedByNameWithTournamentEditionsAsync()
         {
             return await GetAllAsync(orderBy: OrderBy, includes: Includes);
         }
