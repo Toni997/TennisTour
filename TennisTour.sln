@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisTour.Api.IntegrationT
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TennisTour.UI", "src\TennisTour.UI\TennisTour.UI.csproj", "{C9284CC0-3F7C-4E83-89F5-FE1D65222A9B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TennisTour.MVC", "src\TennisTour.MVC\TennisTour.MVC.csproj", "{1BF8B88C-8697-4DFD-B70E-7CB3BFD4EA9D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{C9284CC0-3F7C-4E83-89F5-FE1D65222A9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9284CC0-3F7C-4E83-89F5-FE1D65222A9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9284CC0-3F7C-4E83-89F5-FE1D65222A9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BF8B88C-8697-4DFD-B70E-7CB3BFD4EA9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BF8B88C-8697-4DFD-B70E-7CB3BFD4EA9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BF8B88C-8697-4DFD-B70E-7CB3BFD4EA9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BF8B88C-8697-4DFD-B70E-7CB3BFD4EA9D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +80,7 @@ Global
 		{2D2C88FF-4129-4A10-ABDF-DD438B282DA1} = {EF8183C1-207C-4A67-B1B9-B07F892E8635}
 		{FD31F369-27D3-48B3-9FF7-F4A357F73B1E} = {EF8183C1-207C-4A67-B1B9-B07F892E8635}
 		{C9284CC0-3F7C-4E83-89F5-FE1D65222A9B} = {7ED14D1A-A758-41DB-ACCA-1917FE909102}
+		{1BF8B88C-8697-4DFD-B70E-7CB3BFD4EA9D} = {7ED14D1A-A758-41DB-ACCA-1917FE909102}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {330BD50E-D6E2-49BE-890F-2BA859172C9D}
