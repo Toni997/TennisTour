@@ -15,6 +15,7 @@ using TennisTour.Application.Services.Impl;
 using TennisTour.Core.Entities;
 using NSubstitute;
 using Xunit;
+using TennisTour.Core.Entities;
 
 namespace TennisTour.Application.UnitTests.Services;
 
