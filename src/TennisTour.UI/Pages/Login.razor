@@ -75,10 +75,9 @@
 			{
 				StatusMessage = String.Join(", ", response.Errors);
 				errorVisibility = true;
-			} else if(response?.Result != null)
+			} else if(response?.Result != null && response.Result.Token != null)
 			{
-
-				((UiAuthStateProvider)AuthenticationStateProvider).SetAuthenticationState(response.Result.Token);
+				((UiAuthStateProvider)AuthenticationStateProvider).SetUser(response.Result);
 				errorVisibility = false;
 				NavigationManager.NavigateTo("/");
 			}

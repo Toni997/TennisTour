@@ -1,0 +1,56 @@
+﻿@using TennisTour.Application.Models.User;
+@using TennisTour.Core.Enums;
+@using TennisTour.UI.Common;
+@inject HttpClient client;
+<h3>MyProfile</h3>
+<MudCard>
+    <MudCardContent>
+        <MudTypography Variant="TypographyVariant.h4">Contender Info</MudTypography>
+
+        <MudTextField Label="First Name" @bind-Value="@ContenderInfo.FirstName" />
+
+        <MudTextField Label="Last Name" @bind-Value="@ContenderInfo.LastName" />
+
+		<MudDatePicker Label="Date of Birth" Date="@ContenderInfo.DateOfBirth" />
+
+        <MudNumericField Label="Weight (kg)" @bind-Value="@ContenderInfo.WeightKg" />
+
+        <MudNumericField Label="Height (cm)" @bind-Value="@ContenderInfo.HeightCm" />
+
+        <MudSelect Label="Backhand Type" @bind-Value="@ContenderInfo.BackhandType">
+            @foreach (BackhandType backhandType in Enum.GetValues(typeof(BackhandType)))
+            {
+                <MudOption Value="@(backhandType.ToString())">@backhandType</MudOption>
+            }
+        </MudSelect>
+
+        <MudSelect Label="Dominant Hand" @bind-Value="@ContenderInfo.DominantHand">
+            @foreach (Hand hand in Enum.GetValues(typeof(Hand)))
+            {
+                <MudOption Value="@(hand.ToString())">@hand</MudOption>
+            }
+        </MudSelect>
+
+		<MudDatePicker Label="Turned Pro On" Date="@ContenderInfo.TurnedProOn" />
+
+		<MudDatePicker Label="Retired On" Date="@ContenderInfo.RetiredOn" />
+
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveContenderInfo">Save</MudButton>
+    </MudCardContent>
+</MudCard>
+
+@code {
+    private ContenderInfoResponseModel ContenderInfo { get; set; }
+
+    protected override async void OnInitialized()
+    {
+        ContenderInfo = new ContenderInfoResponseModel();
+    }
+
+    private void SaveContenderInfo()
+    {
+        // Perform the save operation with the updated ContenderInfo
+        // You can access the updated values through the ContenderInfo property
+        // For example: ContenderInfo.FirstName, ContenderInfo.LastName, etc.
+    }
+}
