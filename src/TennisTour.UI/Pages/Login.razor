@@ -19,16 +19,12 @@
 	<MudItem xs="12" sm="6" md="4">
 		<MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="PasswordToggle" AdornmentAriaLabel="Show Password" />
 	</MudItem>
-	
 </MudGrid>
 <MudButton Variant="Variant.Filled" class="my-12" Color="Color.Primary" OnClick="TryLogin">Login</MudButton>
 @if (errorVisibility)
 {
 	<MudAlert Severity="Severity.Error">@StatusMessage</MudAlert>
 }
-
-
-
 
 @code {
 	private string Username { get; set; }
@@ -66,7 +62,7 @@
 		loginUserModel.Username = Username;
 		loginUserModel.Password = Password;
 		var content = new JsonNewtonContent(loginUserModel);
-		var result = await client.PostAsync(Constants.baseUrl + "/Users/authenticate", content);
+		var result = await client.PostAsync(ApiConstants.LoginRoute, content);
 		if(result.Content != null)
 		{
 

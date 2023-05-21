@@ -18,7 +18,10 @@ namespace TennisTour.DataAccess.Repositories.Impl
 
         private IIncludableQueryable<Tournament, object> Includes(IQueryable<Tournament> x)
         {
-            return x.Include(x => x.TournamentEditions);
+            return x.Include(x => x.TournamentEditions)
+                        .ThenInclude(x => x.Winner.ContenderInfo)
+                     .Include(x => x.TournamentEditions)
+                        .ThenInclude(x => x.Winner.Ranking);
         }
 
         private IOrderedQueryable<Tournament> OrderBy(IQueryable<Tournament> x)
@@ -34,6 +37,11 @@ namespace TennisTour.DataAccess.Repositories.Impl
         public async Task<IList<Tournament>> GetAllOrderedByNameWithTournamentEditionsAsync()
         {
             return await GetAllAsync(orderBy: OrderBy, includes: Includes);
+        }
+
+        public async Task<IList<Tournament>> GetAllOrderedByNameAsync()
+        {
+            return await GetAllAsync(orderBy: OrderBy);
         }
     }
 }

@@ -116,4 +116,9 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
         return entity;
     }
+
+    public async Task<bool> ExistsAsync(Guid id)
+    {
+        return await _dbSet.FindAsync(id) != null;
+    }
 }

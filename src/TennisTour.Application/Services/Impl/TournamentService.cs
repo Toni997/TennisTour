@@ -28,25 +28,26 @@ namespace TennisTour.Application.Services.Impl
             _claimService = claimService;
         }
 
-        public async Task<IEnumerable<TournamentResponseModel>> GetAllOrderedByNameWithTournamentEditionsAsync(
+        public async Task<IEnumerable<TournamentResponseModel>> GetAllOrderedByNameAsync(
             CancellationToken cancellationToken = default)
         {
-            var tournaments = await _tournamentRepository.GetAllOrderedByNameWithTournamentEditionsAsync();
+            var tournaments = await _tournamentRepository.GetAllOrderedByNameAsync();
 
             return _mapper.Map<IEnumerable<TournamentResponseModel>>(tournaments);
         }
 
-        public async Task<TournamentResponseModel> GetByIdWithTournamentEditionsAsync(Guid id, CancellationToken cancellationToken = default)
+        public async Task<TournamentWithEditionsResponseModel> GetByIdWithTournamentEditionsAsync(Guid id,
+            CancellationToken cancellationToken = default)
         {
             var tournaments = await _tournamentRepository.GetByIdWithTournamentEditionsAsync(id);
 
-            return _mapper.Map<TournamentResponseModel>(tournaments);
+            return _mapper.Map<TournamentWithEditionsResponseModel>(tournaments);
         }
 
-        public async Task<UpsertTournamentResponseModel> CreateAsync(UpsertTournamentModel createTournamentModel,
+        public async Task<UpsertTournamentResponseModel> CreateAsync(UpsertTournamentModel upsertTournamentModel,
             CancellationToken cancellationToken = default)
         {
-            var tournament = _mapper.Map<Tournament>(createTournamentModel);
+            var tournament = _mapper.Map<Tournament>(upsertTournamentModel);
 
             return new UpsertTournamentResponseModel
             {
@@ -68,6 +69,8 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task<BaseResponseModel> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
+            // TODO check if any tournament editions exist before allowing delete
+
             var tournament = await _tournamentRepository.GetOneAsync(tl => tl.Id == id);
 
             return new BaseResponseModel

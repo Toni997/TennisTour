@@ -15,24 +15,32 @@ namespace TennisTour.Application.Models.Validators.Tournament
         public UpsertTournamentModelValidator()
         {
             RuleFor(t => t.Name)
-                .NotNull().NotEmpty()
+                .NotNull().WithMessage("Name is required")
                 .Length(min: TournamentValidatorConfiguration.MinimumNameLength, max: TournamentValidatorConfiguration.MaximumNameLength)
                 .WithMessage($"Name has to be at least {TournamentValidatorConfiguration.MinimumNameLength} characters long");
 
             RuleFor(t => t.Series)
-                .NotNull().NotEmpty()
+                .NotNull().WithMessage("Series is required")
                 .IsInEnum()
                 .WithMessage("Series not valid");
 
             RuleFor(t => t.Surface)
-                .NotNull().NotEmpty()
+                .NotNull().WithMessage("Surface is required")
                 .IsInEnum()
                 .WithMessage("Surface not valid");
 
             RuleFor(t => t.NumberOfRounds)
-                .NotNull().NotEmpty()
-                .GreaterThanOrEqualTo(0)
-                .WithMessage("Number of rounds can't be negative");
+                .NotNull().WithMessage("Number of Rounds is required")
+                .GreaterThanOrEqualTo(1)
+                .WithMessage("Number Of Rounds can't be less than 1");
         }
+
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+        {
+            var result = await ValidateAsync(ValidationContext<UpsertTournamentModel>.CreateWithOptions((UpsertTournamentModel)model, x => x.IncludeProperties(propertyName)));
+            if (result.IsValid)
+                return Array.Empty<string>();
+            return result.Errors.Select(e => e.ErrorMessage);
+        };
     }
 }

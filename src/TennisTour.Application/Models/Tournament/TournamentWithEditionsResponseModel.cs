@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Models.TournamentEdition;
-using TennisTour.Core.Entities;
 using TennisTour.Core.Enums;
 
 namespace TennisTour.Application.Models.Tournament
@@ -15,7 +14,10 @@ namespace TennisTour.Application.Models.Tournament
         public Series Series { get; set; }
         public Surface Surface { get; set; }
         public int NumberOfRounds { get; set; }
+    }
 
+    public class TournamentWithEditionsResponseModel : TournamentResponseModel
+    {
         public ICollection<TournamentEditionResponseModel> TournamentEditions { get; set; }
     }
 }

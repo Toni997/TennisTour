@@ -26,6 +26,7 @@ public static class ApplicationDependencyInjection
     private static void AddServices(this IServiceCollection services, IWebHostEnvironment env)
     {
         services.AddScoped<ITournamentService, TournamentService>();
+        services.AddScoped<ITournamentEditionService, TournametEditionService>();
         services.AddScoped<ITodoListService, TodoListService>();
         services.AddScoped<ITodoItemService, TodoItemService>();
         services.AddScoped<IUserService, UserService>();
