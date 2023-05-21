@@ -18,6 +18,12 @@ namespace TennisTour.UI.AuthProviders
             _jsRuntime = jsRuntime;
         }
 
+        public async Task Logout()
+        {
+            await RemoveUserFromStorage();
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        }
+
 
         public async void SetUser(LoginResponseModel user)
         {
@@ -31,6 +37,11 @@ namespace TennisTour.UI.AuthProviders
             var identity = cahcedUser != null ? new ClaimsIdentity(GetUserClaims(cahcedUser), "Custom authentication") : new ClaimsIdentity();
             var user = new ClaimsPrincipal(identity);
             return await Task.FromResult(new AuthenticationState(user));
+        }
+
+        private async Task RemoveUserFromStorage()
+        {
+            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "CurrentUser");
         }
 
         private static IEnumerable<Claim> GetUserClaims(LoginResponseModel user)
