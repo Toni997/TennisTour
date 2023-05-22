@@ -14,7 +14,7 @@ namespace TennisTour.DataAccess.Repositories.Impl
 
         public Task<ContenderInfo> GetContenderInfoOfUsenameAsync(string username)
         {
-            return GetFirstAsync((contenderInfo) =>  contenderInfo.Contender.UserName == username);
+            return GetOneAsync((contenderInfo) =>  contenderInfo.Contender.UserName == username);
         }
     }
 }

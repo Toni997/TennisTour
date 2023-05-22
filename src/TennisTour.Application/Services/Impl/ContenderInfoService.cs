@@ -24,15 +24,15 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task<ContenderInfoResponseModel>  EditContenderInfoAsync(ContenderInfoResponseModel contenderInfo)
         {
-            var toUpdate = await _contenderInfoRepository.GetFirstAsync((e) => e.Id == contenderInfo.Id);
-            toUpdate.RetiredOn = contenderInfo.RetiredOn;   
-            toUpdate.DateOfBirth = contenderInfo.DateOfBirth;   
+            var toUpdate = await _contenderInfoRepository.GetOneAsync((e) => e.Id == contenderInfo.Id);
+            toUpdate.RetiredOn = contenderInfo.RetiredOn;
+            toUpdate.DateOfBirth = (DateTime)contenderInfo.DateOfBirth;   
             toUpdate.FirstName  = contenderInfo.FirstName;  
             toUpdate.LastName = contenderInfo.LastName;
             toUpdate.BackhandType = contenderInfo.BackhandType;
             toUpdate.DominantHand = contenderInfo.DominantHand;
             toUpdate.HeightCm = contenderInfo.HeightCm;
-            toUpdate.TurnedProOn = contenderInfo.TurnedProOn;   
+            toUpdate.TurnedProOn = (DateTime)contenderInfo.TurnedProOn;
             toUpdate.WeightKg = contenderInfo.WeightKg; 
             var updateResult = await _contenderInfoRepository.UpdateAsync(toUpdate);
             var response = _mapper.Map<ContenderInfoResponseModel>(updateResult);

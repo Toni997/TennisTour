@@ -76,7 +76,7 @@
 		{
 			var content = new JsonNewtonContent(loginResponse.Username);
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse.Token);
-			var uri = new UriBuilder(Constants.baseUrl + "/ContenderInfo");
+			var uri = new UriBuilder(ApiConstants.BaseUrl + ApiConstants.GetContenderInfo);
 	
 			uri.Query = "contenderUsername=" + loginResponse.Username;
 			var result = await client.GetAsync(uri.Uri);
@@ -121,7 +121,7 @@
 		if (loginResponse != null)
 		{
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse.Token);
-			var uri = new UriBuilder(Constants.baseUrl + "/ContenderInfo/edit");
+			var uri = new UriBuilder(ApiConstants.BaseUrl + ApiConstants.SaveContenderInfo);
 			if(ContenderInfo != null)
 			{
 				var content = new JsonNewtonContent(ContenderInfo);
