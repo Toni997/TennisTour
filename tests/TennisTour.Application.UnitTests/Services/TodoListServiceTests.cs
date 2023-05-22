@@ -64,7 +64,7 @@ public class TodoListServiceTests : BaseServiceTestConfiguration
         var updateTodoListModel = Builder<UpdateTodoListModel>.CreateNew().Build();
         var todoList = Builder<TodoList>.CreateNew().Build();
 
-        TodoListRepository.GetFirstAsync(Arg.Any<Expression<Func<TodoList, bool>>>()).Returns(todoList);
+        TodoListRepository.GetOneAsync(Arg.Any<Expression<Func<TodoList, bool>>>()).Returns(todoList);
 
         //Act
         Func<Task> callUpdateAsync = async () => await _sut.UpdateAsync(Guid.NewGuid(), updateTodoListModel);
@@ -72,7 +72,7 @@ public class TodoListServiceTests : BaseServiceTestConfiguration
         //Assert
         await callUpdateAsync.Should().ThrowAsync<BadRequestException>()
             .WithMessage("The selected list does not belong to you");
-        await TodoListRepository.Received().GetFirstAsync(Arg.Any<Expression<Func<TodoList, bool>>>());
+        await TodoListRepository.Received().GetOneAsync(Arg.Any<Expression<Func<TodoList, bool>>>());
         ClaimService.Received().GetUserId();
     }
 
@@ -87,7 +87,7 @@ public class TodoListServiceTests : BaseServiceTestConfiguration
             .With(tl => tl.Id = todoListId)
             .Build();
 
-        TodoListRepository.GetFirstAsync(Arg.Any<Expression<Func<TodoList, bool>>>()).Returns(todoList);
+        TodoListRepository.GetOneAsync(Arg.Any<Expression<Func<TodoList, bool>>>()).Returns(todoList);
         TodoListRepository.UpdateAsync(Arg.Any<TodoList>()).Returns(todoList);
 
         //Act
@@ -95,7 +95,7 @@ public class TodoListServiceTests : BaseServiceTestConfiguration
 
         //Assert
         result.Id.Should().Be(todoListId);
-        await TodoListRepository.Received().GetFirstAsync(Arg.Any<Expression<Func<TodoList, bool>>>());
+        await TodoListRepository.Received().GetOneAsync(Arg.Any<Expression<Func<TodoList, bool>>>());
         ClaimService.Received().GetUserId();
         await TodoListRepository.Received().UpdateAsync(Arg.Any<TodoList>());
     }
@@ -110,7 +110,7 @@ public class TodoListServiceTests : BaseServiceTestConfiguration
             .With(tl => tl.Id = todoListId)
             .Build();
 
-        TodoListRepository.GetFirstAsync(Arg.Any<Expression<Func<TodoList, bool>>>()).Returns(todoList);
+        TodoListRepository.GetOneAsync(Arg.Any<Expression<Func<TodoList, bool>>>()).Returns(todoList);
         TodoListRepository.DeleteAsync(Arg.Any<TodoList>()).Returns(todoList);
 
         //Act
@@ -118,7 +118,7 @@ public class TodoListServiceTests : BaseServiceTestConfiguration
 
         //Assert
         result.Id.Should().Be(todoListId);
-        await TodoListRepository.Received().GetFirstAsync(Arg.Any<Expression<Func<TodoList, bool>>>());
+        await TodoListRepository.Received().GetOneAsync(Arg.Any<Expression<Func<TodoList, bool>>>());
         await TodoListRepository.Received().DeleteAsync(Arg.Any<TodoList>());
     }
 }

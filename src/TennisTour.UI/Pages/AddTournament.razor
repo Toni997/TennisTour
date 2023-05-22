@@ -1,0 +1,67 @@
+﻿@page "/tournaments/add"
+@using TennisTour.Application.Models.Validators.Tournament
+@using TennisTour.Application.Models.Tournament
+@using TennisTour.Core.Enums
+@using TennisTour.Core.Helpers
+@attribute [Authorize(Roles = Roles.Admin)]
+
+<PageTitle>Add Tournament | TennisTour</PageTitle>
+
+<MudText Typo="Typo.h1" GutterBottom="true">Add Tournament</MudText>
+
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+<MudCard>
+    <MudForm Model="@model" @ref="@form" Validation="@(upsertTournamentValidator.ValidateValue)" ValidationDelay="0">
+        <MudCardContent>
+            <MudTextField @bind-Value="model.Name"
+                        For="@(() => model.Name)"
+                        Immediate="true"
+                        Label="Name"
+                        Variant="Variant.Outlined"
+                        Class="mb-4" />
+            <MudSelect T="Series" For="@(() => model.Series)" @bind-Value="model.Series" Label="Series" Immediate="true" Variant="Variant.Outlined" Class="mb-4">
+                <MudSelectItem T="Series" Value="Series.TTChallenger" />
+                <MudSelectItem T="Series" Value="Series.TT250" />
+                <MudSelectItem T="Series" Value="Series.TT500" />
+                <MudSelectItem T="Series" Value="Series.TTMasters1000" />
+                <MudSelectItem T="Series" Value="Series.TTFinals" />
+                <MudSelectItem T="Series" Value="Series.TTGrandSlam" />
+            </MudSelect>
+            <MudSelect T="Surface" For="@(() => model.Surface)" @bind-Value="model.Surface" Label="Surface" Immediate="true" Variant="Variant.Outlined" Class="mb-4">
+                <MudSelectItem T="Surface" Value="Surface.Grass" />
+                <MudSelectItem T="Surface" Value="Surface.Clay" />
+                <MudSelectItem T="Surface" Value="Surface.Hard" />
+            </MudSelect>
+            <MudNumericField
+                        @bind-Value="model.NumberOfRounds"
+                        For="(() => model.NumberOfRounds)"
+                        Immediate="true"
+                        Label="Number Of Rounds"
+                        Variant="Variant.Outlined" />
+        </MudCardContent>
+    </MudForm>
+    <MudCardActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@(async () => await Submit())">Save</MudButton>
+    </MudCardActions>
+</MudCard>
+
+@code {
+    [Inject] ISnackbar Snackbar { get; set; }
+
+    // TODO put the form in a component so we can re-use it for edit
+    private MudForm form;
+    private UpsertTournamentModel model = new UpsertTournamentModel();
+    private UpsertTournamentModelValidator upsertTournamentValidator = new UpsertTournamentModelValidator();
+
+    private async Task Submit()
+    {
+        await form.Validate();
+
+        if (form.IsValid)
+        {
+            // TODO send http post request
+            Snackbar.Add("Submit!");
+        }
+    }
+}

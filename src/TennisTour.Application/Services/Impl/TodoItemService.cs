@@ -32,7 +32,7 @@ public class TodoItemService : ITodoItemService
     public async Task<CreateTodoItemResponseModel> CreateAsync(CreateTodoItemModel createTodoItemModel,
         CancellationToken cancellationToken = default)
     {
-        var todoList = await _todoListRepository.GetFirstAsync(tl => tl.Id == createTodoItemModel.TodoListId);
+        var todoList = await _todoListRepository.GetOneAsync(tl => tl.Id == createTodoItemModel.TodoListId);
         var todoItem = _mapper.Map<TodoItem>(createTodoItemModel);
 
         todoItem.List = todoList;
@@ -46,7 +46,7 @@ public class TodoItemService : ITodoItemService
     public async Task<UpdateTodoItemResponseModel> UpdateAsync(Guid id, UpdateTodoItemModel updateTodoItemModel,
         CancellationToken cancellationToken = default)
     {
-        var todoItem = await _todoItemRepository.GetFirstAsync(ti => ti.Id == id);
+        var todoItem = await _todoItemRepository.GetOneAsync(ti => ti.Id == id);
 
         _mapper.Map(updateTodoItemModel, todoItem);
 
@@ -58,7 +58,7 @@ public class TodoItemService : ITodoItemService
 
     public async Task<BaseResponseModel> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var todoItem = await _todoItemRepository.GetFirstAsync(ti => ti.Id == id);
+        var todoItem = await _todoItemRepository.GetOneAsync(ti => ti.Id == id);
 
         return new BaseResponseModel
         {

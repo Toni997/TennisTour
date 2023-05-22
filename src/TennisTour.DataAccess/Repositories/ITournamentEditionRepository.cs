@@ -9,5 +9,8 @@ namespace TennisTour.DataAccess.Repositories
 {
     public interface ITournamentEditionRepository : IBaseRepository<TournamentEdition>
     {
+        Task<TournamentEdition> GetByIdWithMatchesAsync(Guid id);
+
+        Task<IList<TournamentEdition>> GetAllOrderedByDateStartDescAsync();
     }
 }

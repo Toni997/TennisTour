@@ -71,7 +71,7 @@ public class UserService : IUserService
         if (!signInResult.Succeeded)
             throw new BadRequestException("Username or password is incorrect");
 
-        var token = JwtHelper.GenerateToken(user, _configuration);
+        var token = await JwtHelper.GenerateToken(user, _configuration, _userManager);
 
         return new LoginResponseModel
         {

@@ -64,7 +64,7 @@
 		registerUserModel.Password = Password;
 		registerUserModel.Email = Email;
 		var content = new JsonNewtonContent(registerUserModel);
-		var result = await client.PostAsync(Constants.baseUrl + "/Users", content);
+		var result = await client.PostAsync(ApiConstants.RegisterRoute, content);
 		if(result.Content != null)
 		{
 			var apiResult = JsonConvert.DeserializeObject<ApiResult<CreateUserResponseModel>>(await result.Content.ReadAsStringAsync());
