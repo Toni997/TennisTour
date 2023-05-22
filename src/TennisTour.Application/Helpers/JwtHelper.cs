@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using TennisTour.Core.Entities;
@@ -9,7 +10,7 @@ namespace TennisTour.Application.Helpers;
 
 public static class JwtHelper
 {
-    public static string GenerateToken(ApplicationUser user, IConfiguration configuration)
+    public static async Task<string> GenerateToken(ApplicationUser user, IConfiguration configuration, UserManager<ApplicationUser> userManager)
     {
         var secretKey = configuration.GetValue<string>("JwtConfiguration:SecretKey");
 
@@ -17,14 +18,21 @@ public static class JwtHelper
 
         var tokenHandler = new JwtSecurityTokenHandler();
 
+        var userRoles = await userManager.GetRolesAsync(user);
+        var roleClaims = new List<Claim>();
+        foreach (var role in userRoles)
+        {
+            roleClaims.Add(new Claim(ClaimTypes.Role, role));
+        }
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[]
+            Subject = new ClaimsIdentity(new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id),
                 new Claim(ClaimTypes.Name, user.UserName),
-                new Claim(ClaimTypes.Email, user.Email)
-            }),
+                new Claim(ClaimTypes.Email, user.Email),
+            }.Concat(roleClaims)),
             Expires = DateTime.UtcNow.AddDays(7),
             SigningCredentials =
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
