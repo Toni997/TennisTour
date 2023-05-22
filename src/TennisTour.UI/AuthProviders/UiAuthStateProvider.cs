@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,9 +21,11 @@ namespace TennisTour.UI.AuthProviders
                 return Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
             }
 
-           var claims = ParseClaimsFromJwt(accessToken);
+            var claims = ParseClaimsFromJwt(accessToken);
 
-        var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
+            var claimsIdentity = new ClaimsIdentity(claims, "jwt");
+
+            var user = new ClaimsPrincipal(claimsIdentity);
 
             return Task.FromResult(new AuthenticationState(user));
         }
@@ -31,7 +34,25 @@ namespace TennisTour.UI.AuthProviders
         {
             var claims = ParseClaimsFromJwt(accessToken);
 
-            var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
+            var claimsIdentity = new ClaimsIdentity(claims, "jwt");
+
+            var roleClaims = claimsIdentity.FindAll("role").ToList();
+            foreach (var claim in roleClaims)
+            {
+                var newClaim = new Claim(ClaimTypes.Role, claim.Value);
+                claimsIdentity.AddClaim(newClaim);
+                claimsIdentity.RemoveClaim(claim);
+            }
+
+            var nameClaim = claimsIdentity.FindFirst("name");
+            if (nameClaim != null)
+            {
+                var newNameClaim = new Claim(ClaimTypes.Name, nameClaim.Value);
+                claimsIdentity.AddClaim(newNameClaim);
+                claimsIdentity.RemoveClaim(nameClaim);
+            }
+
+            var user = new ClaimsPrincipal(claimsIdentity);
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
         }

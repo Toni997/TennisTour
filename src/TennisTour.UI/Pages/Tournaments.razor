@@ -50,7 +50,6 @@ else {
 }
 
 @code {
-    // TODO role authorization doesn't work
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
 
@@ -59,15 +58,9 @@ else {
 
     protected override async Task OnInitializedAsync()
     {
-        // testing role claims
         var authState = await AuthState;
         var user = authState.User;
-        Console.WriteLine(user.IsInRole("Admin"));
-        foreach(var claim in user.Claims)
-        {
-            Console.WriteLine(claim.Type);
-            Console.WriteLine(claim.Value);
-        }
+
         try
         {
             // TODO use GetFromJsonAsync
