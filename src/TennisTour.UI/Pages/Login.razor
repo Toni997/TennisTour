@@ -32,9 +32,9 @@
 	private string StatusMessage { get; set; }
 	private bool errorVisibility = false;
 	@inject NavigationManager NavigationManager;
-	[Inject]
-	 private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
+	[Inject]
+	private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
 	InputType PasswordInput = InputType.Password;
 	string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;

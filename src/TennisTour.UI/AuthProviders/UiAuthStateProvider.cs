@@ -34,7 +34,6 @@ namespace TennisTour.UI.AuthProviders
             var user = new ClaimsPrincipal(new ClaimsIdentity(claims, "jwt"));
 
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
-         
         }
 
         private static IEnumerable<Claim> ParseClaimsFromJwt(string token)

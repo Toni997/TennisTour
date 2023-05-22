@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TennisTour.Application.Common.Email;
+using TennisTour.Application.Helpers;
 using TennisTour.Application.MappingProfiles;
 using TennisTour.Application.Services;
 using TennisTour.Application.Services.DevImpl;

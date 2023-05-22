@@ -32,7 +32,7 @@ else {
             <PropertyColumn Property="x => x.Series"/>
             <PropertyColumn Property="x => x.Surface" />
             <PropertyColumn Property="x => x.NumberOfRounds" Title="Number Of Rounds" />
-            <TemplateColumn StickyRight="true">
+            <TemplateColumn StickyRight="true" Sortable="false" Filterable="false">
                 <CellTemplate>
                     <MudTooltip Text="Edit Tournament">
                         <MudIconButton Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
@@ -50,11 +50,24 @@ else {
 }
 
 @code {
+    // TODO role authorization doesn't work
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
     private bool isLoading = false;
     private List<TournamentResponseModel> tournaments;
 
     protected override async Task OnInitializedAsync()
     {
+        // testing role claims
+        var authState = await AuthState;
+        var user = authState.User;
+        Console.WriteLine(user.IsInRole("Admin"));
+        foreach(var claim in user.Claims)
+        {
+            Console.WriteLine(claim.Type);
+            Console.WriteLine(claim.Value);
+        }
         try
         {
             // TODO use GetFromJsonAsync
