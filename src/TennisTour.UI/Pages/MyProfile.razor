@@ -1,17 +1,25 @@
-﻿@using TennisTour.Application.Models.User;
+﻿@page "/myProfile"
+@using Newtonsoft.Json;
+@using System.Net.Http.Headers;
+@using TennisTour.Application.Helpers;
+@using TennisTour.Application.Models;
+@using TennisTour.Application.Models.User;
 @using TennisTour.Core.Enums;
+@using TennisTour.UI.AuthProviders;
 @using TennisTour.UI.Common;
 @inject HttpClient client;
+@using MudBlazor
 <h3>MyProfile</h3>
-<MudCard>
-    <MudCardContent>
-        <MudTypography Variant="TypographyVariant.h4">Contender Info</MudTypography>
-
+<MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="0">
+<MudCard Class="ma-6">
+	@if(ContenderInfo != null)
+	{
+		<MudCardContent>
         <MudTextField Label="First Name" @bind-Value="@ContenderInfo.FirstName" />
 
         <MudTextField Label="Last Name" @bind-Value="@ContenderInfo.LastName" />
 
-		<MudDatePicker Label="Date of Birth" Date="@ContenderInfo.DateOfBirth" />
+			<MudDatePicker Label="Date of Birth" @bind-Date="@ContenderInfo.DateOfBirth" />
 
         <MudNumericField Label="Weight (kg)" @bind-Value="@ContenderInfo.WeightKg" />
 
@@ -20,37 +28,136 @@
         <MudSelect Label="Backhand Type" @bind-Value="@ContenderInfo.BackhandType">
             @foreach (BackhandType backhandType in Enum.GetValues(typeof(BackhandType)))
             {
-                <MudOption Value="@(backhandType.ToString())">@backhandType</MudOption>
+                <MudSelectItem Value="@backhandType"/>
             }
         </MudSelect>
 
         <MudSelect Label="Dominant Hand" @bind-Value="@ContenderInfo.DominantHand">
             @foreach (Hand hand in Enum.GetValues(typeof(Hand)))
             {
-                <MudOption Value="@(hand.ToString())">@hand</MudOption>
+					<MudSelectItem Value="@hand"/>
             }
         </MudSelect>
 
-		<MudDatePicker Label="Turned Pro On" Date="@ContenderInfo.TurnedProOn" />
+			<MudDatePicker Label="Turned Pro On" @bind-Date="@ContenderInfo.TurnedProOn" />
 
-		<MudDatePicker Label="Retired On" Date="@ContenderInfo.RetiredOn" />
+			<MudDatePicker Label="Retired On" @bind-Date="@ContenderInfo.RetiredOn" />
 
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveContenderInfo">Save</MudButton>
-    </MudCardContent>
+   
+		</MudCardContent>
+	} 
+	else
+	{
+		<MudProgressCircular Color="Color.Default" Indeterminate="true" />
+	}
+
 </MudCard>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveContenderInfo">Save</MudButton>
+@if(ErrorVisibility)
+{
+	<MudAlert Severity="Severity.Error">@StatusMessage</MudAlert>
+}
+</MudPaper>
+
+
 
 @code {
-    private ContenderInfoResponseModel ContenderInfo { get; set; }
+	private string StatusMessage = "";
+	private bool ErrorVisibility = false;
+	@inject NavigationManager NavigationManager;
+	[Inject]
+	private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    private ContenderInfoResponseModel? ContenderInfo { get; set; }
 
-    protected override async void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        ContenderInfo = new ContenderInfoResponseModel();
-    }
+		var loginResponse = await ((UiAuthStateProvider)AuthenticationStateProvider).RetrieveUserFromStorage();
+		if(loginResponse != null)
+		{
+			var content = new JsonNewtonContent(loginResponse.Username);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse.Token);
+			var uri = new UriBuilder(Constants.baseUrl + "/ContenderInfo");
+	
+			uri.Query = "contenderUsername=" + loginResponse.Username;
+			var result = await client.GetAsync(uri.Uri);
 
-    private void SaveContenderInfo()
+			if (result.Content != null)
+			{
+				var json = await result.Content.ReadAsStringAsync();
+				var response = JsonConvert.DeserializeObject<ApiResult<ContenderInfoResponseModel>>(json);
+				if (response?.Errors.Any() == true)
+				{
+					StatusMessage = String.Join(", ", response.Errors);
+					ErrorVisibility = true;
+				}
+				else if (response?.Result != null)
+				{
+					ErrorVisibility = false;
+					ContenderInfo = response.Result;
+				}
+				else
+				{
+					StatusMessage = result.StatusCode.ToString();
+					ErrorVisibility = true;
+				}
+
+			} else
+			{
+				StatusMessage = "Unknown error";
+				ErrorVisibility = true;
+			}
+		} else
+		{
+			StatusMessage = "Not authorized";
+			ErrorVisibility = true;
+		}
+
+	
+	}
+
+    private async Task SaveContenderInfo()
     {
-        // Perform the save operation with the updated ContenderInfo
-        // You can access the updated values through the ContenderInfo property
-        // For example: ContenderInfo.FirstName, ContenderInfo.LastName, etc.
+		var loginResponse = await ((UiAuthStateProvider)AuthenticationStateProvider).RetrieveUserFromStorage();
+		if (loginResponse != null)
+		{
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse.Token);
+			var uri = new UriBuilder(Constants.baseUrl + "/ContenderInfo/edit");
+			if(ContenderInfo != null)
+			{
+				var content = new JsonNewtonContent(ContenderInfo);
+				var result = await client.PutAsync(uri.Uri, content);
+				if(result.Content != null)
+				{
+					var response = JsonConvert.DeserializeObject<ApiResult<ContenderInfoResponseModel>>(await result.Content.ReadAsStringAsync());
+					if(response?.Succeeded == true)
+					{
+						ErrorVisibility = false;
+					} else
+					{
+						if(response?.Errors?.Any() == true)
+						{
+							ErrorVisibility = true;
+							StatusMessage = String.Join(", ", response?.Errors!);
+						} else
+						{
+							ErrorVisibility = true;
+							StatusMessage = result.StatusCode.ToString();
+						}
+
+					}
+				}else
+				{
+					ErrorVisibility = true;
+					StatusMessage = "Unknown error!";
+				}
+			}
+			
+
+		} else
+		{
+			ErrorVisibility = true;
+			StatusMessage = "Not authorized!";
+		}
+
     }
 }

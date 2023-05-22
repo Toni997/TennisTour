@@ -5,11 +5,12 @@
     <MudNavLink Href="fetchdata" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Fetch data</MudNavLink>
 	<AuthorizeView>
 		<Authorized>
+			<MudNavLink Href="myProfile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">My profile</MudNavLink>
 			<MudButton OnClick="Logout">Logout</MudButton>
 		</Authorized>
 		<NotAuthorized>
-			<MudNavLink Href="login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Login</MudNavLink>
-			<MudNavLink Href="register" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Register</MudNavLink>
+			<MudNavLink Href="login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
+			<MudNavLink Href="register" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AppRegistration">Register</MudNavLink>
 		</NotAuthorized>
 	</AuthorizeView>
 </MudNavMenu>

@@ -22,17 +22,28 @@ namespace TennisTour.Application.Services.Impl
             _mapper = mapper;
         }
 
-        public async Task<ContenderInfoResponseModel>  EditContenderInfoAsync(ContenderInfo contenderInfo)
+        public async Task<ContenderInfoResponseModel>  EditContenderInfoAsync(ContenderInfoResponseModel contenderInfo)
         {
-            var updateResult = await _contenderInfoRepository.UpdateAsync(contenderInfo);
+            var toUpdate = await _contenderInfoRepository.GetFirstAsync((e) => e.Id == contenderInfo.Id);
+            toUpdate.RetiredOn = contenderInfo.RetiredOn;   
+            toUpdate.DateOfBirth = contenderInfo.DateOfBirth;   
+            toUpdate.FirstName  = contenderInfo.FirstName;  
+            toUpdate.LastName = contenderInfo.LastName;
+            toUpdate.BackhandType = contenderInfo.BackhandType;
+            toUpdate.DominantHand = contenderInfo.DominantHand;
+            toUpdate.HeightCm = contenderInfo.HeightCm;
+            toUpdate.TurnedProOn = contenderInfo.TurnedProOn;   
+            toUpdate.WeightKg = contenderInfo.WeightKg; 
+            var updateResult = await _contenderInfoRepository.UpdateAsync(toUpdate);
             var response = _mapper.Map<ContenderInfoResponseModel>(updateResult);
             return response;
         }
 
-        public async Task<ContenderInfoResponseModel> GetContenderInfoAsync(ApplicationUser applicationUser)
+        public async Task<ContenderInfoResponseModel> GetContenderInfoAsync(string contenderUsername)
         {
-            var contenderInfo = await _contenderInfoRepository.GetContenderInfoOfApplicationUserAsync(applicationUser);
+            var contenderInfo = await _contenderInfoRepository.GetContenderInfoOfUsenameAsync(contenderUsername);
             var response = _mapper.Map<ContenderInfoResponseModel>(contenderInfo);
+            response.Id = contenderInfo.Id; 
             return response;
         }
     }

@@ -10,5 +10,6 @@ public class UserProfile : Profile
     {
         CreateMap<CreateUserModel, ApplicationUser>();
         CreateMap<ContenderInfoResponseModel, ContenderInfo>();
+        CreateMap<ContenderInfo, ContenderInfoResponseModel>();
     }
 }

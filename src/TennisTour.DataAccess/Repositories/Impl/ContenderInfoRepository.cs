@@ -12,9 +12,9 @@ namespace TennisTour.DataAccess.Repositories.Impl
     {
         public ContenderInfoRepository(DatabaseContext context) : base(context) { }
 
-        public Task<ContenderInfo> GetContenderInfoOfApplicationUserAsync(ApplicationUser applicationUser)
+        public Task<ContenderInfo> GetContenderInfoOfUsenameAsync(string username)
         {
-            return GetFirstAsync((contenderInfo) =>  contenderInfo.Contender == applicationUser);
+            return GetFirstAsync((contenderInfo) =>  contenderInfo.Contender.UserName == username);
         }
     }
 }

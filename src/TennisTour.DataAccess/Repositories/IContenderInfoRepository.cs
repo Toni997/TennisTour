@@ -9,6 +9,6 @@ namespace TennisTour.DataAccess.Repositories
 {
     public interface IContenderInfoRepository : IBaseRepository<ContenderInfo>
     {
-        Task<ContenderInfo> GetContenderInfoOfApplicationUserAsync(ApplicationUser applicationUser);
+        Task<ContenderInfo> GetContenderInfoOfUsenameAsync(string username);
     }
 }

@@ -62,7 +62,7 @@ namespace TennisTour.UI.AuthProviders
             await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "CurrentUser", serializedUser);
         }
 
-        private async Task<LoginResponseModel?> RetrieveUserFromStorage()
+        public async Task<LoginResponseModel?> RetrieveUserFromStorage()
         {
             var serializedUser = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "CurrentUser");
             if (!string.IsNullOrEmpty(serializedUser))
