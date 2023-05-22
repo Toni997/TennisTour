@@ -1,20 +1,14 @@
 ﻿@page "/tournaments"
 @using TennisTour.Application.Models.Tournament;
-@using TennisTour.Application.Models;
-@using TennisTour.UI.Common;
-@using Newtonsoft.Json;
-@using TennisTour.Core.Helpers
-@inject HttpClient HttpClient;
-@inject NavigationManager NavigationManager;
 
-<PageTitle>Tournaments | TennisTour</PageTitle>
+<PageTitle>Tournaments | Tennis Tour</PageTitle>
 
 <MudText Typo="Typo.h1" GutterBottom="true">Tournaments</MudText>
 
 <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
 <AuthorizeView Roles="@Roles.Admin">
-    <MudButton OnClick="@(() => NavigationManager.NavigateTo("/tournaments/add"))" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">Add Tournament</MudButton>
+    <MudButton OnClick="@(() => NavigationManager.NavigateTo(UiConstants.TournamentsAddRoute))" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">Add Tournament</MudButton>
 </AuthorizeView>
 
 @if (tournaments == null)
@@ -34,12 +28,17 @@ else {
             <PropertyColumn Property="x => x.NumberOfRounds" Title="Number Of Rounds" />
             <TemplateColumn StickyRight="true" Sortable="false" Filterable="false">
                 <CellTemplate>
-                    <MudTooltip Text="Edit Tournament">
-                        <MudIconButton Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
+                    <MudTooltip Text="Tournament Details">
+                        <MudIconButton OnClick="@((e) => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentDetailsRoute, context.Item?.Id)))" Color="Color.Primary" Size="@Size.Small" Icon="@Icons.Material.Outlined.Visibility" />
                     </MudTooltip>
-                        <MudTooltip Text="Delete Tournament">
-                        <MudIconButton Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" />
-                    </MudTooltip>
+                    <AuthorizeView Roles="@Roles.Admin" Context="authorize">
+                        <MudTooltip Text="Edit Tournament">
+                            <MudIconButton Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@EditClick"/>
+                        </MudTooltip>
+                            <MudTooltip Text="Delete Tournament">
+                            <MudIconButton Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="@DeleteClick" />
+                        </MudTooltip>
+                    </AuthorizeView>
                 </CellTemplate>
             </TemplateColumn>
         </Columns>
@@ -63,7 +62,6 @@ else {
 
         try
         {
-            // TODO use GetFromJsonAsync
             var response = await HttpClient.GetStringAsync(ApiConstants.TournamentsGetAllRoute);
             var apiResult = JsonConvert.DeserializeObject<ApiResult<List<TournamentResponseModel>>>(response);
             tournaments = apiResult.Result;
@@ -72,5 +70,16 @@ else {
         {
             Console.WriteLine($"HTTP request failed: {ex.Message}");
         }
+    }
+
+    private async Task EditClick(Guid id)
+    {
+        NavigationManager.NavigateTo(String.Format(UiConstants.TournamentsEditRoute, id));
+    }
+
+    //TODO open dialog
+    private async Task DeleteClick(Guid id)
+    {
+
     }
 }

@@ -1,0 +1,126 @@
+﻿@page "/tournaments/{TournamentId:guid}"
+@using TennisTour.Application.Models.Tournament;
+@using TennisTour.Application.Models.TournamentEdition;
+@using TennisTour.Application.Models.User;
+
+
+@if (tournament == null)
+{
+    <PageTitle>Loading... | Tennis Tour</PageTitle>
+
+    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+}
+else
+{
+    <PageTitle>@tournament.Name | Tennis Tour</PageTitle>
+
+    <MudText Typo="Typo.h2" GutterBottom="true">@tournament.Name</MudText>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+    <MudText>Series: @tournament.Series</MudText>
+    <MudText>Surface: @tournament.Surface</MudText>
+    <MudText>Rounds: @tournament.NumberOfRounds</MudText>
+    <MudText class="mt-4" Typo="Typo.h3" GutterBottom="true">Editions</MudText>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+    if (tournament.TournamentEditions.Count == 0)
+    {
+        <MudAlert Severity="Severity.Info">No tournament editions to display</MudAlert>
+    }
+    else
+    {
+        <MudDataGrid T="TournamentEditionResponseModel" Items="@tournament.TournamentEditions" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
+            <Columns>
+                <PropertyColumn Property="x => x.DateStart" Format="d" Title="Start Date" />
+                <PropertyColumn Property="x => x.DateEnd" Format="d" Title="End Date" />
+                <TemplateColumn Title="Registrations Open">
+                    <CellTemplate>
+                        @if (context.Item.IsRegistrationTimeOver)
+                        {
+                            <MudTooltip Text="Closed">
+                                <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" />
+                            </MudTooltip>
+                        }
+                        else
+                        {
+                            <MudTooltip Text="Open">
+                                <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" />
+                            </MudTooltip>
+                        }
+                    </CellTemplate>
+                </TemplateColumn>
+                <TemplateColumn Title="Winner" SortBy="@(x => GetWinnerForSorting(x.Winner))">
+                    <CellTemplate>
+                        @if (context.Item?.Winner != null)
+                        {
+                            <MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.Winner.Id)">
+                                @context.Item.Winner.ContenderInfo.FirstName @context.Item.Winner.ContenderInfo.LastName
+                            </MudLink>
+                        }
+                        else
+                        {
+                            <MudText>Undecided</MudText>
+                        }
+                    </CellTemplate>
+                </TemplateColumn>
+                <TemplateColumn StickyRight="true" Sortable="false" Filterable="false">
+                    <CellTemplate>
+                        <MudTooltip Text="Tournament Edition Details">
+                            <MudIconButton OnClick="@((e) => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionDetailsRoute, context.Item?.Id)))" Color="Color.Primary" Size="@Size.Small" Icon="@Icons.Material.Outlined.Visibility" />
+                        </MudTooltip>
+                        <AuthorizeView Roles="@Roles.Admin" Context="authorize">
+                            <MudTooltip Text="Edit Tournament Edition">
+                                <MudIconButton Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
+                            </MudTooltip>
+                            <MudTooltip Text="Delete Tournament Edition">
+                                <MudIconButton Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" />
+                            </MudTooltip>
+                        </AuthorizeView>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="TournamentEditionResponseModel" />
+            </PagerContent>
+        </MudDataGrid>
+    }
+}
+
+
+@code {
+    [Parameter]
+    public Guid TournamentId { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private TournamentWithEditionsResponseModel tournament;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState;
+        var user = authState.User;
+
+        try
+        {
+            var response = await HttpClient.GetStringAsync(String.Format(ApiConstants.TournamentsGetOneRoute, TournamentId));
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentWithEditionsResponseModel>>(response);
+            tournament = apiResult.Result;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+    }
+
+    private string GetWinnerForSorting(ContenderResponseModel contender)
+    {
+        if (contender != null)
+        {
+            return $"{contender.ContenderInfo.FirstName} {contender.ContenderInfo.LastName}";
+        }
+        else
+        {
+            return "Undecided";
+        }
+    }
+}
