@@ -4,6 +4,7 @@
 @using TennisTour.Application.Helpers;
 @using TennisTour.Application.Models;
 @using TennisTour.Application.Models.User;
+@using TennisTour.Application.Models.Validators.User;
 @using TennisTour.Core.Enums;
 @using TennisTour.UI.AuthProviders;
 @using TennisTour.UI.Common;
@@ -14,6 +15,7 @@
 <MudCard Class="ma-6">
 	@if(ContenderInfo != null)
 	{
+			<MudForm Model="@ContenderInfo" @ref="@Form" Validation="@(ContenderInfoValidator.ValidateValue)" ValidationDelay="0">
 		<MudCardContent>
         <MudTextField Label="First Name" @bind-Value="@ContenderInfo.FirstName" />
 
@@ -45,6 +47,7 @@
 
    
 		</MudCardContent>
+		</MudForm>
 	} 
 	else
 	{
@@ -62,29 +65,36 @@
 
 
 @code {
+	private MudForm Form;
+		private ContenderInfoValidator ContenderInfoValidator = new ContenderInfoValidator();
 	private string StatusMessage = "";
 	private bool ErrorVisibility = false;
 	@inject NavigationManager NavigationManager;
 	[Inject]
 	private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-    private ContenderInfoResponseModel? ContenderInfo { get; set; }
+    private ContenderInfoDto? ContenderInfo { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-		var loginResponse = await ((UiAuthStateProvider)AuthenticationStateProvider).RetrieveUserFromStorage();
-		if(loginResponse != null)
+		await GetInfo();
+	}
+
+	private async Task GetInfo()
+	{
+		var loginResponse = await((UiAuthStateProvider)AuthenticationStateProvider).RetrieveUserFromStorage();
+		if (loginResponse != null)
 		{
 			var content = new JsonNewtonContent(loginResponse.Username);
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse.Token);
 			var uri = new UriBuilder(ApiConstants.BaseUrl + ApiConstants.GetContenderInfo);
-	
+
 			uri.Query = "contenderUsername=" + loginResponse.Username;
 			var result = await client.GetAsync(uri.Uri);
 
 			if (result.Content != null)
 			{
 				var json = await result.Content.ReadAsStringAsync();
-				var response = JsonConvert.DeserializeObject<ApiResult<ContenderInfoResponseModel>>(json);
+				var response = JsonConvert.DeserializeObject<ApiResult<ContenderInfoDto>>(json);
 				if (response?.Errors.Any() == true)
 				{
 					StatusMessage = String.Join(", ", response.Errors);
@@ -95,28 +105,40 @@
 					ErrorVisibility = false;
 					ContenderInfo = response.Result;
 				}
-				else
+				else if(response?.Succeeded == true)
 				{
+					ErrorVisibility = false;
+					ContenderInfo = new ContenderInfoDto();
+
+				}
+				else {
 					StatusMessage = result.StatusCode.ToString();
 					ErrorVisibility = true;
 				}
 
-			} else
+			}
+			else
 			{
 				StatusMessage = "Unknown error";
 				ErrorVisibility = true;
 			}
-		} else
+		}
+		else
 		{
 			StatusMessage = "Not authorized";
 			ErrorVisibility = true;
 		}
-
-	
 	}
 
     private async Task SaveContenderInfo()
     {
+		await Form.Validate();
+		if (!Form.IsValid)
+		{
+			StatusMessage = String.Join(" ", Form.Errors);
+			return;
+
+		}
 		var loginResponse = await ((UiAuthStateProvider)AuthenticationStateProvider).RetrieveUserFromStorage();
 		if (loginResponse != null)
 		{
@@ -128,7 +150,7 @@
 				var result = await client.PutAsync(uri.Uri, content);
 				if(result.Content != null)
 				{
-					var response = JsonConvert.DeserializeObject<ApiResult<ContenderInfoResponseModel>>(await result.Content.ReadAsStringAsync());
+					var response = JsonConvert.DeserializeObject<ApiResult<ContenderInfoDto>>(await result.Content.ReadAsStringAsync());
 					if(response?.Succeeded == true)
 					{
 						ErrorVisibility = false;

@@ -42,4 +42,12 @@ public static class JwtHelper
 
         return tokenHandler.WriteToken(token);
     }
+
+    public static string RetrieveUsernameFromToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var securityToken = tokenHandler.ReadJwtToken(token);
+        return securityToken.Claims.Where((e) => e.Type == "name").First().Value;
+
+    }
 }

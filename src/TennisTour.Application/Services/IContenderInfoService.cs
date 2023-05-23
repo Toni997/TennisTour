@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Models.User;
@@ -10,8 +11,8 @@ namespace TennisTour.Application.Services
 {
     public interface IContenderInfoService
     {
-        Task<ContenderInfoResponseModel> GetContenderInfoAsync(string contenderUsername);
+        Task<ContenderInfoDto> GetContenderInfoAsync(string contenderUsername);
 
-        Task<ContenderInfoResponseModel> EditContenderInfoAsync(ContenderInfoResponseModel contenderInfo);    
+        Task<ContenderInfoDto> EditContenderInfoAsync(ContenderInfoDto contenderInfo, ClaimsPrincipal claimsPrincipal);    
     }
 }

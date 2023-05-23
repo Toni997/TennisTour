@@ -10,6 +10,6 @@ namespace TennisTour.Application.Models.User
     public class ContenderResponseModel : BaseResponseModel
     {
         public RankingResponseModel Ranking { get; set; }
-        public ContenderInfoResponseModel ContenderInfo { get; set; }
+        public ContenderInfoDto ContenderInfo { get; set; }
     }
 }

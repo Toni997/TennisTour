@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Models.User;
@@ -14,36 +16,39 @@ namespace TennisTour.Application.Services.Impl
     public class ContenderInfoService : IContenderInfoService
     {
         private readonly IContenderInfoRepository _contenderInfoRepository;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
-        public ContenderInfoService(IContenderInfoRepository contenderInfoRepository, IMapper mapper)
+        public ContenderInfoService(IContenderInfoRepository contenderInfoRepository, IMapper mapper, UserManager<ApplicationUser> userManager)
         {
             _contenderInfoRepository = contenderInfoRepository;
             _mapper = mapper;
+            _userManager = userManager;
         }
 
-        public async Task<ContenderInfoResponseModel>  EditContenderInfoAsync(ContenderInfoResponseModel contenderInfo)
+        public async Task<ContenderInfoDto>  EditContenderInfoAsync(ContenderInfoDto contenderInfo, ClaimsPrincipal claimsPrincipal)
         {
-            var toUpdate = await _contenderInfoRepository.GetOneAsync((e) => e.Id == contenderInfo.Id);
-            toUpdate.RetiredOn = contenderInfo.RetiredOn;
-            toUpdate.DateOfBirth = (DateTime)contenderInfo.DateOfBirth;   
-            toUpdate.FirstName  = contenderInfo.FirstName;  
-            toUpdate.LastName = contenderInfo.LastName;
-            toUpdate.BackhandType = contenderInfo.BackhandType;
-            toUpdate.DominantHand = contenderInfo.DominantHand;
-            toUpdate.HeightCm = contenderInfo.HeightCm;
-            toUpdate.TurnedProOn = (DateTime)contenderInfo.TurnedProOn;
-            toUpdate.WeightKg = contenderInfo.WeightKg; 
-            var updateResult = await _contenderInfoRepository.UpdateAsync(toUpdate);
-            var response = _mapper.Map<ContenderInfoResponseModel>(updateResult);
-            return response;
+            var toUpdate = _mapper.Map<ContenderInfo>(contenderInfo);
+            var user = await _userManager.GetUserAsync(claimsPrincipal);
+            toUpdate.ContenderId = user.Id;
+            if (await _contenderInfoRepository.ExistsAsync(contenderInfo.Id))
+            {
+                toUpdate.Contender = user;
+                var result = await _contenderInfoRepository.UpdateAsync(toUpdate);
+                return _mapper.Map<ContenderInfoDto>(result);
+            } else
+            {
+                var result =  await _contenderInfoRepository.AddAsync(toUpdate);
+                return _mapper.Map<ContenderInfoDto>(result);
+            }
+       
+           
         }
 
-        public async Task<ContenderInfoResponseModel> GetContenderInfoAsync(string contenderUsername)
+        public async Task<ContenderInfoDto> GetContenderInfoAsync(string contenderUsername)
         {
             var contenderInfo = await _contenderInfoRepository.GetContenderInfoOfUsenameAsync(contenderUsername);
-            var response = _mapper.Map<ContenderInfoResponseModel>(contenderInfo);
-            response.Id = contenderInfo.Id; 
+            var response = _mapper.Map<ContenderInfoDto>(contenderInfo);
             return response;
         }
     }
