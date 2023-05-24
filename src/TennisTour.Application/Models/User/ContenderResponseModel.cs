@@ -11,5 +11,10 @@ namespace TennisTour.Application.Models.User
     {
         public RankingResponseModel Ranking { get; set; }
         public ContenderInfoResponseModel ContenderInfo { get; set; }
+
+        public override string? ToString()
+        {
+            return $"{ContenderInfo.FirstName} {ContenderInfo.LastName}";
+        }
     }
 }

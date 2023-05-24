@@ -6,84 +6,86 @@
 @using TennisTour.Application.Models.User;
 @using TennisTour.Application.Models;
 @using TennisTour.UI.Common;
+@attribute [AllowAnonymous]
 
 <h1>Register</h1>
 <MudGrid>
-	<MudItem xs="12" sm="6" md="4">
-		<MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined"></MudTextField>
-	</MudItem>
-	<MudItem xs="12" sm="6" md="4">
-		<MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="PasswordToggle" AdornmentAriaLabel="Show Password" />
-	</MudItem>
-	<MudItem xs="12" sm="6" md="4">
-		<MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined"></MudTextField>
-	</MudItem>
+    <MudItem xs="12" sm="6" md="4">
+        <MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined"></MudTextField>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4">
+        <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="PasswordToggle" AdornmentAriaLabel="Show Password" />
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4">
+        <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined"></MudTextField>
+    </MudItem>
 
 </MudGrid>
 <MudButton Variant="Variant.Filled" class="my-12" Color="Color.Primary" OnClick="TryRegister">Register</MudButton>
 @if (errorVisibility)
 {
-	<MudAlert Severity="Severity.Error">@StatusMessage</MudAlert>
+    <MudAlert Severity="Severity.Error">@StatusMessage</MudAlert>
 }
 
 
 @code {
-	private string Username { get; set; }
-	private string Password { get; set; }
-	private string Email { get; set; }
-	private string StatusMessage { get; set; }
+    private string Username { get; set; }
+    private string Password { get; set; }
+    private string Email { get; set; }
+    private string StatusMessage { get; set; }
 
-	private bool errorVisibility = false;
-	[CascadingParameter]
-	private Task<AuthenticationState>? authenticationState { get; set; }
+    private bool errorVisibility = false;
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
 
-	InputType PasswordInput = InputType.Password;
-	string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
-	bool passwordVisible;
-	void PasswordToggle()
-	{
-		@if (passwordVisible)
-		{
-			passwordVisible = false;
-			PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
-			PasswordInput = InputType.Password;
-		}
-		else
-		{
-			passwordVisible = true;
-			PasswordInputIcon = Icons.Material.Filled.Visibility;
-			PasswordInput = InputType.Text;
-		}
-	}
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+    bool passwordVisible;
+    void PasswordToggle()
+    {
+        @if (passwordVisible)
+        {
+            passwordVisible = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            passwordVisible = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
 
-	private async Task TryRegister()
-	{
-		var client = new HttpClient();
-		var registerUserModel = new CreateUserModel();
-		registerUserModel.Username = Username;
-		registerUserModel.Password = Password;
-		registerUserModel.Email = Email;
-		var content = new JsonNewtonContent(registerUserModel);
-		var result = await client.PostAsync(ApiConstants.RegisterRoute, content);
-		if(result.Content != null)
-		{
-			var apiResult = JsonConvert.DeserializeObject<ApiResult<CreateUserResponseModel>>(await result.Content.ReadAsStringAsync());
-			if (apiResult?.Errors.Any() == true)
-			{
-				StatusMessage = string.Join(",", apiResult.Errors);
-			}
-			else if(apiResult?.Succeeded == true)
-			{
-				StatusMessage = "Successfully registered user!";
-			}
+    private async Task TryRegister()
+    {
+        var client = new HttpClient();
+        var registerUserModel = new CreateUserModel();
+        registerUserModel.Username = Username;
+        registerUserModel.Password = Password;
+        registerUserModel.Email = Email;
+        var content = new JsonNewtonContent(registerUserModel);
+        var result = await client.PostAsync(ApiConstants.RegisterRoute, content);
+        if (result.Content != null)
+        {
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<CreateUserResponseModel>>(await result.Content.ReadAsStringAsync());
+            if (apiResult?.Errors.Any() == true)
+            {
+                StatusMessage = string.Join(",", apiResult.Errors);
+            }
+            else if (apiResult?.Succeeded == true)
+            {
+                StatusMessage = "Successfully registered user!";
+            }
 
 
-		} else
-		{
-			StatusMessage = "Unknown error";
+        }
+        else
+        {
+            StatusMessage = "Unknown error";
 
-		}
-		errorVisibility = true;
-		Console.WriteLine(StatusMessage);
-	}
+        }
+        errorVisibility = true;
+        Console.WriteLine(StatusMessage);
+    }
 }

@@ -14,6 +14,7 @@ namespace TennisTour.Application.Models.TournamentEdition
     {
         public DateTime DateStart { get; set; }
         public DateTime DateEnd { get; set; }
+        public Guid TournamentId { get; set; }
         public bool IsRegistrationTimeOver { get; set; }
         public ContenderResponseModel Winner { get; set; }
         public TournamentResponseModel Tournament { get; set; }

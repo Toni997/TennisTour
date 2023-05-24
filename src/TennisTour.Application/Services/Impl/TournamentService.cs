@@ -36,6 +36,14 @@ namespace TennisTour.Application.Services.Impl
             return _mapper.Map<IEnumerable<TournamentResponseModel>>(tournaments);
         }
 
+        public async Task<IEnumerable<TournamentResponseModel>> SearchAllByName(string value,
+            CancellationToken cancellationToken = default)
+        {
+            var tournaments = await _tournamentRepository.SearchAllByNameOrderedByName(value);
+
+            return _mapper.Map<IEnumerable<TournamentResponseModel>>(tournaments);
+        }
+
         public async Task<TournamentWithEditionsResponseModel> GetByIdWithTournamentEditionsAsync(Guid id,
             CancellationToken cancellationToken = default)
         {

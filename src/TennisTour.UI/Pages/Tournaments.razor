@@ -1,5 +1,7 @@
 ﻿@page "/tournaments"
 @using TennisTour.Application.Models.Tournament;
+@inject IDialogService DialogService
+
 
 <PageTitle>Tournaments | Tennis Tour</PageTitle>
 
@@ -23,8 +25,8 @@ else {
     <MudDataGrid T="TournamentResponseModel" Items="@tournaments" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
         <Columns>
             <PropertyColumn Property="x => x.Name"/>
-            <PropertyColumn Property="x => x.Series"/>
-            <PropertyColumn Property="x => x.Surface" />
+            <PropertyColumn Property="x => x.Series.GetDescription()" Title="Series" />
+            <PropertyColumn Property="x => x.Surface.GetDescription()" Title="Surface" />
             <PropertyColumn Property="x => x.NumberOfRounds" Title="Number Of Rounds" />
             <TemplateColumn StickyRight="true" Sortable="false" Filterable="false">
                 <CellTemplate>
@@ -33,10 +35,10 @@ else {
                     </MudTooltip>
                     <AuthorizeView Roles="@Roles.Admin" Context="authorize">
                         <MudTooltip Text="Edit Tournament">
-                            <MudIconButton Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="@EditClick"/>
+                            <MudIconButton Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="(() => EditClick(context.Item.Id))"/>
                         </MudTooltip>
-                            <MudTooltip Text="Delete Tournament">
-                            <MudIconButton Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="@DeleteClick" />
+                        <MudTooltip Text="Delete Tournament">
+                            <MudIconButton Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="(() => DeleteClick(context.Item))" />
                         </MudTooltip>
                     </AuthorizeView>
                 </CellTemplate>
@@ -72,14 +74,27 @@ else {
         }
     }
 
-    private async Task EditClick(Guid id)
+    private void EditClick(Guid id)
     {
         NavigationManager.NavigateTo(String.Format(UiConstants.TournamentsEditRoute, id));
     }
 
-    //TODO open dialog
-    private async Task DeleteClick(Guid id)
+    private async Task DeleteClick(TournamentResponseModel tournament)
     {
+        var parameters = new DialogParameters();
+        parameters.Add("DisplayName", tournament.Name);
+        parameters.Add("DeleteRoute", String.Format(ApiConstants.TournamentsDeleteRoute, tournament.Id));
 
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<DeleteEntityDialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+
+        if (result.Canceled) return;
+
+        if (result.Data is bool succeeded && succeeded)
+        {
+            tournaments.Remove(tournament);
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace TennisTour.DataAccess.Repositories
 
         Task<IList<Tournament>> GetAllOrderedByNameWithTournamentEditionsAsync();
         Task<IList<Tournament>> GetAllOrderedByNameAsync();
+        Task<IList<Tournament>> SearchAllByNameOrderedByName(string value);
     }
 }

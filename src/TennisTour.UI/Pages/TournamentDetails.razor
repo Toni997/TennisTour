@@ -2,22 +2,35 @@
 @using TennisTour.Application.Models.Tournament;
 @using TennisTour.Application.Models.TournamentEdition;
 @using TennisTour.Application.Models.User;
+@inject IDialogService DialogService
 
 
 @if (tournament == null)
 {
-    <PageTitle>Loading... | Tennis Tour</PageTitle>
+    <PageTitle>@(isLoading ? "Loading..." : (tournament != null ? tournament.Name : "Error")) | Tennis Tour</PageTitle>
 
-    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error">Error while getting tournament info</MudAlert>
+    }
 }
 else
 {
     <PageTitle>@tournament.Name | Tennis Tour</PageTitle>
 
+    <AuthorizeView Roles="@Roles.Admin">
+        <MudButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentsEditRoute, TournamentId)))" Variant="Variant.Filled" Color="Color.Warning" Class="mb-4">Edit</MudButton>
+        <MudButton OnClick="(() => DeleteClick())" Variant="Variant.Filled" Color="Color.Error" Class="mb-4">Delete</MudButton>
+    </AuthorizeView>
+
     <MudText Typo="Typo.h2" GutterBottom="true">@tournament.Name</MudText>
     <MudDivider DividerType="DividerType.Middle" Class="my-6" />
-    <MudText>Series: @tournament.Series</MudText>
-    <MudText>Surface: @tournament.Surface</MudText>
+    <MudText>Series: @tournament.Series.GetDescription()</MudText>
+    <MudText>Surface: @tournament.Surface.GetDescription()</MudText>
     <MudText>Rounds: @tournament.NumberOfRounds</MudText>
     <MudText class="mt-4" Typo="Typo.h3" GutterBottom="true">Editions</MudText>
     <MudDivider DividerType="DividerType.Middle" Class="my-6" />
@@ -32,7 +45,7 @@ else
             <Columns>
                 <PropertyColumn Property="x => x.DateStart" Format="d" Title="Start Date" />
                 <PropertyColumn Property="x => x.DateEnd" Format="d" Title="End Date" />
-                <TemplateColumn Title="Registrations Open">
+                <TemplateColumn Title="Registrations Status">
                     <CellTemplate>
                         @if (context.Item.IsRegistrationTimeOver)
                         {
@@ -53,12 +66,12 @@ else
                         @if (context.Item?.Winner != null)
                         {
                             <MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.Winner.Id)">
-                                @context.Item.Winner.ContenderInfo.FirstName @context.Item.Winner.ContenderInfo.LastName
+                                @context.Item.Winner
                             </MudLink>
                         }
                         else
                         {
-                            <MudText>Undecided</MudText>
+                            <MudText>-</MudText>
                         }
                     </CellTemplate>
                 </TemplateColumn>
@@ -69,7 +82,7 @@ else
                         </MudTooltip>
                         <AuthorizeView Roles="@Roles.Admin" Context="authorize">
                             <MudTooltip Text="Edit Tournament Edition">
-                                <MudIconButton Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
+                                <MudIconButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionEditRoute, context.Item?.Id)))" Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
                             </MudTooltip>
                             <MudTooltip Text="Delete Tournament Edition">
                                 <MudIconButton Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" />
@@ -94,21 +107,29 @@ else
     public Task<AuthenticationState> AuthState { get; set; }
 
     private TournamentWithEditionsResponseModel tournament;
+    private bool isLoading;
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthState;
         var user = authState.User;
 
+        isLoading = true;
         try
         {
-            var response = await HttpClient.GetStringAsync(String.Format(ApiConstants.TournamentsGetOneRoute, TournamentId));
-            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentWithEditionsResponseModel>>(response);
+            var response = await HttpClient.GetAsync(String.Format(ApiConstants.TournamentsGetOneRoute, TournamentId));
+            response.EnsureSuccessStatusCode();
+
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentWithEditionsResponseModel>>(await response.Content.ReadAsStringAsync());
             tournament = apiResult.Result;
         }
         catch (HttpRequestException ex)
         {
             Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
         }
     }
 
@@ -120,7 +141,19 @@ else
         }
         else
         {
-            return "Undecided";
+            return "-";
         }
+    }
+
+    private async Task DeleteClick()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("DisplayName", tournament.Name);
+        parameters.Add("DeleteRoute", String.Format(ApiConstants.TournamentsDeleteRoute, tournament.Id));
+        parameters.Add("RedirectToOnSuccess", ApiConstants.TournamentsGetAllRoute);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        DialogService.Show<DeleteEntityDialog>("Delete", parameters, options);
     }
 }

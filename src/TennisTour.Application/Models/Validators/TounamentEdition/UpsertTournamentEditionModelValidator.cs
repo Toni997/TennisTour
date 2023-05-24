@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TennisTour.Application.Models.Tournament;
 using TennisTour.Application.Models.TournamentEdition;
 
-namespace TennisTour.Application.Models.Validators.TounamentEditions
+namespace TennisTour.Application.Models.Validators.TounamentEdition
 {
     public class UpsertTournamentEditionModelValidator : AbstractValidator<UpsertTournamentEditionModel>
     {
@@ -21,5 +21,13 @@ namespace TennisTour.Application.Models.Validators.TounamentEditions
                 .GreaterThan(t => t.DateStart)
                 .WithMessage("End Date has to be after Start Date");
         }
+
+        public Func<object, string, Task<IEnumerable<string>>> ValidateValue => async (model, propertyName) =>
+        {
+            var result = await ValidateAsync(ValidationContext<UpsertTournamentEditionModel>.CreateWithOptions((UpsertTournamentEditionModel)model, x => x.IncludeProperties(propertyName)));
+            if (result.IsValid)
+                return Array.Empty<string>();
+            return result.Errors.Select(e => e.ErrorMessage);
+        };
     }
 }

@@ -1,0 +1,50 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudText>Are you sure you want to delete @DisplayName?</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="Submit">Delete</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [Inject] ISnackbar Snackbar { get; set; }
+
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public string DisplayName { get; set; }
+    [Parameter] public string DeleteRoute { get; set; }
+    [Parameter] public string? RedirectToOnSuccess { get; set; }
+
+    async Task Submit() {
+        try
+        {
+            var response = await HttpClient.DeleteAsync(DeleteRoute);
+            var content = JsonConvert.DeserializeObject<ApiResult<BaseResponseModel>>(await response.Content.ReadAsStringAsync());
+
+            if (response.IsSuccessStatusCode)
+            {
+                Snackbar.Add($"Successfully deleted {DisplayName}", Severity.Success);
+                if (RedirectToOnSuccess != null)
+                {
+                    NavigationManager.NavigateTo(RedirectToOnSuccess);
+                }
+                MudDialog.Close(DialogResult.Ok(true));
+            }
+            else
+            {
+                Snackbar.Add($"Error! {(content?.Errors.Count() > 0 ? content.Errors.First() : "Couldn''t process the delete request")}", Severity.Error);
+                MudDialog.Close(DialogResult.Ok(false));
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+            Snackbar.Add("Error updating the tournament.", Severity.Error);
+            MudDialog.Close(DialogResult.Ok(false));
+        }
+    }
+    void Cancel() => MudDialog.Cancel();
+}

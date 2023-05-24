@@ -17,7 +17,12 @@
 @code {
     [Inject] ISnackbar Snackbar { get; set; }
 
-    private UpsertTournamentModel model = new UpsertTournamentModel();
+    private UpsertTournamentModel model;
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = new UpsertTournamentModel();
+    }
 
     private async Task Submit()
     {
@@ -36,7 +41,7 @@
             }
             else
             {
-                Snackbar.Add("Successfully added a tournament.", Severity.Error);
+                Snackbar.Add("Error adding a tournament.", Severity.Error);
             }
         }
         catch (HttpRequestException ex)

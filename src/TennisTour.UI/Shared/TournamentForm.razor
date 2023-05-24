@@ -10,17 +10,17 @@
                       Variant="Variant.Outlined"
                       Class="mb-4" />
         <MudSelect T="Series" For="@(() => model.Series)" @bind-Value="model.Series" Label="Series" Immediate="true" Variant="Variant.Outlined" Class="mb-4">
-            <MudSelectItem T="Series" Value="Series.TTChallenger" />
-            <MudSelectItem T="Series" Value="Series.TT250" />
-            <MudSelectItem T="Series" Value="Series.TT500" />
-            <MudSelectItem T="Series" Value="Series.TTMasters1000" />
-            <MudSelectItem T="Series" Value="Series.TTFinals" />
-            <MudSelectItem T="Series" Value="Series.TTGrandSlam" />
+            <MudSelectItem T="Series" Value="Series.TTChallenger">@Series.TTChallenger.GetDescription()</MudSelectItem>
+            <MudSelectItem T="Series" Value="Series.TT250">@Series.TT250.GetDescription()</MudSelectItem>
+            <MudSelectItem T="Series" Value="Series.TT500">@Series.TT500.GetDescription()</MudSelectItem>
+            <MudSelectItem T="Series" Value="Series.TTMasters1000">@Series.TTMasters1000.GetDescription()</MudSelectItem>
+            <MudSelectItem T="Series" Value="Series.TTFinals">@Series.TTFinals.GetDescription()</MudSelectItem>
+            <MudSelectItem T="Series" Value="Series.TTGrandSlam">@Series.TTGrandSlam.GetDescription()</MudSelectItem>
         </MudSelect>
         <MudSelect T="Surface" For="@(() => model.Surface)" @bind-Value="model.Surface" Label="Surface" Immediate="true" Variant="Variant.Outlined" Class="mb-4">
-            <MudSelectItem T="Surface" Value="Surface.Grass" />
-            <MudSelectItem T="Surface" Value="Surface.Clay" />
-            <MudSelectItem T="Surface" Value="Surface.Hard" />
+            <MudSelectItem T="Surface" Value="Surface.Grass">@Surface.Grass.GetDescription()</MudSelectItem>
+            <MudSelectItem T="Surface" Value="Surface.Clay">@Surface.Clay.GetDescription()</MudSelectItem>
+            <MudSelectItem T="Surface" Value="Surface.Hard">@Surface.Hard.GetDescription()</MudSelectItem>
         </MudSelect>
         <MudNumericField @bind-Value="model.NumberOfRounds"
                          For="(() => model.NumberOfRounds)"
