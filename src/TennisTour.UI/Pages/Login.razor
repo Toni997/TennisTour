@@ -37,24 +37,24 @@
     [Inject]
     private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
-    InputType PasswordInput = InputType.Password;
-    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
-    bool passwordVisible;
-    void PasswordToggle()
-    {
-        if (passwordVisible)
-        {
-            passwordVisible = false;
-            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
-            PasswordInput = InputType.Password;
-        }
-        else
-        {
-            passwordVisible = true;
-            PasswordInputIcon = Icons.Material.Filled.Visibility;
-            PasswordInput = InputType.Text;
-        }
-    }
+	InputType PasswordInput = InputType.Password;
+	string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+	bool passwordVisible;
+	void PasswordToggle()
+	{
+		if (passwordVisible)
+		{
+			passwordVisible = false;
+			PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+			PasswordInput = InputType.Password;
+		}
+		else
+		{
+			passwordVisible = true;
+			PasswordInputIcon = Icons.Material.Filled.Visibility;
+			PasswordInput = InputType.Text;
+		}
+	}
 
 
     private async Task TryLogin()
@@ -67,23 +67,22 @@
         if (result.Content != null)
         {
 
-            var response = JsonConvert.DeserializeObject<ApiResult<LoginResponseModel>>(await result.Content.ReadAsStringAsync());
-            if (response?.Errors.Any() == true)
-            {
-                StatusMessage = String.Join(", ", response.Errors);
-                errorVisibility = true;
-            }
-            else if (response?.Result != null && response.Result.Token != null)
-            {
-                ((UiAuthStateProvider)AuthenticationStateProvider).SetUser(response.Result);
-                errorVisibility = false;
-                NavigationManager.NavigateTo("/");
-            }
-            else
-            {
-                StatusMessage = "Unknown eerror";
-                errorVisibility = true;
-            }
+			var response = JsonConvert.DeserializeObject<ApiResult<LoginResponseModel>>(await result.Content.ReadAsStringAsync());
+			if(response?.Errors.Any() == true)
+			{
+				StatusMessage = String.Join(", ", response.Errors);
+				errorVisibility = true;
+			} else if(response?.Result != null && response.Result.Token != null)
+			{
+				((UiAuthStateProvider)AuthenticationStateProvider).SetUser(response.Result);
+				errorVisibility = false;
+				NavigationManager.NavigateTo("/");
+			}
+			else
+			{
+				StatusMessage = "Unknown eerror";
+				errorVisibility = true;
+			}
 
         }
         else

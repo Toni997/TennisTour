@@ -1,0 +1,137 @@
+﻿@page "/myProfile"
+@using TennisTour.Application.Models;
+@using TennisTour.Application.Models.User;
+@using TennisTour.Application.Models.Validators.User;
+@using System.Security.Claims
+@using TennisTour.UI.AuthProviders
+@attribute [Authorize]
+
+<MudText Typo="Typo.h1" GutterBottom="true">My Profile</MudText>
+
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+<AuthorizeView>
+    @if (!context.User.IsInRole(Roles.Contender))
+    {
+        <MudAlert Severity="Severity.Normal">By submitting this form you agree to becoming a contender</MudAlert>
+    }
+</AuthorizeView>
+
+<MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="0">
+<MudCard Class="ma-6">
+	@if(contenderInfo != null)
+	{
+		<MudForm Model="@contenderInfo" @ref="@form" Validation="@(ContenderInfoValidator.ValidateValue)" ValidationDelay="0">
+		    <MudCardContent>
+                <MudTextField For="@(() => contenderInfo.FirstName)" Label="First Name" Immediate="true" @bind-Value="@contenderInfo.FirstName" />
+                <MudTextField For="@(() => contenderInfo.LastName)" Label="Last Name" Immediate="true" @bind-Value="@contenderInfo.LastName" />
+                <MudDatePicker For="@(() => contenderInfo.DateOfBirth)" Label="Date of Birth" @bind-Date="@contenderInfo.DateOfBirth" />
+                <MudNumericField For="@(() => contenderInfo.WeightKg)" Label="Weight (kg)" Immediate="true" @bind-Value="@contenderInfo.WeightKg" />
+                <MudNumericField For="@(() => contenderInfo.HeightCm)" Label="Height (cm)" Immediate="true" @bind-Value="@contenderInfo.HeightCm" />
+                <MudSelect T="BackhandType" For="@(() => contenderInfo.BackhandType)" Label="Backhand Type" Immediate="true" @bind-Value="@contenderInfo.BackhandType">
+                @foreach (BackhandType backhandType in Enum.GetValues(typeof(BackhandType)))
+                {
+                    <MudSelectItem Value="@backhandType">@backhandType.GetDescription()</MudSelectItem>
+                }
+                </MudSelect>
+                    <MudSelect T="Hand" For="@(() => contenderInfo.DominantHand)" Label="Dominant Hand" @bind-Value="@contenderInfo.DominantHand">
+                    @foreach (Hand hand in Enum.GetValues(typeof(Hand)))
+                    {
+					    <MudSelectItem Value="@hand">@hand.GetDescription()</MudSelectItem>
+                    }
+                </MudSelect>
+			    <MudDatePicker For="@(() => contenderInfo.TurnedProOn)" Label="Turned Pro On" @bind-Date="@contenderInfo.TurnedProOn" />
+                    <MudDatePicker For="@(() => contenderInfo.RetiredOn)" Label="Retired On" @bind-Date="@contenderInfo.RetiredOn" />
+		    </MudCardContent>
+		</MudForm>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveContenderInfo">Save</MudButton>
+            </MudCardActions>
+	} 
+	else
+	{
+		<MudProgressCircular Color="Color.Default" Indeterminate="true" />
+	}
+    </MudCard>
+</MudPaper>
+
+@code {
+    [Inject] ISnackbar Snackbar { get; set; }
+    [Inject] AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private MudForm form;
+    private ContenderInfoModel contenderInfo;
+    private ContenderInfoValidator ContenderInfoValidator = new ContenderInfoValidator();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState;
+        var user = authState.User;
+
+        if (user.IsInRole(Roles.Contender))
+        {
+            await GetContenderInfo(user.Identity.Name);
+        }
+        else
+        {
+            contenderInfo = new ContenderInfoModel();
+        }
+    }
+
+    private async Task GetContenderInfo(string username)
+    {
+        try
+        {
+            var response = await HttpClient.GetAsync(String.Format(ApiConstants.GetContenderInfo, username));
+            if (response.IsSuccessStatusCode)
+            {
+                var apiResult = JsonConvert.DeserializeObject<ApiResult<ContenderInfoModel>>(await response.Content.ReadAsStringAsync());
+                contenderInfo = apiResult.Result;
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+    }
+
+    private async Task SaveContenderInfo()
+    {
+        await form.Validate();
+
+        if (form.IsValid)
+        {
+            var authState = await AuthState;
+            var user = authState.User;
+
+            try
+            {
+                var content = new JsonNewtonContent(contenderInfo);
+                var response = await HttpClient.PutAsync(ApiConstants.SaveContenderInfo, content);
+                var responseContent = await response.Content.ReadAsStringAsync();
+                response.EnsureSuccessStatusCode();
+
+                var result = JsonConvert.DeserializeObject<ApiResult<ContenderInfoModel>>(responseContent);
+                if (user.IsInRole(Roles.Contender))
+                {
+                    Snackbar.Add("Successfully updated the contender info.", Severity.Success);
+                }
+                else
+                {
+                    ((UiAuthStateProvider)AuthenticationStateProvider).Logout();
+                    NavigationManager.NavigateTo(UiConstants.LoginRoute);
+                    Snackbar.Add("Congratulations! You are now officially a contender. Unfortunately, we had to log you out of this session due to role changes.", Severity.Success);
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"HTTP request failed: {ex.Message}");
+
+                Snackbar.Add("Error updating the contender info.", Severity.Error);
+            }
+		}
+    }
+}

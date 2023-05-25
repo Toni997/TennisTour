@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics;
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
@@ -47,7 +48,20 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task<TEntity> AddAsync(TEntity entity)
     {
         var addedEntity = (await _dbSet.AddAsync(entity)).Entity;
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            // Handle or log the exception
+            Console.WriteLine(ex.Message);
+            // Additional handling as needed
+        }
+       
+
+
+
 
         return addedEntity;
     }
@@ -105,6 +119,17 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         var entity = await query.FirstOrDefaultAsync(expression);
 
         if (entity == null) throw new ResourceNotFoundException(typeof(TEntity));
+
+        return entity;
+    }
+
+    public async Task<TEntity> GetOneOrNullAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>,
+       IIncludableQueryable<TEntity, object>> includes = null)
+    {
+        var query = Query();
+        query = Include(includes, query);
+
+        var entity = await query.FirstOrDefaultAsync(expression);
 
         return entity;
     }

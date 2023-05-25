@@ -10,7 +10,7 @@ namespace TennisTour.Application.Models.User
     public class ContenderResponseModel : BaseResponseModel
     {
         public RankingResponseModel Ranking { get; set; }
-        public ContenderInfoResponseModel ContenderInfo { get; set; }
+        public ContenderInfoModel ContenderInfo { get; set; }
 
         public override string? ToString()
         {

@@ -22,5 +22,7 @@ namespace TennisTour.UI.Common
         public const string TournamentEditionsDeleteRoute = "TournamentEditions/{0}";
         public const string LoginRoute = "Users/authenticate";
         public const string RegisterRoute = "Users";
+        public const string SaveContenderInfo = "ContenderInfo";
+        public const string GetContenderInfo = "ContenderInfo?contenderUsername={0}";
     }
 }

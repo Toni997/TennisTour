@@ -2,6 +2,7 @@
 {
     public static class UiConstants
     {
+        public const string LoginRoute = "/login";
         public const string TournamentsRoute = "/tournaments";
         public const string TournamentDetailsRoute = "/tournaments/{0}";
         public const string TournamentsAddRoute = "/tournaments/add";
