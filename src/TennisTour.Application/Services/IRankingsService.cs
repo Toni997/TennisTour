@@ -9,6 +9,6 @@ namespace TennisTour.Application.Services
 {
     public interface IRankingsService
     {
-        Task<List<RankingsModel>> GetAllRankings();
+        Task<List<RankingsModel>> GetAllRankings(int page);
     }
 }

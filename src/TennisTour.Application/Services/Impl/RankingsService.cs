@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Models.Rankings;
+using TennisTour.DataAccess.Models;
 using TennisTour.DataAccess.Repositories;
 
 namespace TennisTour.Application.Services.Impl
@@ -17,21 +18,25 @@ namespace TennisTour.Application.Services.Impl
 
         public RankingsService(IRankingRepository rankingRepository, IMapper mapper, IContenderInfoRepository contenderInfoRepository)
         {
-            this._rankingRepository = rankingRepository;
+            _rankingRepository = rankingRepository;
             _mapper = mapper;
             _contenderInfoRepository = contenderInfoRepository;
         }
 
-        public async Task<List<RankingsModel>> GetAllRankings()
+        public async Task<List<RankingsModel>> GetAllRankings(int page)
         {
-            var result = await _rankingRepository.GetAllAsync();
+            var paginationData = new PagedRequestParams
+            {
+                PageNumber = page
+            };
+            var result = await _rankingRepository.GetAllPagedAsync(paginationData);
             var models = result.Select(it => _mapper.Map<RankingsModel>(it)).ToList();
             var info = await _contenderInfoRepository.GetContenderInfosByContenderIds(models.Select(it => it.ContenderId).ToList());
             return models.Select(it =>
             {
                 it.ContenderInfo = info[models.IndexOf(it)];
                 return it;
-            }).ToList();
+            }).OrderBy(it => it.Rank).ToList();
         }
     }
 }

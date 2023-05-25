@@ -73,7 +73,7 @@
 				errorVisibility = true;
 			} else if(response?.Result != null && response.Result.Token != null)
 			{
-				((UiAuthStateProvider)AuthenticationStateProvider).SetUser(response.Result);
+				await ((UiAuthStateProvider)AuthenticationStateProvider).SetUser(response.Result);
 				errorVisibility = false;
 				NavigationManager.NavigateTo("/");
 			}

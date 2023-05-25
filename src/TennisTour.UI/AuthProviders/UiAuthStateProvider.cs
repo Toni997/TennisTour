@@ -26,7 +26,7 @@ namespace TennisTour.UI.AuthProviders
         }
 
 
-        public async void SetUser(LoginResponseModel user)
+        public async Task SetUser(LoginResponseModel user)
         {
             await SaveUserToStorage(user);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());

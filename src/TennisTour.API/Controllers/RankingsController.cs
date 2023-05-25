@@ -14,10 +14,10 @@ namespace TennisTour.API.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllRankings()
+        [HttpGet("{page:int}")]
+        public async Task<IActionResult> GetAllRankings(int page)
         {
-            var result = await _rankingsService.GetAllRankings();
+            var result = await _rankingsService.GetAllRankings(page);
             return Ok(result);
         }
     }
