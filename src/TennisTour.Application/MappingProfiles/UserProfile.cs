@@ -9,9 +9,10 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<CreateUserModel, ApplicationUser>();
-
         CreateMap<ApplicationUser, ContenderResponseModel>();
-        CreateMap<ContenderInfo, ContenderInfoResponseModel>();
+        CreateMap<ContenderInfo, ContenderInfoDto>();
         CreateMap<Ranking, RankingResponseModel>();
+        CreateMap<ContenderInfoDto, ContenderInfo>();
+        CreateMap<ContenderInfo, ContenderInfoDto>();
     }
 }

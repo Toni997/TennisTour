@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using TennisTour.Core.Entities;
 using TennisTour.DataAccess.Persistence;
 using TennisTour.DataAccess.Repositories;
@@ -45,11 +46,17 @@ public static class DataAccessDependencyInjection
             {
                 options.UseInMemoryDatabase("TennisTour");
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
         else
             services.AddDbContext<DatabaseContext>(options =>
+            {
                 options.UseSqlServer(databaseConfig.ConnectionString,
-                    opt => opt.MigrationsAssembly(typeof(DatabaseContext).Assembly.FullName)));
+                  opt => opt.MigrationsAssembly(typeof(DatabaseContext).Assembly.FullName));
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+            });
+              
+        
     }
 
     private static void AddIdentity(this IServiceCollection services)

@@ -13,5 +13,7 @@ namespace TennisTour.UI.Common
         public const string TournamentsGetOneRoute = "Tournaments/%s";
         public const string LoginRoute = "Users/authenticate";
         public const string RegisterRoute = "Users";
+        public const string SaveContenderInfo = "ContenderInfo";
+        public const string GetContenderInfo = "ContenderInfo";
     }
 }

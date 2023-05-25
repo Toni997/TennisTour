@@ -2,67 +2,76 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TennisTour.Application.Models.User;
 
 namespace TennisTour.UI.AuthProviders
 {
     public class UiAuthStateProvider: AuthenticationStateProvider
     {
-        private readonly string Token = "";
-
-        public override Task<AuthenticationState> GetAuthenticationStateAsync()
+        private readonly IJSRuntime _jsRuntime;
+        public UiAuthStateProvider(IJSRuntime jsRuntime)
         {
-            var accessToken = Token;
-
-            if (string.IsNullOrEmpty(accessToken))
-            {
-                return Task.FromResult(new AuthenticationState(new ClaimsPrincipal(new ClaimsIdentity())));
-            }
-
-            var claims = ParseClaimsFromJwt(accessToken);
-
-            var claimsIdentity = new ClaimsIdentity(claims, "jwt");
-
-            var user = new ClaimsPrincipal(claimsIdentity);
-
-            return Task.FromResult(new AuthenticationState(user));
+            _jsRuntime = jsRuntime;
         }
 
-        public void SetAuthenticationState(string accessToken)
+        public async Task Logout()
         {
-            var claims = ParseClaimsFromJwt(accessToken);
-
-            var claimsIdentity = new ClaimsIdentity(claims, "jwt");
-
-            var roleClaims = claimsIdentity.FindAll("role").ToList();
-            foreach (var claim in roleClaims)
-            {
-                var newClaim = new Claim(ClaimTypes.Role, claim.Value);
-                claimsIdentity.AddClaim(newClaim);
-                claimsIdentity.RemoveClaim(claim);
-            }
-
-            var nameClaim = claimsIdentity.FindFirst("name");
-            if (nameClaim != null)
-            {
-                var newNameClaim = new Claim(ClaimTypes.Name, nameClaim.Value);
-                claimsIdentity.AddClaim(newNameClaim);
-                claimsIdentity.RemoveClaim(nameClaim);
-            }
-
-            var user = new ClaimsPrincipal(claimsIdentity);
-
-            NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(user)));
+            await RemoveUserFromStorage();
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 
-        private static IEnumerable<Claim> ParseClaimsFromJwt(string token)
-        {
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadJwtToken(token);
 
-            return jwtToken.Claims;
+        public async void SetUser(LoginResponseModel user)
+        {
+            await SaveUserToStorage(user);
+            NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
+        }
+
+        public override async Task<AuthenticationState> GetAuthenticationStateAsync()
+        {
+            var cahcedUser = await RetrieveUserFromStorage(); 
+            var identity = cahcedUser != null ? new ClaimsIdentity(GetUserClaims(cahcedUser), "Custom authentication") : new ClaimsIdentity();
+            var user = new ClaimsPrincipal(identity);
+            return await Task.FromResult(new AuthenticationState(user));
+        }
+
+        private async Task RemoveUserFromStorage()
+        {
+            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "CurrentUser");
+        }
+
+        private static IEnumerable<Claim> GetUserClaims(LoginResponseModel user)
+        {
+            var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim("jwt",user.Token)
+        };
+
+            return claims;
+        }
+
+        private async Task SaveUserToStorage(LoginResponseModel user)
+        {
+            var serializedUser = JsonConvert.SerializeObject(user);
+            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "CurrentUser", serializedUser);
+        }
+
+        public async Task<LoginResponseModel?> RetrieveUserFromStorage()
+        {
+            var serializedUser = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "CurrentUser");
+            if (!string.IsNullOrEmpty(serializedUser))
+            {
+                return JsonConvert.DeserializeObject<LoginResponseModel>(serializedUser);
+            }
+
+            return null;
         }
     }
 }

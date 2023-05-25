@@ -1,0 +1,185 @@
+﻿@page "/myProfile"
+@using Newtonsoft.Json;
+@using System.Net.Http.Headers;
+@using TennisTour.Application.Helpers;
+@using TennisTour.Application.Models;
+@using TennisTour.Application.Models.User;
+@using TennisTour.Application.Models.Validators.User;
+@using TennisTour.Core.Enums;
+@using TennisTour.UI.AuthProviders;
+@using TennisTour.UI.Common;
+@inject HttpClient client;
+@using MudBlazor
+<h3>MyProfile</h3>
+<MudPaper Class="d-flex flex-column flex-grow-1 gap-4" Elevation="0">
+<MudCard Class="ma-6">
+	@if(ContenderInfo != null)
+	{
+			<MudForm Model="@ContenderInfo" @ref="@Form" Validation="@(ContenderInfoValidator.ValidateValue)" ValidationDelay="0">
+		<MudCardContent>
+        <MudTextField Label="First Name" @bind-Value="@ContenderInfo.FirstName" />
+
+        <MudTextField Label="Last Name" @bind-Value="@ContenderInfo.LastName" />
+
+			<MudDatePicker Label="Date of Birth" @bind-Date="@ContenderInfo.DateOfBirth" />
+
+        <MudNumericField Label="Weight (kg)" @bind-Value="@ContenderInfo.WeightKg" />
+
+        <MudNumericField Label="Height (cm)" @bind-Value="@ContenderInfo.HeightCm" />
+
+        <MudSelect Label="Backhand Type" @bind-Value="@ContenderInfo.BackhandType">
+            @foreach (BackhandType backhandType in Enum.GetValues(typeof(BackhandType)))
+            {
+                <MudSelectItem Value="@backhandType"/>
+            }
+        </MudSelect>
+
+        <MudSelect Label="Dominant Hand" @bind-Value="@ContenderInfo.DominantHand">
+            @foreach (Hand hand in Enum.GetValues(typeof(Hand)))
+            {
+					<MudSelectItem Value="@hand"/>
+            }
+        </MudSelect>
+
+			<MudDatePicker Label="Turned Pro On" @bind-Date="@ContenderInfo.TurnedProOn" />
+
+			<MudDatePicker Label="Retired On" @bind-Date="@ContenderInfo.RetiredOn" />
+
+   
+		</MudCardContent>
+		</MudForm>
+	} 
+	else
+	{
+		<MudProgressCircular Color="Color.Default" Indeterminate="true" />
+	}
+
+</MudCard>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="SaveContenderInfo">Save</MudButton>
+@if(ErrorVisibility)
+{
+	<MudAlert Severity="Severity.Error">@StatusMessage</MudAlert>
+}
+</MudPaper>
+
+
+
+@code {
+	private MudForm Form;
+		private ContenderInfoValidator ContenderInfoValidator = new ContenderInfoValidator();
+	private string StatusMessage = "";
+	private bool ErrorVisibility = false;
+	@inject NavigationManager NavigationManager;
+	[Inject]
+	private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    private ContenderInfoDto? ContenderInfo { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+		await GetInfo();
+	}
+
+	private async Task GetInfo()
+	{
+		var loginResponse = await((UiAuthStateProvider)AuthenticationStateProvider).RetrieveUserFromStorage();
+		if (loginResponse != null)
+		{
+			var content = new JsonNewtonContent(loginResponse.Username);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse.Token);
+			var uri = new UriBuilder(ApiConstants.BaseUrl + ApiConstants.GetContenderInfo);
+
+			uri.Query = "contenderUsername=" + loginResponse.Username;
+			var result = await client.GetAsync(uri.Uri);
+
+			if (result.Content != null)
+			{
+				var json = await result.Content.ReadAsStringAsync();
+				var response = JsonConvert.DeserializeObject<ApiResult<ContenderInfoDto>>(json);
+				if (response?.Errors.Any() == true)
+				{
+					StatusMessage = String.Join(", ", response.Errors);
+					ErrorVisibility = true;
+				}
+				else if (response?.Result != null)
+				{
+					ErrorVisibility = false;
+					ContenderInfo = response.Result;
+				}
+				else if(response?.Succeeded == true)
+				{
+					ErrorVisibility = false;
+					ContenderInfo = new ContenderInfoDto();
+
+				}
+				else {
+					StatusMessage = result.StatusCode.ToString();
+					ErrorVisibility = true;
+				}
+
+			}
+			else
+			{
+				StatusMessage = "Unknown error";
+				ErrorVisibility = true;
+			}
+		}
+		else
+		{
+			StatusMessage = "Not authorized";
+			ErrorVisibility = true;
+		}
+	}
+
+    private async Task SaveContenderInfo()
+    {
+		await Form.Validate();
+		if (!Form.IsValid)
+		{
+			StatusMessage = String.Join(" ", Form.Errors);
+			return;
+
+		}
+		var loginResponse = await ((UiAuthStateProvider)AuthenticationStateProvider).RetrieveUserFromStorage();
+		if (loginResponse != null)
+		{
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", loginResponse.Token);
+			var uri = new UriBuilder(ApiConstants.BaseUrl + ApiConstants.SaveContenderInfo);
+			if(ContenderInfo != null)
+			{
+				var content = new JsonNewtonContent(ContenderInfo);
+				var result = await client.PutAsync(uri.Uri, content);
+				if(result.Content != null)
+				{
+					var response = JsonConvert.DeserializeObject<ApiResult<ContenderInfoDto>>(await result.Content.ReadAsStringAsync());
+					if(response?.Succeeded == true)
+					{
+						ErrorVisibility = false;
+					} else
+					{
+						if(response?.Errors?.Any() == true)
+						{
+							ErrorVisibility = true;
+							StatusMessage = String.Join(", ", response?.Errors!);
+						} else
+						{
+							ErrorVisibility = true;
+							StatusMessage = result.StatusCode.ToString();
+						}
+
+					}
+				}else
+				{
+					ErrorVisibility = true;
+					StatusMessage = "Unknown error!";
+				}
+			}
+			
+
+		} else
+		{
+			ErrorVisibility = true;
+			StatusMessage = "Not authorized!";
+		}
+
+    }
+}

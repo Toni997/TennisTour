@@ -1,13 +1,27 @@
-﻿<MudNavMenu>
+﻿@using TennisTour.UI.AuthProviders;
+<MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
     <MudNavLink Href="tournaments" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Tournaments</MudNavLink>
 	<AuthorizeView>
 		<Authorized>
+			<MudNavLink Href="myProfile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">My profile</MudNavLink>
+			<MudButton OnClick="Logout">Logout</MudButton>
 		</Authorized>
 		<NotAuthorized>
-            <MudDivider Class="my-2" />
 			<MudNavLink Href="login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
-            <MudNavLink Href="register" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AssignmentInd">Register</MudNavLink>
+			<MudNavLink Href="register" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AppRegistration">Register</MudNavLink>
 		</NotAuthorized>
 	</AuthorizeView>
 </MudNavMenu>
+
+@code {
+	@inject NavigationManager NavigationManager;
+	[Inject]
+	private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+	async void Logout()
+	{
+		await ((UiAuthStateProvider)AuthenticationStateProvider).Logout();
+		NavigationManager.NavigateTo("/");
+	}
+}
