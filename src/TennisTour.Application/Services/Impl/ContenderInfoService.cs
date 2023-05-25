@@ -53,7 +53,7 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task<ContenderInfoDto> GetContenderInfoAsync(string contenderUsername)
         {
-            var contenderInfo = await _contenderInfoRepository.GetContenderInfoOfUsenameAsync(contenderUsername);
+            var contenderInfo = await _contenderInfoRepository.GetContenderInfoByUsenameAsync(contenderUsername);
             var response = _mapper.Map<ContenderInfoDto>(contenderInfo);
             return response;
         }
