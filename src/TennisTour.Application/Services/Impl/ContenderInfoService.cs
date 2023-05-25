@@ -31,8 +31,14 @@ namespace TennisTour.Application.Services.Impl
             var toUpdate = _mapper.Map<ContenderInfo>(contenderInfo);
             var user = await _userManager.GetUserAsync(claimsPrincipal);
             toUpdate.ContenderId = user.Id;
+         
             if (await _contenderInfoRepository.ExistsAsync(contenderInfo.Id))
             {
+                var savedContenderInfo = await _contenderInfoRepository.GetByIdAsync(contenderInfo.Id);
+                if (savedContenderInfo.ContenderId != user.Id)
+                {
+                    throw new Exception("Wrong user's data");
+                }
                 toUpdate.Contender = user;
                 var result = await _contenderInfoRepository.UpdateAsync(toUpdate);
                 return _mapper.Map<ContenderInfoDto>(result);

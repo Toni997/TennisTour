@@ -29,10 +29,6 @@ namespace TennisTour.API.Controllers
         [HttpPut]
         public async Task<IActionResult> EditContenderInfoAsync(ContenderInfoDto contenderInfo) 
         {
-            if(!IsThisUser())
-            {
-                return Unauthorized();
-            }
             return Ok(ApiResult<ContenderInfoDto>.Success(await _contenderInfoService.EditContenderInfoAsync(contenderInfo, User)));
         }
         [HttpGet]
