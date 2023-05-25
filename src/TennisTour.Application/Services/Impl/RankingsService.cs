@@ -23,13 +23,9 @@ namespace TennisTour.Application.Services.Impl
             _contenderInfoRepository = contenderInfoRepository;
         }
 
-        public async Task<List<RankingsModel>> GetAllRankings(int page)
+        public async Task<List<RankingsModel>> GetAllRankings()
         {
-            var paginationData = new PagedRequestParams
-            {
-                PageNumber = page
-            };
-            var result = await _rankingRepository.GetAllPagedAsync(paginationData);
+            var result = await _rankingRepository.GetAllAsync();
             var models = result.Select(it => _mapper.Map<RankingsModel>(it)).ToList();
             var info = await _contenderInfoRepository.GetContenderInfosByContenderIds(models.Select(it => it.ContenderId).ToList());
             return models.Select(it =>
