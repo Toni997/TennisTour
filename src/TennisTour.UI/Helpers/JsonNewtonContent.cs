@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Newtonsoft.Json;
 
-namespace TennisTour.Application.Helpers;
+namespace TennisTour.UI.Helpers;
 
 public class JsonNewtonContent : StringContent
 {

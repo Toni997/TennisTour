@@ -7,6 +7,7 @@ using TennisTour.Application.Services.Impl;
 using Microsoft.AspNetCore.Authorization;
 using TennisTour.Core.Helpers;
 using TennisTour.Application.Models.TodoItem;
+using TennisTour.API.Middleware;
 
 namespace TennisTour.API.Controllers
 {
@@ -24,6 +25,13 @@ namespace TennisTour.API.Controllers
         {
             return Ok(ApiResult<IEnumerable<TournamentResponseModel>>
                 .Success(await _tournamentService.GetAllOrderedByNameAsync()));
+        }
+
+        [HttpGet("Search")]
+        public async Task<IActionResult> SearchAllByName([FromQuery] string value)
+        {
+            return Ok(ApiResult<IEnumerable<TournamentResponseModel>>
+                .Success(await _tournamentService.SearchAllByName(value)));
         }
 
         [HttpGet("{id:guid}")]

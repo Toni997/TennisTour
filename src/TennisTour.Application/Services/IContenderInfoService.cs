@@ -11,8 +11,8 @@ namespace TennisTour.Application.Services
 {
     public interface IContenderInfoService
     {
-        Task<ContenderInfoDto> GetContenderInfoAsync(string contenderUsername);
+        Task<ContenderInfoModel> GetContenderInfoAsync(string contenderUsername);
 
-        Task<ContenderInfoDto> EditContenderInfoAsync(ContenderInfoDto contenderInfo, ClaimsPrincipal claimsPrincipal);    
+        Task<ContenderInfoModel> EditContenderInfoAsync(ContenderInfoModel contenderInfo, ClaimsPrincipal claimsPrincipal);    
     }
 }

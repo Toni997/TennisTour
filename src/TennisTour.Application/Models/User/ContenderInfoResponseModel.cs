@@ -8,7 +8,7 @@ using TennisTour.Core.Enums;
 
 namespace TennisTour.Application.Models.User
 {
-    public class ContenderInfoDto: BaseResponseModel
+    public class ContenderInfoModel : BaseResponseModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

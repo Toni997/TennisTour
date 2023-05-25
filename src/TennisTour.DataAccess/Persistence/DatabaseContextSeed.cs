@@ -15,8 +15,8 @@ public static class DatabaseContextSeed
     private const string TournamentsEditionsFileName = "tournamentEditionsSeed.json";
     private const string TournamentRegistrationsSeedFileName = "tournamentRegistrationsSeed.json";
     private const string MatchesSeedFileName = "matchesSeed.json";
-    private const bool ShouldResetDatabase = true;
-    private const bool ShouldInsertSeedData = true;
+    private const bool ShouldResetDatabase = false;
+    private const bool ShouldInsertSeedData = false;
 
     public static async Task SeedDatabaseAsync(DatabaseContext context, UserManager<ApplicationUser> userManager)
     {

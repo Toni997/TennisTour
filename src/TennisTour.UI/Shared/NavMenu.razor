@@ -4,10 +4,12 @@
     <MudNavLink Href="tournaments" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Tournaments</MudNavLink>
 	<AuthorizeView>
 		<Authorized>
-			<MudNavLink Href="myProfile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">My profile</MudNavLink>
-			<MudButton OnClick="Logout">Logout</MudButton>
+            <MudNavLink Href="myProfile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">My profile</MudNavLink>
+            <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+            <MudNavLink OnClick="Logout" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Logout">Logout</MudNavLink>
 		</Authorized>
 		<NotAuthorized>
+            <MudDivider DividerType="DividerType.Middle" Class="my-3" />
 			<MudNavLink Href="login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
 			<MudNavLink Href="register" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AppRegistration">Register</MudNavLink>
 		</NotAuthorized>

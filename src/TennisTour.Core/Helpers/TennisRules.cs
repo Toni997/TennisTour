@@ -88,5 +88,13 @@ namespace TennisTour.Core.Helpers
         {
             return gamesCountHigh == MaximumPossibleGamesWonInSet && gamesCountLow == MinimumGamesNeededToWinSet;
         }
+
+        public string GetRoundName(int round, int numberOfRounds)
+        {
+            if (round == numberOfRounds) return "Finals";
+            else if (round == numberOfRounds - 1) return "Semi-Finals";
+            else if (round == numberOfRounds - 2) return "Quarter-Finals";
+            else return "Round of " + Math.Pow(2, numberOfRounds - round + 1);
+        }
     }
 }

@@ -1,0 +1,56 @@
+﻿@page "/tournament-editions/add/{TournamentId:guid?}"
+@using TennisTour.Application.Models.Validators.TounamentEdition
+@using TennisTour.Application.Models.TournamentEdition
+
+@attribute [Authorize(Roles = Roles.Admin)]
+
+<PageTitle>Add Tournament Edition | Tennis Tour</PageTitle>
+
+<MudText Typo="Typo.h1" GutterBottom="true">Add Tournament Edition</MudText>
+
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+<MudCard>
+    <TournamentEditionForm model="@model" Submit="@Submit" />
+</MudCard>
+
+@code {
+    [Inject] ISnackbar Snackbar { get; set; }
+
+    [Parameter]
+    public Guid? TournamentId { get; set; }
+
+    private UpsertTournamentEditionModel model;
+
+    protected override async Task OnInitializedAsync()
+    {
+        model = new UpsertTournamentEditionModel();
+        model.TournamentId = TournamentId.HasValue ? TournamentId.Value : default;
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            var content = new JsonNewtonContent(model);
+            var response = await HttpClient.PostAsync(ApiConstants.TournamentEditionsAddRoute, content);
+
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var result = JsonConvert.DeserializeObject<ApiResult<UpsertTournamentEditionResponseModel>>(responseContent);
+
+            if (response.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionDetailsRoute, result?.Result.Id));
+                Snackbar.Add("Successfully added a tournament edition.", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Error adding a tournament edition.", Severity.Error);
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+    }
+}

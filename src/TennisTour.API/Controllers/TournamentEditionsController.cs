@@ -31,7 +31,7 @@ namespace TennisTour.API.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            return Ok(ApiResult<TournamentEditionWithMatchesResponseModel>
+            return Ok(ApiResult<TournamentEditionWithMatchesAndRegistrationsResponseModel>
                 .Success(await _tournamentEditionService.GetByIdWithMatchesAsync(id)));
         }
 

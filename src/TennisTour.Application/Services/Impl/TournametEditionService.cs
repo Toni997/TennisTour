@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,12 +39,12 @@ namespace TennisTour.Application.Services.Impl
             return _mapper.Map<IEnumerable<TournamentEditionResponseModel>>(tournamentEditions);
         }
 
-        public async Task<TournamentEditionWithMatchesResponseModel> GetByIdWithMatchesAsync(Guid id,
+        public async Task<TournamentEditionWithMatchesAndRegistrationsResponseModel> GetByIdWithMatchesAsync(Guid id,
             CancellationToken cancellationToken = default)
         {
             var tournamentEdition = await _tournamentEditionRepository.GetByIdWithMatchesAsync(id);
 
-            return _mapper.Map<TournamentEditionWithMatchesResponseModel>(tournamentEdition);
+            return _mapper.Map<TournamentEditionWithMatchesAndRegistrationsResponseModel>(tournamentEdition);
         }
 
         public async Task<UpsertTournamentEditionResponseModel> CreateAsync(UpsertTournamentEditionModel upsertTournamentEditionModel,
@@ -64,7 +65,10 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task<UpsertTournamentEditionResponseModel> UpdateAsync(Guid id, UpsertTournamentEditionModel upsertTournamentEditionModel)
         {
-            var tournamentEdition = await _tournamentEditionRepository.GetByIdAsync(id);
+            var tournamentEdition = await _tournamentEditionRepository.GetOneAsync(expression: tl => tl.Id == id, includes: q => q.Include(te => te.Matches));
+
+            if (tournamentEdition.Matches.Any())
+                throw new UnprocessableRequestException("Tournament editions with existing matches cannot be updated");
 
             _mapper.Map(upsertTournamentEditionModel, tournamentEdition);
 
@@ -76,9 +80,10 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task<BaseResponseModel> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            // TODO check if any related matches exist before allowing delete
+            var tournamentEdition = await _tournamentEditionRepository.GetOneAsync(expression: tl => tl.Id == id, includes: q => q.Include(te => te.Matches));
 
-            var tournamentEdition = await _tournamentEditionRepository.GetOneAsync(tl => tl.Id == id);
+            if (tournamentEdition.Matches.Any())
+                throw new UnprocessableRequestException("Tournament editions with existing matches cannot be deleted");
 
             return new BaseResponseModel
             {

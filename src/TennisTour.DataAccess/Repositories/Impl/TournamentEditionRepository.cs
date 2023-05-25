@@ -18,6 +18,8 @@ namespace TennisTour.DataAccess.Repositories.Impl
         {
             return x.Include(x => x.Winner)
                     .Include(x => x.Tournament)
+                    .Include(x => x.TournamentRegistrations)
+                        .ThenInclude(x => x.Contender)
                     .Include(x => x.Matches)
                         .ThenInclude(x => x.MatchSets)
                     .Include(x => x.Matches)
