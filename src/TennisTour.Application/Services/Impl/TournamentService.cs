@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TennisTour.Application.Exceptions;
 using TennisTour.Application.Models;
 using TennisTour.Application.Models.TodoItem;
 using TennisTour.Application.Models.TodoList;
@@ -20,12 +22,14 @@ namespace TennisTour.Application.Services.Impl
         private readonly IClaimService _claimService;
         private readonly IMapper _mapper;
         private readonly ITournamentRepository _tournamentRepository;
+        private readonly ITournamentEditionRepository _tournamentEditionRepository;
 
-        public TournamentService(ITournamentRepository tournamentRepository, IMapper mapper, IClaimService claimService)
+        public TournamentService(ITournamentRepository tournamentRepository, IMapper mapper, IClaimService claimService, ITournamentEditionRepository tournamentEditionRepository)
         {
             _tournamentRepository = tournamentRepository;
             _mapper = mapper;
             _claimService = claimService;
+            _tournamentEditionRepository = tournamentEditionRepository;
         }
 
         public async Task<IEnumerable<TournamentResponseModel>> GetAllOrderedByNameAsync(
@@ -77,9 +81,10 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task<BaseResponseModel> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            // TODO check if any tournament editions exist before allowing delete
+            var tournament = await _tournamentRepository.GetOneAsync(expression: tl => tl.Id == id, includes: q => q.Include(t => t.TournamentEditions));
 
-            var tournament = await _tournamentRepository.GetOneAsync(tl => tl.Id == id);
+            if (tournament.TournamentEditions.Any())
+                throw new UnprocessableRequestException("Tournaments with existing editions cannot be deleted");
 
             return new BaseResponseModel
             {

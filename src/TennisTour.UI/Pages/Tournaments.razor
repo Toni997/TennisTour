@@ -37,9 +37,6 @@ else {
                         <MudTooltip Text="Edit Tournament">
                             <MudIconButton Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" OnClick="(() => EditClick(context.Item.Id))"/>
                         </MudTooltip>
-                        <MudTooltip Text="Delete Tournament">
-                            <MudIconButton Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="(() => DeleteClick(context.Item))" />
-                        </MudTooltip>
                     </AuthorizeView>
                 </CellTemplate>
             </TemplateColumn>
@@ -79,8 +76,12 @@ else {
         NavigationManager.NavigateTo(String.Format(UiConstants.TournamentsEditRoute, id));
     }
 
+    /*
+     * Not using this anymore as we can't ensure from the json data we get whether this tournament has any editions
+     * We have two options: Leave this removed or add a boolean for this to the json response
+     * 
     private async Task DeleteClick(TournamentResponseModel tournament)
-    {
+        {
         var parameters = new DialogParameters();
         parameters.Add("DisplayName", tournament.Name);
         parameters.Add("DeleteRoute", String.Format(ApiConstants.TournamentsDeleteRoute, tournament.Id));
@@ -97,4 +98,5 @@ else {
             tournaments.Remove(tournament);
         }
     }
+    */
 }

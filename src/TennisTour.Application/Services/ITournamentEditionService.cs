@@ -12,7 +12,7 @@ namespace TennisTour.Application.Services
     public interface ITournamentEditionService
     {
         Task<IEnumerable<TournamentEditionResponseModel>> GetAllOrderedByDateStartDescAsync(CancellationToken cancellationToken = default);
-        Task<TournamentEditionWithMatchesResponseModel> GetByIdWithMatchesAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<TournamentEditionWithMatchesAndRegistrationsResponseModel> GetByIdWithMatchesAsync(Guid id, CancellationToken cancellationToken = default);
         Task<UpsertTournamentEditionResponseModel> CreateAsync(UpsertTournamentEditionModel upsertTournamentModel, CancellationToken cancellationToken = default);
         Task<UpsertTournamentEditionResponseModel> UpdateAsync(Guid id, UpsertTournamentEditionModel upsertTournamentModel);
         Task<BaseResponseModel> DeleteAsync(Guid id, CancellationToken cancellationToken = default);

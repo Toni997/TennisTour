@@ -17,7 +17,9 @@ namespace TennisTour.UI.Common
         public const string TournamentsDeleteRoute = "Tournaments/{0}";
         public const string TournamentEditionsGetAllRoute = "TournamentEditions";
         public const string TournamentEditionsGetOneRoute = "TournamentEditions/{0}";
+        public const string TournamentEditionsAddRoute = "TournamentEditions";
         public const string TournamentEditionsEditRoute = "TournamentEditions/{0}";
+        public const string TournamentEditionsDeleteRoute = "TournamentEditions/{0}";
         public const string LoginRoute = "Users/authenticate";
         public const string RegisterRoute = "Users";
     }

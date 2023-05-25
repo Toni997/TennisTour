@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Models.Match;
 using TennisTour.Application.Models.Tournament;
+using TennisTour.Application.Models.TournamentRegistration;
 using TennisTour.Application.Models.User;
 using TennisTour.Core.Entities;
 
@@ -20,8 +21,9 @@ namespace TennisTour.Application.Models.TournamentEdition
         public TournamentResponseModel Tournament { get; set; }
     }
 
-    public class TournamentEditionWithMatchesResponseModel : TournamentEditionResponseModel
+    public class TournamentEditionWithMatchesAndRegistrationsResponseModel : TournamentEditionResponseModel
     {
         public ICollection<MatchResponseModel> Matches { get; set; }
+        public ICollection<TournamentRegistrationForEditionResponseModel> TournamentRegistrations { get; set; }
     }
 }

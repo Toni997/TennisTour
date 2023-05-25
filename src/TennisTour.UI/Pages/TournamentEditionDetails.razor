@@ -7,7 +7,6 @@
 @inject IDialogService DialogService
 @inject TennisRules TennisRules
 
-
 @if (tournamentEdition == null)
 {
     <PageTitle>@(isLoading ? "Loading..." : (tournamentEdition != null ? $"{tournamentEdition.Tournament.Name} ({tournamentEdition.DateStart.Year})" : "Error")) | Tennis Tour</PageTitle>
@@ -25,9 +24,10 @@ else
 {
     <PageTitle>@tournamentEdition.Tournament.Name (@tournamentEdition.DateStart.Year) | Tennis Tour</PageTitle>
 
+    <MudButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentDetailsRoute, tournamentEdition.Tournament.Id)))" StartIcon="@Icons.Material.Filled.ArrowBack" Variant="Variant.Outlined" Color="Color.Default" Class="mb-4">Back To Tournament</MudButton>
     <AuthorizeView Roles="@Roles.Admin">
-        <MudButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionEditRoute, TournamentEditionId)))" Variant="Variant.Filled" Color="Color.Warning" Class="mb-4">Edit</MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Error" Class="mb-4">Delete</MudButton>
+        <MudButton Disabled="tournamentEdition.IsRegistrationTimeOver" OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionEditRoute, TournamentEditionId)))" Variant="Variant.Filled" Color="Color.Warning" Class="mb-4">Edit</MudButton>
+        <MudButton Disabled="tournamentEdition.IsRegistrationTimeOver" OnClick="@DeleteClick" Variant="Variant.Filled" Color="Color.Error" Class="mb-4">Delete</MudButton>
     </AuthorizeView>
 
     <MudText Typo="Typo.h2" GutterBottom="true">
@@ -48,15 +48,19 @@ else
 
     <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
+    <AuthorizeView Roles="@Roles.Contender">
+        <MudButton Disabled="tournamentEdition.IsRegistrationTimeOver" OnClick="@(() => NavigationManager.NavigateTo("#"))" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">Register To Play</MudButton>
+    </AuthorizeView>
+
     <MudText>Series: @tournamentEdition.Tournament.Series.GetDescription()</MudText>
     <MudText>Surface: @tournamentEdition.Tournament.Surface.GetDescription()</MudText>
-    <MudText>Rounds: @tournamentEdition.Tournament.NumberOfRounds</MudText>
+    <MudText>Rounds: @numberOfRounds</MudText>
     <MudText>@tournamentEdition.DateStart.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture) - @tournamentEdition.DateEnd.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture)</MudText>
 
     <MudText class="mt-4" Typo="Typo.h3" GutterBottom="true">Matches</MudText>
     <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
-    if (tournamentEdition.Matches.Count == 0)
+    if (!tournamentEdition.Matches.Any())
     {
         <MudAlert Severity="Severity.Info">No matches scheduled yet</MudAlert>
     }
@@ -65,8 +69,9 @@ else
         <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" PanelClass="pa-6">
             @foreach (var group in groupedMatchesByRound)
             {
+                var roundNumber = group.Key;
                 var orderedMatches = group.OrderBy(x => x.NextMatchupControlNumber);
-                <MudTabPanel Text="@TennisRules.GetRoundName(group.Key, tournamentEdition.Tournament.NumberOfRounds)">
+                <MudTabPanel Text="@TennisRules.GetRoundName(roundNumber, numberOfRounds)">
                     @foreach (var match in orderedMatches)
                     {
                         var matchup = new List<ContenderMatchupModel>
@@ -75,32 +80,46 @@ else
                             {
                                 Id = match.ContenderOne.Id,
                                 FullName = match.ContenderOne.ToString(),
-                                GamesPerSet = match.MatchSets.OrderBy(x => x.Order).Select(x => new MarkupString($"{x.ContenderOneGamesCount}{(x.ContenderOneGamesCount == 6 && x.ContenderTwoGamesCount == 7 ? $"<sup>{x.LoserTiebreakPoints}</sup>" : "")}")),
+                                GamesPerSet = match.MatchSets.OrderBy(x => x.Order).Select(x => new MarkupString($"<span>{x.ContenderOneGamesCount}{(x.ContenderOneGamesCount == 6 && x.ContenderTwoGamesCount == 7 ? $"<sup>{x.LoserTiebreakPoints}</sup></span>" : "</span>")}")),
                             },
                             new ContenderMatchupModel
                             {
                                 Id = match.ContenderTwo.Id,
                                 FullName = match.ContenderTwo.ToString(),
-                                GamesPerSet = match.MatchSets.OrderBy(x => x.Order).Select(x => new MarkupString($"{x.ContenderTwoGamesCount}{(x.ContenderTwoGamesCount == 6 && x.ContenderOneGamesCount == 7 ? $"<sup>{x.LoserTiebreakPoints}</sup>" : "")}")),
+                                GamesPerSet = match.MatchSets.OrderBy(x => x.Order).Select(x => new MarkupString($"<span>{x.ContenderTwoGamesCount}{(x.ContenderTwoGamesCount == 6 && x.ContenderOneGamesCount == 7 ? $"<sup>{x.LoserTiebreakPoints}</sup></span>" : "</span>")}")),
                             }
                         };
                         <div class="d-flex align-md-center gap-3 flex-column flex-md-row mb-3">
                         <MudTable T="ContenderMatchupModel" Items="matchup" Dense="true" Hover="false" Bordered="true" Striped="false">
                             <RowTemplate>
-                                <MudTd DataLabel="Full Name"><MudLink Style="@(context.Id == match.Winner.Id ? "font-weight: bold" : "")" Href="#">@context.FullName</MudLink></MudTd>
+                                <MudTd DataLabel="Full Name">
+                                    <span class="d-flex items-center">
+                                        <MudLink Style="@((context.Id == match.Winner.Id) ? "font-weight: bold" : "font-weight: normal")" Href="@(String.Format(UiConstants.ContenderDetailsRoute, context.Id))">
+                                            @context.FullName
+                                        </MudLink>
+                                        @if (context.Id == match.Winner.Id)
+                                        {
+                                                <MudTooltip Text="@(roundNumber != numberOfRounds ? "Advances" : "Winner")">
+                                                    <MudIcon Class="ml-2" Icon="@(roundNumber != numberOfRounds ? MaterialDesignIcons.Normal.Check : MaterialDesignIcons.Normal.Trophy)" Color="Color.Primary" />
+                                            </MudTooltip>
+                                        }
+                                    </span>
+                                </MudTd>
                                 @{
-                                    int set = 1;
+                                    var setNumber = 1;
                                 }
                                 @foreach (var gamesWon in context.GamesPerSet)
                                 {
-                                    <MudTd DataLabel="@($"Set No. {set++}")">@gamesWon</MudTd>
+                                        <MudTd DataLabel="@($"Set No. {setNumber++}")">@gamesWon</MudTd>
                                 }
                             </RowTemplate>
                         </MudTable>
                         <MudStack Row="true" Style="height: fit-content">
-                            <MudButton OnClick="@(() => NavigationManager.NavigateTo("#"))" Variant="Variant.Filled" DisableElevation="true" Color="Color.Primary">
-                                H2H
-                            </MudButton>
+                            <MudTooltip Text="@($"{match.ContenderOne} vs {match.ContenderTwo} matchups and achievements")">
+                                <MudButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.ContenderH2HRoute, match.ContenderOne.Id, match.ContenderTwo.Id)))" Variant="Variant.Filled" DisableElevation="true" Color="Color.Default">
+                                    H2H
+                                </MudButton>
+                            </MudTooltip>
                             @if (match.Winner == null)
                             {
                                 <MudTooltip Text="Submit Score">
@@ -130,8 +149,9 @@ else
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
 
-    private TournamentEditionWithMatchesResponseModel tournamentEdition;
+    private TournamentEditionWithMatchesAndRegistrationsResponseModel tournamentEdition;
     private IOrderedEnumerable<IGrouping<int, MatchResponseModel>> groupedMatchesByRound;
+    private int numberOfRounds;
     private bool isLoading;
 
     protected override async Task OnInitializedAsync()
@@ -145,9 +165,17 @@ else
             var response = await HttpClient.GetAsync(String.Format(ApiConstants.TournamentEditionsGetOneRoute, TournamentEditionId));
             response.EnsureSuccessStatusCode();
 
-            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentEditionWithMatchesResponseModel>>(await response.Content.ReadAsStringAsync());
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentEditionWithMatchesAndRegistrationsResponseModel>>(await response.Content.ReadAsStringAsync());
             tournamentEdition = apiResult.Result;
             groupedMatchesByRound = tournamentEdition.Matches.GroupBy(x => x.Round).OrderBy(g => g.Key);
+            if (groupedMatchesByRound.Any())
+            {
+                numberOfRounds = groupedMatchesByRound.Select(x => x.Key).Max();
+            }
+            else
+            {
+                numberOfRounds = tournamentEdition.Tournament.NumberOfRounds;
+            }
         }
         catch (HttpRequestException ex)
         {
@@ -159,8 +187,15 @@ else
         }
     }
 
-    private async Task EditClick(ContenderResponseModel contender)
+    private async Task DeleteClick()
     {
+        var parameters = new DialogParameters();
+        parameters.Add("DisplayName", $"{tournamentEdition.Tournament.Name} ({tournamentEdition.DateStart.Year})");
+        parameters.Add("DeleteRoute", String.Format(ApiConstants.TournamentEditionsDeleteRoute, tournamentEdition.Id));
+        parameters.Add("RedirectToOnSuccess", String.Format(ApiConstants.TournamentsGetOneRoute, tournamentEdition.Tournament.Id));
 
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        DialogService.Show<DeleteEntityDialog>("Delete", parameters, options);
     }
 }

@@ -22,9 +22,10 @@ else
 {
     <PageTitle>@tournament.Name | Tennis Tour</PageTitle>
 
+    <MudButton OnClick="@(() => NavigationManager.NavigateTo(UiConstants.TournamentsRoute))" StartIcon="@Icons.Material.Filled.ArrowBack" Variant="Variant.Outlined" Color="Color.Default" Class="mb-4">Back To Tournaments</MudButton>
     <AuthorizeView Roles="@Roles.Admin">
         <MudButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentsEditRoute, TournamentId)))" Variant="Variant.Filled" Color="Color.Warning" Class="mb-4">Edit</MudButton>
-        <MudButton OnClick="(() => DeleteClick())" Variant="Variant.Filled" Color="Color.Error" Class="mb-4">Delete</MudButton>
+        <MudButton Disabled="tournament.TournamentEditions.Any()" OnClick="(() => DeleteClick())" Variant="Variant.Filled" Color="Color.Error" Class="mb-4">Delete</MudButton>
     </AuthorizeView>
 
     <MudText Typo="Typo.h2" GutterBottom="true">@tournament.Name</MudText>
@@ -35,7 +36,11 @@ else
     <MudText class="mt-4" Typo="Typo.h3" GutterBottom="true">Editions</MudText>
     <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
-    if (tournament.TournamentEditions.Count == 0)
+    <AuthorizeView Roles="@Roles.Admin">
+        <MudButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionAddRoute, tournament.Id)))" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">Add Edition</MudButton>
+    </AuthorizeView>
+
+    if (!tournament.TournamentEditions.Any())
     {
         <MudAlert Severity="Severity.Info">No tournament editions to display</MudAlert>
     }
@@ -45,7 +50,7 @@ else
             <Columns>
                 <PropertyColumn Property="x => x.DateStart" Format="d" Title="Start Date" />
                 <PropertyColumn Property="x => x.DateEnd" Format="d" Title="End Date" />
-                <TemplateColumn Title="Registrations Status">
+                <TemplateColumn Title="Registrations Status" SortBy="@(x => x.IsRegistrationTimeOver)">
                     <CellTemplate>
                         @if (context.Item.IsRegistrationTimeOver)
                         {
@@ -61,7 +66,7 @@ else
                         }
                     </CellTemplate>
                 </TemplateColumn>
-                <TemplateColumn Title="Winner" SortBy="@(x => GetWinnerForSorting(x.Winner))">
+                <TemplateColumn Title="Winner" SortBy="@(x => x.Winner)">
                     <CellTemplate>
                         @if (context.Item?.Winner != null)
                         {
@@ -80,14 +85,14 @@ else
                         <MudTooltip Text="Tournament Edition Details">
                             <MudIconButton OnClick="@((e) => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionDetailsRoute, context.Item?.Id)))" Color="Color.Primary" Size="@Size.Small" Icon="@Icons.Material.Outlined.Visibility" />
                         </MudTooltip>
-                        <AuthorizeView Roles="@Roles.Admin" Context="authorize">
-                            <MudTooltip Text="Edit Tournament Edition">
-                                <MudIconButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionEditRoute, context.Item?.Id)))" Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
-                            </MudTooltip>
-                            <MudTooltip Text="Delete Tournament Edition">
-                                <MudIconButton Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" />
-                            </MudTooltip>
-                        </AuthorizeView>
+                            <AuthorizeView Roles="@Roles.Admin" Context="authorize">
+                                <MudTooltip Text="Edit Tournament Edition">
+                                    <MudIconButton Disabled="context.Item.IsRegistrationTimeOver" OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionEditRoute, context.Item?.Id)))" Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
+                                </MudTooltip>
+                                <MudTooltip Text="Delete Tournament Edition">
+                                    <MudIconButton Disabled="context.Item.IsRegistrationTimeOver" Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="(() => DeleteEditionClick(context.Item))" />
+                                </MudTooltip>
+                            </AuthorizeView>
                     </CellTemplate>
                 </TemplateColumn>
             </Columns>
@@ -137,7 +142,7 @@ else
     {
         if (contender != null)
         {
-            return $"{contender.ContenderInfo.FirstName} {contender.ContenderInfo.LastName}";
+            return contender.ToString();
         }
         else
         {
@@ -155,5 +160,24 @@ else
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
         DialogService.Show<DeleteEntityDialog>("Delete", parameters, options);
+    }
+
+    private async Task DeleteEditionClick(TournamentEditionResponseModel tournamentEdition)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("DisplayName", $"{tournamentEdition.Tournament.Name} ({tournamentEdition.DateStart.Year})");
+        parameters.Add("DeleteRoute", String.Format(ApiConstants.TournamentEditionsDeleteRoute, tournamentEdition.Id));
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<DeleteEntityDialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+
+        if (result.Canceled) return;
+
+        if (result.Data is bool succeeded && succeeded)
+        {
+            tournament.TournamentEditions.Remove(tournamentEdition);
+        }
     }
 }
