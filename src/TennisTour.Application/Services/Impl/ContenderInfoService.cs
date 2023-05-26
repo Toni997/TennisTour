@@ -60,6 +60,12 @@ namespace TennisTour.Application.Services.Impl
             var response = _mapper.Map<ContenderInfoModel>(contenderInfo);
             return response;
         }
+
+        public async Task<ContenderInfoResponseModel> GetContenderInfoByContenderIdAsync(string contenderId)
+        {
+            var contenderInfo = await _contenderInfoRepository.GetContenderInfoWithRankingByContenderIdAsync(contenderId);
+            return _mapper.Map<ContenderInfoResponseModel>(contenderInfo);
+        }
     }
 
       

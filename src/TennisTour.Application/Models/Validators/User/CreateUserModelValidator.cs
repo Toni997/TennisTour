@@ -14,10 +14,12 @@ public class CreateUserModelValidator : AbstractValidator<CreateUserModel>
         _userManager = userManager;
 
         RuleFor(u => u.Username)
+            .Cascade(CascadeMode.Stop)
             .MinimumLength(UserValidatorConfiguration.MinimumUsernameLength)
             .WithMessage($"Username should have minimum {UserValidatorConfiguration.MinimumUsernameLength} characters")
             .MaximumLength(UserValidatorConfiguration.MaximumUsernameLength)
             .WithMessage($"Username should have maximum {UserValidatorConfiguration.MaximumUsernameLength} characters")
+            .Matches(@"^[a-zA-Z][a-zA-Z0-9_]*[a-zA-Z0-9]$").WithMessage("Invalid username format")
             .MustAsync(UsernameIsUniqueAsync)
             .WithMessage("Username is not available");
 

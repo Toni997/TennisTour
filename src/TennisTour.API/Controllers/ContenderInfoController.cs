@@ -34,5 +34,11 @@ namespace TennisTour.API.Controllers
         {
             return Ok(ApiResult<ContenderInfoModel>.Success(await _contenderInfoService.GetContenderInfoAsync(contenderUsername)));
         }
+
+        [HttpGet("{contenderId:guid}")]
+        public async Task<IActionResult> GetContenderInfoByContenderIdAsync(string contenderId)
+        {
+            return Ok(ApiResult<ContenderInfoResponseModel>.Success(await _contenderInfoService.GetContenderInfoByContenderIdAsync(contenderId)));
+        }
     }
 }
