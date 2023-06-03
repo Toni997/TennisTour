@@ -17,24 +17,22 @@ namespace TennisTour.API.Controllers
     {
         private readonly IContenderInfoService _contenderInfoService;
 
-       
-
         public ContenderInfoController(IContenderInfoService contenderInfoService)
         {
             _contenderInfoService = contenderInfoService;
         }
 
-
         [Authorize]
         [HttpPut]
-        public async Task<IActionResult> EditContenderInfoAsync(ContenderInfoDto contenderInfo) 
+        public async Task<IActionResult> EditContenderInfoAsync(ContenderInfoModel contenderInfo) 
         {
-            return Ok(ApiResult<ContenderInfoDto>.Success(await _contenderInfoService.EditContenderInfoAsync(contenderInfo, User)));
+            return Ok(ApiResult<ContenderInfoModel>.Success(await _contenderInfoService.EditContenderInfoAsync(contenderInfo, User)));
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetContenderInfoAsync(string contenderUsername)
+        public async Task<IActionResult> GetContenderInfoAsync([FromQuery] string contenderUsername)
         {
-            return Ok(ApiResult<ContenderInfoDto>.Success(await _contenderInfoService.GetContenderInfoAsync(contenderUsername)));
+            return Ok(ApiResult<ContenderInfoModel>.Success(await _contenderInfoService.GetContenderInfoAsync(contenderUsername)));
         }
     }
 }

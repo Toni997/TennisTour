@@ -3,38 +3,39 @@
 @using Microsoft.AspNetCore.Components.Authorization;
 @using Newtonsoft.Json;
 @using System.Security.Claims;
-@using TennisTour.Application.Helpers;
+@using TennisTour.UI.Helpers;
 @using TennisTour.Application.Models.User;
 @using TennisTour.Application.Models;
 @using TennisTour.UI.AuthProviders;
 @using TennisTour.UI.Common;
 @using MudBlazor
 @inject HttpClient client;
+@attribute [AllowAnonymous]
 
 <h1>Login</h1>
 <MudGrid>
-	<MudItem xs="12" sm="6" md="4">
-		<MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined"></MudTextField>
-	</MudItem>
-	<MudItem xs="12" sm="6" md="4">
-		<MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="PasswordToggle" AdornmentAriaLabel="Show Password" />
-	</MudItem>
+    <MudItem xs="12" sm="6" md="4">
+        <MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined"></MudTextField>
+    </MudItem>
+    <MudItem xs="12" sm="6" md="4">
+        <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="PasswordToggle" AdornmentAriaLabel="Show Password" />
+    </MudItem>
 </MudGrid>
 <MudButton Variant="Variant.Filled" class="my-12" Color="Color.Primary" OnClick="TryLogin">Login</MudButton>
 @if (errorVisibility)
 {
-	<MudAlert Severity="Severity.Error">@StatusMessage</MudAlert>
+    <MudAlert Severity="Severity.Error">@StatusMessage</MudAlert>
 }
 
 @code {
-	private string Username { get; set; }
-	private string Password { get; set; }
-	private string StatusMessage { get; set; }
-	private bool errorVisibility = false;
-	@inject NavigationManager NavigationManager;
+    private string Username { get; set; }
+    private string Password { get; set; }
+    private string StatusMessage { get; set; }
+    private bool errorVisibility = false;
+    @inject NavigationManager NavigationManager;
 
-	[Inject]
-	private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
 
 	InputType PasswordInput = InputType.Password;
 	string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
@@ -56,15 +57,15 @@
 	}
 
 
-	private async Task TryLogin()
-	{
-		var loginUserModel = new LoginUserModel();
-		loginUserModel.Username = Username;
-		loginUserModel.Password = Password;
-		var content = new JsonNewtonContent(loginUserModel);
-		var result = await client.PostAsync(ApiConstants.LoginRoute, content);
-		if(result.Content != null)
-		{
+    private async Task TryLogin()
+    {
+        var loginUserModel = new LoginUserModel();
+        loginUserModel.Username = Username;
+        loginUserModel.Password = Password;
+        var content = new JsonNewtonContent(loginUserModel);
+        var result = await client.PostAsync(ApiConstants.LoginRoute, content);
+        if (result.Content != null)
+        {
 
 			var response = JsonConvert.DeserializeObject<ApiResult<LoginResponseModel>>(await result.Content.ReadAsStringAsync());
 			if(response?.Errors.Any() == true)
@@ -83,12 +84,13 @@
 				errorVisibility = true;
 			}
 
-		} else
-		{
-			StatusMessage = result?.ReasonPhrase ?? "";
-			errorVisibility = true;
+        }
+        else
+        {
+            StatusMessage = result?.ReasonPhrase ?? "";
+            errorVisibility = true;
 
-		}
-	
-	}
+        }
+
+    }
 }

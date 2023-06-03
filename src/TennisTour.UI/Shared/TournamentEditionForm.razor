@@ -1,0 +1,84 @@
+﻿@using TennisTour.Application.Models.Validators.TounamentEdition
+@using TennisTour.Application.Models.TournamentEdition
+@using TennisTour.Application.Models.Tournament
+
+
+<MudForm Model="@model" @ref="@form" Validation="@(upsertTournamentEditionValidator.ValidateValue)" ValidationDelay="0">
+    <MudCardContent>
+        <MudDatePicker @bind-Date="model.DateStart" For="@(() => model.DateStart)" Label="Start Date*" Variant="Variant.Outlined" Editable="true" Placeholder="Select Start Date" Class="mb-4" />
+        <MudDatePicker @bind-Date="model.DateEnd" For="@(() => model.DateEnd)" Label="End Date*" Variant="Variant.Outlined" Editable="true" Placeholder="Select End Date" Class="mb-4" />
+        <MudAutocomplete IsOpenChanged="@(() => isTournamentTouched = true)" Error="selectedTournament == null && isTournamentTouched" ErrorText="Tournament is required" T="TournamentResponseModel" Label="Select Tournament*" @bind-Value="selectedTournament" Variant="Variant.Outlined"
+                         SearchFunc="@Search" ToStringFunc="@(e => e.Name)">
+        </MudAutocomplete>
+    </MudCardContent>
+</MudForm>
+<MudCardActions>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@SubmitClick">Save</MudButton>
+</MudCardActions>
+
+@code {
+    private MudForm form;
+    private bool isTournamentTouched = false;
+
+    [Parameter]
+    public UpsertTournamentEditionModel model { get; set; }
+
+    [Parameter]
+    public Func<Task> Submit { get; set; }
+
+    private TournamentResponseModel selectedTournament;
+
+    private UpsertTournamentEditionModelValidator upsertTournamentEditionValidator = new UpsertTournamentEditionModelValidator();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (model.TournamentId != default)
+        {
+            try
+            {
+                var response = await HttpClient.GetAsync(String.Format(ApiConstants.TournamentsGetOneRoute, model.TournamentId));
+                response.EnsureSuccessStatusCode();
+
+                var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentResponseModel>>(await response.Content.ReadAsStringAsync());
+                selectedTournament = apiResult.Result;
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"HTTP request failed: {ex.Message}");
+            }
+        }
+    }
+
+    private async Task<IEnumerable<TournamentResponseModel>> Search(string value)
+    {
+        if (value.Trim().Equals(String.Empty))
+        {
+            return new List<TournamentResponseModel>();
+        }
+        var response = await HttpClient.GetStringAsync(String.Format(ApiConstants.TournamentsSearchAllRoute, value));
+        var apiResult = JsonConvert.DeserializeObject<ApiResult<List<TournamentResponseModel>>>(response);
+        return apiResult.Result;
+    }
+
+    private async Task SubmitClick()
+    {
+        isTournamentTouched = true;
+        await form.Validate();
+
+        if (form.IsValid && model.TournamentId != default)
+        {
+            model.TournamentId = selectedTournament.Id;
+            await Submit();
+        }
+    }
+
+    public bool ValidateTournament()
+    {
+        if (selectedTournament == null)
+        {
+            return false;
+        }
+
+        return true;
+    }
+}

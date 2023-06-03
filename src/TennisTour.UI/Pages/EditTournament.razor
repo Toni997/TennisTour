@@ -1,0 +1,89 @@
+﻿@page "/tournaments/{TournamentId:guid}/edit"
+@using TennisTour.Application.Models.Validators.Tournament
+@using TennisTour.Application.Models.Tournament
+@attribute [Authorize(Roles = Roles.Admin)]
+
+<PageTitle>@(isLoading ? "Loading..." : (model != null ? model.Name : "Error")) | Tennis Tour</PageTitle>
+
+<MudText Typo="Typo.h1" GutterBottom="true">Edit Tournament</MudText>
+
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+@if (model == null)
+{
+    if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error">Error while getting tournament info</MudAlert>
+    }
+}
+else
+{
+    <MudCard>
+        <TournamentForm model="@model" Submit="@Submit" />
+    </MudCard>
+}
+
+
+@code {
+    [Inject] ISnackbar Snackbar { get; set; }
+
+    [Parameter]
+    public Guid TournamentId { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private UpsertTournamentModel model;
+    private bool isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState;
+        var user = authState.User;
+
+        isLoading = true;
+        try
+        {
+            var response = await HttpClient.GetAsync(String.Format(ApiConstants.TournamentsGetOneRoute, TournamentId));
+            if (response.IsSuccessStatusCode)
+            {
+                var apiResult = JsonConvert.DeserializeObject<ApiResult<UpsertTournamentModel>>(await response.Content.ReadAsStringAsync());
+                model = apiResult.Result;
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            var content = new JsonNewtonContent(model);
+            var response = await HttpClient.PutAsync(String.Format(ApiConstants.TournamentsEditRoute, TournamentId), content);
+            var responseContent = await response.Content.ReadAsStringAsync();
+            response.EnsureSuccessStatusCode();
+
+            var result = JsonConvert.DeserializeObject<ApiResult<UpsertTournamentResponseModel>>(responseContent);
+            NavigationManager.NavigateTo(String.Format(UiConstants.TournamentDetailsRoute, result?.Result.Id));
+
+            Snackbar.Add("Successfully updated the tournament.", Severity.Success);
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+
+            Snackbar.Add("Error updating the tournament.", Severity.Error);
+        }
+    }
+}

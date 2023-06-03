@@ -1,0 +1,183 @@
+﻿@page "/tournaments/{TournamentId:guid}"
+@using TennisTour.Application.Models.Tournament;
+@using TennisTour.Application.Models.TournamentEdition;
+@using TennisTour.Application.Models.User;
+@inject IDialogService DialogService
+
+
+@if (tournament == null)
+{
+    <PageTitle>@(isLoading ? "Loading..." : (tournament != null ? tournament.Name : "Error")) | Tennis Tour</PageTitle>
+
+    if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error">Error while getting tournament info</MudAlert>
+    }
+}
+else
+{
+    <PageTitle>@tournament.Name | Tennis Tour</PageTitle>
+
+    <MudButton OnClick="@(() => NavigationManager.NavigateTo(UiConstants.TournamentsRoute))" StartIcon="@Icons.Material.Filled.ArrowBack" Variant="Variant.Outlined" Color="Color.Default" Class="mb-4">Back To Tournaments</MudButton>
+    <AuthorizeView Roles="@Roles.Admin">
+        <MudButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentsEditRoute, TournamentId)))" Variant="Variant.Filled" Color="Color.Warning" Class="mb-4">Edit</MudButton>
+        <MudButton Disabled="tournament.TournamentEditions.Any()" OnClick="(() => DeleteClick())" Variant="Variant.Filled" Color="Color.Error" Class="mb-4">Delete</MudButton>
+    </AuthorizeView>
+
+    <MudText Typo="Typo.h2" GutterBottom="true">@tournament.Name</MudText>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+    <MudText>Series: @tournament.Series.GetDescription()</MudText>
+    <MudText>Surface: @tournament.Surface.GetDescription()</MudText>
+    <MudText>Rounds: @tournament.NumberOfRounds</MudText>
+    <MudText class="mt-4" Typo="Typo.h3" GutterBottom="true">Editions</MudText>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+    <AuthorizeView Roles="@Roles.Admin">
+        <MudButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionAddRoute, tournament.Id)))" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">Add Edition</MudButton>
+    </AuthorizeView>
+
+    if (!tournament.TournamentEditions.Any())
+    {
+        <MudAlert Severity="Severity.Info">No tournament editions to display</MudAlert>
+    }
+    else
+    {
+        <MudDataGrid T="TournamentEditionResponseModel" Items="@tournament.TournamentEditions" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
+            <Columns>
+                <PropertyColumn Property="x => x.DateStart" Format="d" Title="Start Date" />
+                <PropertyColumn Property="x => x.DateEnd" Format="d" Title="End Date" />
+                <TemplateColumn Title="Registrations Status" SortBy="@(x => x.IsRegistrationTimeOver)">
+                    <CellTemplate>
+                        @if (context.Item.IsRegistrationTimeOver)
+                        {
+                            <MudTooltip Text="Closed">
+                                <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" />
+                            </MudTooltip>
+                        }
+                        else
+                        {
+                            <MudTooltip Text="Open">
+                                <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" />
+                            </MudTooltip>
+                        }
+                    </CellTemplate>
+                </TemplateColumn>
+                <TemplateColumn Title="Winner" SortBy="@(x => x.Winner)">
+                    <CellTemplate>
+                        @if (context.Item?.Winner != null)
+                        {
+                            <MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.Winner.Id)">
+                                @context.Item.Winner
+                            </MudLink>
+                        }
+                        else
+                        {
+                            <MudText>-</MudText>
+                        }
+                    </CellTemplate>
+                </TemplateColumn>
+                <TemplateColumn StickyRight="true" Sortable="false" Filterable="false">
+                    <CellTemplate>
+                        <MudTooltip Text="Tournament Edition Details">
+                            <MudIconButton OnClick="@((e) => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionDetailsRoute, context.Item?.Id)))" Color="Color.Primary" Size="@Size.Small" Icon="@Icons.Material.Outlined.Visibility" />
+                        </MudTooltip>
+                            <AuthorizeView Roles="@Roles.Admin" Context="authorize">
+                                <MudTooltip Text="Edit Tournament Edition">
+                                    <MudIconButton Disabled="context.Item.IsRegistrationTimeOver" OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionEditRoute, context.Item?.Id)))" Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
+                                </MudTooltip>
+                                <MudTooltip Text="Delete Tournament Edition">
+                                    <MudIconButton Disabled="context.Item.IsRegistrationTimeOver" Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete" OnClick="(() => DeleteEditionClick(context.Item))" />
+                                </MudTooltip>
+                            </AuthorizeView>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="TournamentEditionResponseModel" />
+            </PagerContent>
+        </MudDataGrid>
+    }
+}
+
+
+@code {
+    [Parameter]
+    public Guid TournamentId { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private TournamentWithEditionsResponseModel tournament;
+    private bool isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState;
+        var user = authState.User;
+
+        isLoading = true;
+        try
+        {
+            var response = await HttpClient.GetAsync(String.Format(ApiConstants.TournamentsGetOneRoute, TournamentId));
+            response.EnsureSuccessStatusCode();
+
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentWithEditionsResponseModel>>(await response.Content.ReadAsStringAsync());
+            tournament = apiResult.Result;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private string GetWinnerForSorting(ContenderResponseModel contender)
+    {
+        if (contender != null)
+        {
+            return contender.ToString();
+        }
+        else
+        {
+            return "-";
+        }
+    }
+
+    private async Task DeleteClick()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("DisplayName", tournament.Name);
+        parameters.Add("DeleteRoute", String.Format(ApiConstants.TournamentsDeleteRoute, tournament.Id));
+        parameters.Add("RedirectToOnSuccess", ApiConstants.TournamentsGetAllRoute);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        DialogService.Show<DeleteEntityDialog>("Delete", parameters, options);
+    }
+
+    private async Task DeleteEditionClick(TournamentEditionResponseModel tournamentEdition)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("DisplayName", $"{tournamentEdition.Tournament.Name} ({tournamentEdition.DateStart.Year})");
+        parameters.Add("DeleteRoute", String.Format(ApiConstants.TournamentEditionsDeleteRoute, tournamentEdition.Id));
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<DeleteEntityDialog>("Delete", parameters, options);
+        var result = await dialog.Result;
+
+        if (result.Canceled) return;
+
+        if (result.Data is bool succeeded && succeeded)
+        {
+            tournament.TournamentEditions.Remove(tournamentEdition);
+        }
+    }
+}

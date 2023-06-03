@@ -43,5 +43,10 @@ namespace TennisTour.DataAccess.Repositories.Impl
         {
             return await GetAllAsync(orderBy: OrderBy);
         }
+
+        public async Task<IList<Tournament>> SearchAllByNameOrderedByName(string value)
+        {
+            return await GetAllAsync(expression: x => x.Name.ToLower().Contains(value.ToLower()) ,orderBy: OrderBy);
+        }
     }
 }

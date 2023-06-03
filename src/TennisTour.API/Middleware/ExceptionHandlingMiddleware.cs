@@ -40,6 +40,7 @@ public class ExceptionHandlingMiddleware
             NotFoundException => StatusCodes.Status404NotFound,
             ResourceNotFoundException => StatusCodes.Status404NotFound,
             BadRequestException => StatusCodes.Status400BadRequest,
+            UnauthorizedException => StatusCodes.Status401Unauthorized,
             UnprocessableRequestException => StatusCodes.Status422UnprocessableEntity,
             _ => code
         };

@@ -10,5 +10,6 @@ namespace TennisTour.Application.Services
         Task<UpsertTournamentResponseModel> CreateAsync(UpsertTournamentModel upsertTournamentModel, CancellationToken cancellationToken = default);
         Task<UpsertTournamentResponseModel> UpdateAsync(Guid id, UpsertTournamentModel upsertTournamentModel);
         Task<BaseResponseModel> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+        Task<IEnumerable<TournamentResponseModel>> SearchAllByName(string value, CancellationToken cancellationToken = default);
     }
 }

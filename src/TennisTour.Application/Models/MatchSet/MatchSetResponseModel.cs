@@ -12,5 +12,10 @@ namespace TennisTour.Application.Models.MatchSet
         public int ContenderTwoGamesCount { get; set; }
         public int? LoserTiebreakPoints { get; set; }
         public int Order { get; set; }
+
+        public override string? ToString()
+        {
+            return $"{ContenderOneGamesCount}-{ContenderTwoGamesCount}{(LoserTiebreakPoints.HasValue ? $"({LoserTiebreakPoints.Value})" : "")}";
+        }
     }
 }
