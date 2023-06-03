@@ -20,7 +20,7 @@ namespace TennisTour.DataAccess.Repositories.Impl
 
         private IOrderedQueryable<Ranking> OrderByRankingPoints(IQueryable<Ranking> x)
         {
-            return x.OrderBy(x => x.Points);
+            return x.OrderByDescending(x => x.Points);
         }
 
         public async Task<IList<Ranking>> GetAllRankingsWithContenderDataOrderedByRank()
