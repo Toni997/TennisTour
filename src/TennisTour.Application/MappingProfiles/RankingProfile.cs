@@ -13,8 +13,8 @@ namespace TennisTour.Application.MappingProfiles
     {
         public RankingProfile()
         {
-            CreateMap<Ranking, RankingsModel>();
-            CreateMap<RankingsModel, Ranking>();
+            CreateMap<Ranking, RankingsResponseModel>();
+            CreateMap<RankingsResponseModel, Ranking>();
         }
     }
 }

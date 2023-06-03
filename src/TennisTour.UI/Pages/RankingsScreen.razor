@@ -10,7 +10,7 @@
 	<MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
 } else
 {
-	<MudDataGrid T="RankingsModel" Items="@Rankings" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
+	<MudDataGrid T="RankingsResponseModel" Items="@Rankings" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
 		<Columns>
 			<PropertyColumn Property="x => x.Rank" />
 			<PropertyColumn Property="x => x.ContenderInfo.FirstName" Title="First name" />
@@ -22,7 +22,7 @@
 			<PropertyColumn Property="x => x.BestRankDate" Title="Best rank date" />
 		</Columns>
 		<PagerContent>
-			<MudDataGridPager T="RankingsModel" />
+			<MudDataGridPager T="RankingsResponseModel" />
 		</PagerContent>
 	</MudDataGrid>
 
@@ -31,7 +31,7 @@
 
 
 @code {
-	private List<RankingsModel> Rankings { get; set; }
+	private List<RankingsResponseModel> Rankings { get; set; }
 
 	
 
@@ -43,7 +43,8 @@
 
 	private async Task LoadRankings()
 	{
-		Rankings = await httpClient.GetFromJsonAsync<List<RankingsModel>>(ApiConstants.RankingsGet);
+		var rangings = await httpClient.GetFromJsonAsync<List<RankingsResponseModel>>(ApiConstants.RankingsGetAll);
+		Rankings = rangings;
 	}
 
 }

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using TennisTour.Application.Models;
+using TennisTour.Application.Models.Rankings;
 using TennisTour.Application.Services;
 
 namespace TennisTour.API.Controllers
