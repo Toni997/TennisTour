@@ -15,7 +15,7 @@ namespace TennisTour.DataAccess.Repositories.Impl
 
         private IIncludableQueryable<Ranking, object> IncludesContenderData(IQueryable<Ranking> x)
         {
-            return x.Include(x => x.Contender);
+            return x.Include(x => x.Contender).ThenInclude(x=> x.ContenderInfo);
         }
 
         private IOrderedQueryable<Ranking> OrderByRankingPoints(IQueryable<Ranking> x)
