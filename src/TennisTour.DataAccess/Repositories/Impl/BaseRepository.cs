@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using TennisTour.Core.Common;
 using TennisTour.Core.Exceptions;
 using TennisTour.DataAccess.Models;
@@ -85,13 +86,19 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
-            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null)
+            Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null,
+            int? take = null)
     {
         var query = Query();
 
         query = Expression(expression, query);
         query = Include(includes, query);
         query = OrderBy(orderBy, query);
+
+        if (take.HasValue)
+        {
+            query = query.Take(take.Value);
+        }
 
         return await query.ToListAsync();
     }

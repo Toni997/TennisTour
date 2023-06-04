@@ -15,10 +15,12 @@ namespace TennisTour.API.Controllers
 {
     public class ContenderInfoController: ApiController
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IContenderInfoService _contenderInfoService;
 
-        public ContenderInfoController(IContenderInfoService contenderInfoService)
+        public ContenderInfoController(IHttpContextAccessor httpContextAccessor, IContenderInfoService contenderInfoService)
         {
+            _httpContextAccessor = httpContextAccessor;
             _contenderInfoService = contenderInfoService;
         }
 
@@ -38,7 +40,8 @@ namespace TennisTour.API.Controllers
         [HttpGet("{contenderId:guid}")]
         public async Task<IActionResult> GetContenderInfoByContenderIdAsync(string contenderId)
         {
-            return Ok(ApiResult<ContenderInfoResponseModel>.Success(await _contenderInfoService.GetContenderInfoByContenderIdAsync(contenderId)));
+            return Ok(ApiResult<ContenderDetailsResponseModel>.Success(await _contenderInfoService.GetContenderInfoByContenderIdAsync(
+                                                                    contenderId, _httpContextAccessor.HttpContext.User.Identity?.Name)));
         }
     }
 }

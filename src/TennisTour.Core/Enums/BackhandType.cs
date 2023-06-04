@@ -9,10 +9,10 @@ namespace TennisTour.Core.Enums
 {
     public enum BackhandType
     {
-        [Description("One-handed")]
+        [Description("One-handed backhand")]
         OneHanded = 0,
 
-        [Description("Two-handed")]
+        [Description("Two-handed backhand")]
         TwoHanded = 1
     }
 }

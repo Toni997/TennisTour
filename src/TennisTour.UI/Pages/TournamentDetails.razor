@@ -138,18 +138,6 @@ else
         }
     }
 
-    private string GetWinnerForSorting(ContenderResponseModel contender)
-    {
-        if (contender != null)
-        {
-            return contender.ToString();
-        }
-        else
-        {
-            return "-";
-        }
-    }
-
     private async Task DeleteClick()
     {
         var parameters = new DialogParameters();

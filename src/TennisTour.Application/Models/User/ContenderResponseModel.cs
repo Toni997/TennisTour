@@ -22,5 +22,6 @@ namespace TennisTour.Application.Models.User
     {
         public RankingResponseModel Ranking { get; set; }
         public int FavoritedByUsersCount { get; set; }
+        public bool IsFavoritedByUser { get; set; }
     }
 }

@@ -26,4 +26,9 @@ namespace TennisTour.Application.Models.TournamentEdition
         public ICollection<MatchResponseModel> Matches { get; set; }
         public ICollection<TournamentRegistrationForEditionResponseModel> TournamentRegistrations { get; set; }
     }
+
+    public class TournamentEditionWithMatchesResponseModel : TournamentEditionResponseModel
+    {
+        public ICollection<MatchResponseModel> Matches { get; set; }
+    }
 }

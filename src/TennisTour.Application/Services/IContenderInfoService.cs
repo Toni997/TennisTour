@@ -15,6 +15,6 @@ namespace TennisTour.Application.Services
 
         Task<ContenderInfoModel> EditContenderInfoAsync(ContenderInfoModel contenderInfo, ClaimsPrincipal claimsPrincipal);
 
-        Task<ContenderInfoResponseModel> GetContenderInfoByContenderIdAsync(string contenderId);
+        Task<ContenderDetailsResponseModel> GetContenderInfoByContenderIdAsync(string contenderId, string authenticatedUsername);
     }
 }

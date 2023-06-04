@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TennisTour.Application.Models.TournamentEdition;
 using TennisTour.Core.Entities;
 using TennisTour.Core.Enums;
 
 namespace TennisTour.Application.Models.User
 {
-    public class ContenderInfoResponseModel : BaseResponseModel
+    public class ContenderDetailsResponseModel : BaseResponseModel
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -20,6 +21,12 @@ namespace TennisTour.Application.Models.User
         public DateTime TurnedProOn { get; set; }
         public DateTime? RetiredOn { get; set; }
         public ContenderRankingResponseModel Contender { get; set; }
+        public ICollection<TournamentEditionWithMatchesResponseModel> LastTournamentsPlayed { get; set; }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
     }
 
     public class ContenderInfoModel : BaseResponseModel
