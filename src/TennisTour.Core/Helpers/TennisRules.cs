@@ -20,6 +20,9 @@ namespace TennisTour.Core.Helpers
         public const int MaximumPossibleTotalGamesPlayedInSet = 13;
         public const int MinimumPossibleTotalGamesPlayedInSet = 0;
         public const int MinimumGamesWonDifferenceToWinSetBeforeTiebreak = 2;
+        public const double InchesPerFoot = 12;
+        public const double CentimetersPerInch = 2.54;
+        public const double PoundsPerKilogram = 2.20462262185;
 
         public int GetBestOfSetsForTourSeries(Series series) => series switch
         {
@@ -95,6 +98,36 @@ namespace TennisTour.Core.Helpers
             else if (round == numberOfRounds - 1) return "Semi-Finals";
             else if (round == numberOfRounds - 2) return "Quarter-Finals";
             else return "Round of " + Math.Pow(2, numberOfRounds - round + 1);
+        }
+
+        public string CentimetersToFeetString(int centimeters)
+        {
+            var inches = centimeters / CentimetersPerInch;
+            var feet = inches / InchesPerFoot;
+
+            var feetPart = (int)feet;
+            var inchesPart = (int)Math.Round((feet - feetPart) * InchesPerFoot);
+
+            return $"{feetPart}'{inchesPart}\"";
+        }
+
+        public string KilogramsToPoundsString(int kilograms)
+        {
+            var pounds = kilograms * PoundsPerKilogram;
+
+            return $"{(int)pounds} lb";
+        }
+
+        public int CalculateContenderAge(DateTime birthdate)
+        {
+            var today = DateTime.Today;
+            var age = today.Year - birthdate.Year;
+
+            // Check if the birthdate has occurred this year
+            if (birthdate > today.AddYears(-age))
+                age--;
+
+            return age;
         }
     }
 }

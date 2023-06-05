@@ -17,4 +17,11 @@ namespace TennisTour.Application.Models.User
             return $"{ContenderInfo.FirstName} {ContenderInfo.LastName}";
         }
     }
+
+    public class ContenderRankingResponseModel : BaseResponseModel
+    {
+        public RankingResponseModel Ranking { get; set; }
+        public int FavoritedByUsersCount { get; set; }
+        public bool IsFavoritedByUser { get; set; }
+    }
 }

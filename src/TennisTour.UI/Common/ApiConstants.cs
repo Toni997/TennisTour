@@ -24,5 +24,7 @@ namespace TennisTour.UI.Common
         public const string RegisterRoute = "Users";
         public const string SaveContenderInfo = "ContenderInfo";
         public const string GetContenderInfo = "ContenderInfo?contenderUsername={0}";
+        public const string ContenderDetailsRoute = "ContenderInfo/{0}";
+
     }
 }

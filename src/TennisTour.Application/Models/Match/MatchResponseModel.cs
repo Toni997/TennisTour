@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Components;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,26 @@ namespace TennisTour.Application.Models.Match
         public int Round { get; set; }
 
         public ICollection<MatchSetResponseModel> MatchSets { get; set; }
+
+        public MarkupString GetMatchScore()
+        {
+            if (!MatchSets.Any())
+            {
+                return new MarkupString("No sets played");
+            }
+            var matchScoresList = new List<string>();
+            foreach(var matchSet in MatchSets)
+            {
+                if (!matchSet.LoserTiebreakPoints.HasValue)
+                {
+                    matchScoresList.Add($"{matchSet.ContenderOneGamesCount}{matchSet.ContenderTwoGamesCount}");
+                }
+                else
+                {
+                    matchScoresList.Add($"{matchSet.ContenderOneGamesCount}{matchSet.ContenderTwoGamesCount}<sup>{matchSet.LoserTiebreakPoints.Value}</sup>");
+                }
+            }
+            return new MarkupString("<span>" + string.Join(" ", matchScoresList) + "</span>");
+        }
     }
 }

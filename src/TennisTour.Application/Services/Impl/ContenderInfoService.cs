@@ -7,6 +7,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Exceptions;
+using TennisTour.Application.Models.TournamentEdition;
 using TennisTour.Application.Models.User;
 using TennisTour.Core.Entities;
 using TennisTour.Core.Helpers;
@@ -18,12 +19,18 @@ namespace TennisTour.Application.Services.Impl
     public class ContenderInfoService : IContenderInfoService
     {
         private readonly IContenderInfoRepository _contenderInfoRepository;
+        private readonly ITournamentEditionRepository _tournamentEditionRepository;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IMapper _mapper;
 
-        public ContenderInfoService(IContenderInfoRepository contenderInfoRepository, IMapper mapper, UserManager<ApplicationUser> userManager)
+        public ContenderInfoService(
+            IContenderInfoRepository contenderInfoRepository,
+            ITournamentEditionRepository tournamentEditionRepository,
+            IMapper mapper,
+            UserManager<ApplicationUser> userManager)
         {
             _contenderInfoRepository = contenderInfoRepository;
+            _tournamentEditionRepository = tournamentEditionRepository;
             _mapper = mapper;
             _userManager = userManager;
         }
@@ -60,8 +67,19 @@ namespace TennisTour.Application.Services.Impl
             var response = _mapper.Map<ContenderInfoModel>(contenderInfo);
             return response;
         }
-    }
 
-      
-       
+        public async Task<ContenderDetailsResponseModel> GetContenderInfoByContenderIdAsync(string contenderId, string authenticatedUsername)
+        {
+            var contenderInfo = await _contenderInfoRepository.GetContenderInfoWithRankingByContenderIdAsync(contenderId);
+            var contederDetailsModel = _mapper.Map<ContenderDetailsResponseModel>(contenderInfo);
+
+            var lastTournamentsPlayed = await _tournamentEditionRepository.GetLastTenByContenderWithMatchesOrderedByDateStartDescAsync(contenderId);
+            contederDetailsModel.LastTournamentsPlayed = _mapper.Map<List<TournamentEditionWithMatchesResponseModel>>(lastTournamentsPlayed);
+            
+            contederDetailsModel.Contender.IsFavoritedByUser = authenticatedUsername is not null &&
+                                                contenderInfo.Contender.FavoritedByUsers.Any(x => x.UserName == authenticatedUsername);
+            
+            return contederDetailsModel;
+        }
+    }
 }

@@ -1,0 +1,174 @@
+﻿@page "/contender/{ContenderId:guid}"
+@using TennisTour.Application.Models.Tournament;
+@using TennisTour.Application.Models.TournamentEdition;
+@using TennisTour.Application.Models.Match;
+@using TennisTour.Application.Models.User;
+@inject IDialogService DialogService
+@inject TennisRules TennisRules
+
+
+@if (contender == null)
+{
+    <PageTitle>@(isLoading ? "Loading..." : (contender != null ? contender : "Error")) | Tennis Tour</PageTitle>
+
+    if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error">Error while getting contender details</MudAlert>
+    }
+}
+else
+{
+    <PageTitle>@contender | Tennis Tour</PageTitle>
+
+    <MudText Typo="Typo.h2" GutterBottom="true">@contender</MudText>
+    @if (@contender.Contender.Ranking is null)
+    {
+        <MudText Typo="Typo.h3" Class="mb-3">Unranked</MudText>
+    }
+    else
+    {
+        <MudText Typo="Typo.h3" Class="mb-3">Rank #@contender.Contender.Ranking.Rank (@contender.Contender.Ranking.Points points)</MudText>
+    }
+    if (contender.Contender.Ranking?.BestRank.HasValue == true)
+    {
+        <MudText Typo="Typo.h6" GutterBottom="true">Best Rank: #@contender.Contender.Ranking.BestRank.Value (achieved on @contender.Contender.Ranking.BestRankDate.Value.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture))</MudText>
+    }
+    <MudText>Plays: @contender.DominantHand.GetDescription() (@contender.BackhandType.GetDescription())</MudText>
+    <MudText>Height: @contender.WeightKg kg (@TennisRules.KilogramsToPoundsString(@contender.WeightKg))</MudText>
+    <MudText>Weight: @contender.HeightCm cm (@TennisRules.CentimetersToFeetString(@contender.HeightCm))</MudText>
+    <MudText>Date of Birth: @contender.DateOfBirth.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture) (aged @TennisRules.CalculateContenderAge(contender.DateOfBirth))</MudText>
+    <MudText>Turned Pro: @contender.TurnedProOn.Year</MudText>
+    @if (contender.RetiredOn.HasValue)
+    {
+        <MudText>Retired: @contender.RetiredOn.Value.Year</MudText>
+    }
+
+    <MudStack Row="true" Class="d-flex align-center my-3">
+        <MudButton OnClick="FavoriteClick" Variant="Variant.Filled" Color="Color.Primary">Favorite</MudButton>
+        <MudText Typo="Typo.h6">
+            Favorited by @contender.Contender.FavoritedByUsersCount users
+        </MudText>
+    </MudStack>
+
+    <MudText class="mt-4" Typo="Typo.h3" GutterBottom="true">Last Tournaments Played</MudText>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+    if (!contender.LastTournamentsPlayed.Any())
+    {
+        <MudAlert Severity="Severity.Info">No tournament editions to display</MudAlert>
+    }
+    else
+    {
+        <MudExpansionPanels>
+            @foreach (var tournament in contender.LastTournamentsPlayed)
+            {
+                <MudExpansionPanel Text="@($"{tournament.Tournament.Name} ({tournament.DateStart.Year})")">
+                    <MudDataGrid T="MatchResponseModel" Items="@tournament.Matches" ReadOnly="true" Bordered="true" Filterable="false" SortMode="@SortMode.None">
+                        <Columns>
+                            <TemplateColumn Title="Round">
+                                <CellTemplate>
+                                    @TennisRules.GetRoundName(context.Item.Round, tournament.Tournament.NumberOfRounds)
+                                </CellTemplate>
+                            </TemplateColumn>
+                            <TemplateColumn Title="Opponent's Current Rank">
+                                <CellTemplate>
+                                    @if (context.Item.ContenderOne.Id != contender.Contender.Id)
+                                    {
+                                        <MudText>@context.Item.ContenderOne.Ranking.Rank</MudText>
+                                    }
+                                    else
+                                    {
+                                        <MudText>@context.Item.ContenderTwo.Ranking.Rank</MudText>
+                                    }
+                                </CellTemplate>
+                            </TemplateColumn>
+                            <TemplateColumn Title="Opponent">
+                                <CellTemplate>
+                                    @if (context.Item.ContenderOne.Id != contender.Contender.Id)
+                                    {
+                                        <MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.ContenderOne.Id)">
+                                            @context.Item.ContenderOne
+                                        </MudLink>
+                                    }
+                                    else
+                                    {
+                                        <MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.ContenderTwo.Id)">
+                                            @context.Item.ContenderTwo
+                                        </MudLink>
+                                    }
+                                </CellTemplate>
+                            </TemplateColumn>
+                            <TemplateColumn Title="Score">
+                                <CellTemplate>
+                                    @context.Item.GetMatchScore()
+                                </CellTemplate>
+                            </TemplateColumn>
+                            <TemplateColumn Title="Result">
+                                <CellTemplate>
+                                    @if (context.Item.Winner is null)
+                                    {
+                                        <MudText>-</MudText>
+                                    }
+                                    else if (context.Item.Winner.Id == contender.Contender.Id)
+                                    {
+                                        <MudText Color="Color.Success">W</MudText>
+                                    }
+                                    else
+                                    {
+                                        <MudText Color="Color.Error">L</MudText>
+                                    }
+                                </CellTemplate>
+                            </TemplateColumn>
+                        </Columns>
+                    </MudDataGrid>
+                </MudExpansionPanel>
+            }
+        </MudExpansionPanels>
+    }
+}
+
+
+@code {
+    [Parameter]
+    public Guid ContenderId { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private ContenderDetailsResponseModel contender;
+    private bool isLoading;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var authState = await AuthState;
+        var user = authState.User;
+
+        contender = null;
+        isLoading = true;
+        try
+        {
+            var response = await HttpClient.GetAsync(String.Format(ApiConstants.ContenderDetailsRoute, ContenderId));
+            response.EnsureSuccessStatusCode();
+
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<ContenderDetailsResponseModel>>(await response.Content.ReadAsStringAsync());
+            contender = apiResult.Result;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void FavoriteClick()
+    {
+        // TODO send post request to api to handle favoriting
+    }
+}

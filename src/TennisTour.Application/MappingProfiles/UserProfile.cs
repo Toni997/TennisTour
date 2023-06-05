@@ -14,5 +14,8 @@ public class UserProfile : Profile
         CreateMap<Ranking, RankingResponseModel>();
         CreateMap<ContenderInfoModel, ContenderInfo>();
         CreateMap<ContenderInfo, ContenderInfoModel>();
+        CreateMap<ContenderInfo, ContenderDetailsResponseModel>();
+        CreateMap<ApplicationUser, ContenderRankingResponseModel>()
+            .ForMember(x => x.FavoritedByUsersCount, opt => opt.MapFrom(x => x.FavoritedByUsers.Count));
     }
 }
