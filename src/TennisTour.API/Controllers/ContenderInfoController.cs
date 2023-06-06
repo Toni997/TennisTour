@@ -43,5 +43,12 @@ namespace TennisTour.API.Controllers
             return Ok(ApiResult<ContenderDetailsResponseModel>.Success(await _contenderInfoService.GetContenderInfoByContenderIdAsync(
                                                                     contenderId, _httpContextAccessor.HttpContext.User.Identity?.Name)));
         }
+
+        [HttpGet("{contenderOneId:guid}/h2h/{contenderTwoId:guid}")]
+        public async Task<IActionResult> GetContendersH2HDetails(string contenderOneId, string contenderTwoId)
+        {
+            return Ok(ApiResult<H2HResponseModel>
+                .Success(await _contenderInfoService.GetContendersH2HDetails(contenderOneId, contenderTwoId)));
+        }
     }
 }

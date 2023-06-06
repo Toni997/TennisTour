@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Models.MatchSet;
+using TennisTour.Application.Models.TournamentEdition;
 using TennisTour.Application.Models.User;
 using TennisTour.Core.Entities;
 
@@ -40,5 +41,11 @@ namespace TennisTour.Application.Models.Match
             }
             return new MarkupString("<span>" + string.Join(" ", matchScoresList) + "</span>");
         }
+    }
+
+    public class H2HMatchResponseModel
+    {
+        public H2HMatchWinnerResponseModel Winner { get; set; }
+        public H2HMatchTournamentEditionResponseModel TournamentEdition { get; set; }
     }
 }
