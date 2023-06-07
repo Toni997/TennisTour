@@ -16,7 +16,8 @@ namespace TennisTour.DataAccess.Repositories.Impl
 
         private IIncludableQueryable<Match, object> IncludesForH2H(IQueryable<Match> x)
         {
-            return x.Include(x => x.Winner)
+            return x.Include(x => x.MatchSets)
+                    .Include(x => x.Winner)
                         .ThenInclude(x => x.ContenderInfo)
                     .Include(x => x.TournamentEdition)
                         .ThenInclude(x => x.Tournament);

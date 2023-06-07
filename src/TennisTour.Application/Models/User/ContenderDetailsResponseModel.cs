@@ -53,6 +53,17 @@ namespace TennisTour.Application.Models.User
         public int CareerTotalLoses { get; set; }
         public int CareerH2HWins { get; set; }
         public RankingResponseModel Ranking { get; set; }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
+
+        public string GetRetiredOnForH2HTable()
+        {
+            if (!RetiredOn.HasValue) return "No";
+            return RetiredOn.Value.Year.ToString();
+        }
     }
 
     public class ContenderInfoModel : BaseResponseModel
