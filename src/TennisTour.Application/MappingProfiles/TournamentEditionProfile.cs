@@ -16,6 +16,7 @@ namespace TennisTour.Application.MappingProfiles
             CreateMap<TournamentEdition, TournamentEditionResponseModel>();
             CreateMap<TournamentEdition, TournamentEditionWithMatchesAndRegistrationsResponseModel>();
             CreateMap<TournamentEdition, TournamentEditionWithMatchesResponseModel>();
+            CreateMap<TournamentEdition, H2HMatchTournamentEditionResponseModel>();
             CreateMap<UpsertTournamentEditionModel, TournamentEdition>();
         }
     }

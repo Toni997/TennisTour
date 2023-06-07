@@ -99,5 +99,11 @@ namespace TennisTour.DataAccess.Repositories.Impl
                 includes: q => IncludesForContenderDetails(q, contenderId),
                 take: 10);
         }
+
+        public async Task<int> GetCareerTotalTitlesByContender(string contenderId)
+        {
+            var careerTitles = await GetAllAsync(x => x.WinnerId == contenderId);
+            return careerTitles.Count;
+        }
     }
 }

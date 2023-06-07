@@ -18,6 +18,17 @@ namespace TennisTour.Application.Models.User
         }
     }
 
+    public class H2HMatchWinnerResponseModel : BaseResponseModel
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public override string? ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
+    }
+
     public class ContenderRankingResponseModel : BaseResponseModel
     {
         public RankingResponseModel Ranking { get; set; }

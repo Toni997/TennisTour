@@ -7,7 +7,8 @@ using TennisTour.Core.Entities;
 
 namespace TennisTour.DataAccess.Repositories
 {
-    internal interface IMatchSetRepository : IBaseRepository<MatchSet>
+    public interface IMatchSetRepository : IBaseRepository<MatchSet>
     {
+        
     }
 }
