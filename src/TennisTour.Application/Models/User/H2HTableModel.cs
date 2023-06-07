@@ -18,14 +18,14 @@ namespace TennisTour.Application.Models.User
         public H2HTableModel(ContenderH2HDetailsResponseModel contenderOne, ContenderH2HDetailsResponseModel contenderTwo, TennisRules tennisRules)
         {
             var totalH2HMatches = contenderOne.CareerH2HWins + contenderTwo.CareerH2HWins;
-            var contenderOneH2HPercentage = (int)Math.Round((double)(100 * contenderOne.CareerH2HWins) / totalH2HMatches);
-            var contenderTwoH2HPercentage = 100 - contenderOneH2HPercentage;
+            var contenderOneH2HPercentage = totalH2HMatches != 0 ? (int)Math.Round((double)(100 * contenderOne.CareerH2HWins) / totalH2HMatches) : 0;
+            var contenderTwoH2HPercentage = totalH2HMatches != 0 ? 100 - contenderOneH2HPercentage : 0;
 
             var contenderOneTotalCareerMatches = contenderOne.CareerTotalWins + contenderOne.CareerTotalLoses;
-            var contenderOneWinPercentage = (int)Math.Round((double)(100 * contenderOne.CareerTotalWins) / contenderOneTotalCareerMatches);
+            var contenderOneWinPercentage = contenderOneTotalCareerMatches != 0 ? (int)Math.Round((double)(100 * contenderOne.CareerTotalWins) / contenderOneTotalCareerMatches) : 0;
 
             var contenderTwoTotalCareerMatches = contenderTwo.CareerTotalWins + contenderTwo.CareerTotalLoses;
-            var contenderTwoWinPercentage = (int)Math.Round((double)(100 * contenderTwo.CareerTotalWins) / contenderTwoTotalCareerMatches);
+            var contenderTwoWinPercentage = contenderTwoTotalCareerMatches != 0 ? (int)Math.Round((double)(100 * contenderTwo.CareerTotalWins) / contenderTwoTotalCareerMatches) : 0;
 
             H2HTableItems = new List<H2HTableItemModel>
             {
@@ -85,15 +85,15 @@ namespace TennisTour.Application.Models.User
                 },
                 new H2HTableItemModel
                 {
-                    FirstColumn = $"{contenderOne.Ranking.Rank} ({contenderOne.Ranking.Points} points)",
+                    FirstColumn = contenderOne.Ranking != null ? $"{contenderOne.Ranking.Rank} ({contenderOne.Ranking.Points} points)" : "Unranked",
                     SecondColumn = "Rank (points)",
-                    ThirdColumn = $"{contenderTwo.Ranking.Rank} ({contenderTwo.Ranking.Points} points)"
+                    ThirdColumn = contenderTwo.Ranking != null ? $"{contenderTwo.Ranking.Rank} ({contenderTwo.Ranking.Points} points)" : "Unranked"
                 },
                 new H2HTableItemModel
                 {
-                    FirstColumn = $"{contenderOne.Ranking.GetBestRank} ({contenderOne.Ranking.GetBestRankDate})",
+                    FirstColumn = contenderOne.Ranking != null ? $"{contenderOne.Ranking.GetBestRank} ({contenderOne.Ranking.GetBestRankDate})" : "Unranked",
                     SecondColumn = "Best Rank (achieved on)",
-                    ThirdColumn = $"{contenderTwo.Ranking.GetBestRank} ({contenderTwo.Ranking.GetBestRankDate})"
+                    ThirdColumn = contenderTwo.Ranking != null ? $"{contenderTwo.Ranking.GetBestRank} ({contenderTwo.Ranking.GetBestRankDate})" : "Unranked"
                 },
                 new H2HTableItemModel
                 {
