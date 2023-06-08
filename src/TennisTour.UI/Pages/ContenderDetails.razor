@@ -137,6 +137,8 @@ else
 
 
 @code {
+    [Inject] ISnackbar Snackbar { get; set; }
+
     [Parameter]
     public Guid ContenderId { get; set; }
 
@@ -186,8 +188,12 @@ else
                 response = await HttpClient.DeleteAsync(String.Format(ApiConstants.UnfavoriteContender, ContenderId));
             }
             response.EnsureSuccessStatusCode();
+            
             contender.Contender.IsFavoritedByUser = !contender.Contender.IsFavoritedByUser;
             contender.Contender.FavoritedByUsersCount = contender.Contender.IsFavoritedByUser ? contender.Contender.FavoritedByUsersCount + 1 : contender.Contender.FavoritedByUsersCount - 1;
+            
+            var snackMessage = contender.Contender.IsFavoritedByUser ? "Successfully favorited this contender" : "Successfully unfavorited this contender";
+            Snackbar.Add(snackMessage, Severity.Success);
         }
         catch (HttpRequestException ex)
         {

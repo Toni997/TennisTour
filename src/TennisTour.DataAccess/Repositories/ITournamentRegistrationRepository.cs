@@ -9,5 +9,7 @@ namespace TennisTour.DataAccess.Repositories
 {
     public interface ITournamentRegistrationRepository : IBaseRepository<TournamentRegistration>
     {
+        Task<bool> IsContenderRegisteredForTournamentEdition(string contenderId, Guid tournamentEditionId);
+        Task<IList<TournamentRegistration>> GetAllByTournamentEditionAsync(Guid tournamentEditionId);
     }
 }

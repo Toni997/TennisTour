@@ -129,12 +129,11 @@ public class UserService : IUserService
         if (user is null)
             throw new NotFoundException("User does not exist");
 
-        var contender = await _contenderInfoRepository.GetOneAsync(x => x.ContenderId == contenderId, includes: q => q.Include(x => x.Contender).ThenInclude(x => x.FavoritedByUsers));
-        if (contender is null)
-            throw new NotFoundException("Contender does not exist");
+        var contender = await _contenderInfoRepository.GetOneAsync(
+            x => x.ContenderId == contenderId, includes: q => q.Include(x => x.Contender).ThenInclude(x => x.FavoritedByUsers));
 
         if (await _contenderInfoRepository.IsFavoritedByUser(contenderId, userId))
-            throw new UnprocessableRequestException("User has already favorited the specified contender");
+            throw new UnprocessableRequestException("You have already favorited this contender");
 
         user.AddToFavorites(contender.Contender);
         await _contenderInfoRepository.SaveChangesAsync();
@@ -151,12 +150,11 @@ public class UserService : IUserService
         if (user is null)
             throw new NotFoundException("User does not exist");
 
-        var contender = await _contenderInfoRepository.GetOneAsync(x => x.ContenderId == contenderId, includes: q => q.Include(x => x.Contender).ThenInclude(x => x.FavoritedByUsers));
-        if (contender is null)
-            throw new NotFoundException("Contender does not exist");
+        var contender = await _contenderInfoRepository.GetOneAsync(
+            x => x.ContenderId == contenderId, includes: q => q.Include(x => x.Contender).ThenInclude(x => x.FavoritedByUsers));
 
         if (!await _contenderInfoRepository.IsFavoritedByUser(contenderId, userId))
-            throw new UnprocessableRequestException("User has not favorited the specified contender");
+            throw new UnprocessableRequestException("You have never favorited this contender");
 
         user.RemoveFromFavorites(contender.Contender);
         await _contenderInfoRepository.SaveChangesAsync();

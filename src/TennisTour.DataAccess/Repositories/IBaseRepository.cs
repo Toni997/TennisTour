@@ -13,6 +13,9 @@ public interface IBaseRepository<TEntity> where TEntity : BaseEntity
     Task<TEntity> GetOneAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>,
         IIncludableQueryable<TEntity, object>> includes = null);
 
+    Task<TEntity> GetOneOrNullAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>,
+       IIncludableQueryable<TEntity, object>> includes = null);
+
     Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression = null,
             Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null,
             Func<IQueryable<TEntity>, IIncludableQueryable<TEntity, object>> includes = null,
