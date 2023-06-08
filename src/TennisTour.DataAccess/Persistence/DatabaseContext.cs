@@ -41,6 +41,7 @@ public class DatabaseContext : IdentityDbContext<ApplicationUser>
             {
                 case EntityState.Added:
                     entry.Entity.CreatedBy = _claimService.GetUserId();
+                    entry.Entity.UpdatedBy = _claimService.GetUserId();
                     entry.Entity.CreatedOn = dateTimeNow;
                     entry.Entity.UpdatedOn = dateTimeNow;
                     break;

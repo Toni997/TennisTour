@@ -9,7 +9,6 @@ using TennisTour.Core.Exceptions;
 using TennisTour.DataAccess.Models;
 using TennisTour.DataAccess.Persistence;
 using X.PagedList;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TennisTour.DataAccess.Repositories.Impl;
 
@@ -59,10 +58,6 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
             Console.WriteLine(ex.Message);
             // Additional handling as needed
         }
-       
-
-
-
 
         return addedEntity;
     }
@@ -152,5 +147,10 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task<bool> ExistsAsync(Guid id)
     {
         return await _dbSet.FindAsync(id) != null;
+    }
+
+    public async Task SaveChangesAsync()
+    {
+        await _context.SaveChangesAsync();
     }
 }

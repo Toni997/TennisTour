@@ -46,17 +46,13 @@ public static class DataAccessDependencyInjection
             {
                 options.UseInMemoryDatabase("TennisTour");
                 options.ConfigureWarnings(x => x.Ignore(InMemoryEventId.TransactionIgnoredWarning));
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
         else
             services.AddDbContext<DatabaseContext>(options =>
             {
                 options.UseSqlServer(databaseConfig.ConnectionString,
                   opt => opt.MigrationsAssembly(typeof(DatabaseContext).Assembly.FullName));
-                options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
-              
-        
     }
 
     private static void AddIdentity(this IServiceCollection services)

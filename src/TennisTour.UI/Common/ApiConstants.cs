@@ -26,6 +26,7 @@ namespace TennisTour.UI.Common
         public const string GetContenderInfo = "ContenderInfo?contenderUsername={0}";
         public const string ContenderDetailsRoute = "ContenderInfo/{0}";
         public const string ContendersH2HRoute = "ContenderInfo/{0}/h2h/{1}";
-
+        public const string FavoriteContender = "Users/Favorite/{0}";
+        public const string UnfavoriteContender = "Users/Unfavorite/{0}";
     }
 }

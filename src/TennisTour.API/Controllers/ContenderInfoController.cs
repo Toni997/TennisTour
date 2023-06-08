@@ -10,17 +10,18 @@ using TennisTour.Application.Services.Impl;
 using TennisTour.Core.Entities;
 using TennisTour.Core.Helpers;
 using TennisTour.DataAccess.Repositories;
+using TennisTour.Shared.Services;
 
 namespace TennisTour.API.Controllers
 {
     public class ContenderInfoController: ApiController
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IClaimService _claimService;
         private readonly IContenderInfoService _contenderInfoService;
 
-        public ContenderInfoController(IHttpContextAccessor httpContextAccessor, IContenderInfoService contenderInfoService)
+        public ContenderInfoController(IClaimService claimService, IContenderInfoService contenderInfoService)
         {
-            _httpContextAccessor = httpContextAccessor;
+            _claimService = claimService;
             _contenderInfoService = contenderInfoService;
         }
 
@@ -41,7 +42,7 @@ namespace TennisTour.API.Controllers
         public async Task<IActionResult> GetContenderInfoByContenderIdAsync(string contenderId)
         {
             return Ok(ApiResult<ContenderDetailsResponseModel>.Success(await _contenderInfoService.GetContenderInfoByContenderIdAsync(
-                                                                    contenderId, _httpContextAccessor.HttpContext.User.Identity?.Name)));
+                                                                    contenderId, _claimService.GetUserId())));
         }
 
         [HttpGet("{contenderOneId:guid}/h2h/{contenderTwoId:guid}")]

@@ -9,6 +9,7 @@ using TennisTour.Application.Models;
 using TennisTour.Application.Models.User;
 using TennisTour.Application.Templates;
 using TennisTour.Core.Entities;
+using TennisTour.DataAccess.Repositories;
 
 namespace TennisTour.Application.Services.Impl;
 
@@ -20,13 +21,15 @@ public class UserService : IUserService
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly ITemplateService _templateService;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IContenderInfoRepository _contenderInfoRepository;
 
     public UserService(IMapper mapper,
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IConfiguration configuration,
         ITemplateService templateService,
-        IEmailService emailService)
+        IEmailService emailService,
+        IContenderInfoRepository contenderInfoRepository)
     {
         _mapper = mapper;
         _userManager = userManager;
@@ -34,6 +37,7 @@ public class UserService : IUserService
         _configuration = configuration;
         _templateService = templateService;
         _emailService = emailService;
+        _contenderInfoRepository = contenderInfoRepository;
     }
 
     public async Task<CreateUserResponseModel> CreateAsync(CreateUserModel createUserModel)
@@ -116,6 +120,50 @@ public class UserService : IUserService
         return new BaseResponseModel
         {
             Id = Guid.Parse(user.Id)
+        };
+    }
+
+    public async Task<BaseResponseModel> FavoriteContender(string userId, string contenderId)
+    {
+        var user = await _userManager.Users.Include(x => x.FavoriteContenders).FirstOrDefaultAsync(x => x.Id == userId);
+        if (user is null)
+            throw new NotFoundException("User does not exist");
+
+        var contender = await _contenderInfoRepository.GetOneAsync(x => x.ContenderId == contenderId, includes: q => q.Include(x => x.Contender).ThenInclude(x => x.FavoritedByUsers));
+        if (contender is null)
+            throw new NotFoundException("Contender does not exist");
+
+        if (await _contenderInfoRepository.IsFavoritedByUser(contenderId, userId))
+            throw new UnprocessableRequestException("User has already favorited the specified contender");
+
+        user.AddToFavorites(contender.Contender);
+        await _contenderInfoRepository.SaveChangesAsync();
+
+        return new BaseResponseModel
+        {
+            Id = Guid.Parse(contenderId)
+        };
+    }
+
+    public async Task<BaseResponseModel> UnfavoriteContender(string userId, string contenderId)
+    {
+        var user = await _userManager.Users.Include(x => x.FavoriteContenders).FirstOrDefaultAsync(x => x.Id == userId);
+        if (user is null)
+            throw new NotFoundException("User does not exist");
+
+        var contender = await _contenderInfoRepository.GetOneAsync(x => x.ContenderId == contenderId, includes: q => q.Include(x => x.Contender).ThenInclude(x => x.FavoritedByUsers));
+        if (contender is null)
+            throw new NotFoundException("Contender does not exist");
+
+        if (!await _contenderInfoRepository.IsFavoritedByUser(contenderId, userId))
+            throw new UnprocessableRequestException("User has not favorited the specified contender");
+
+        user.RemoveFromFavorites(contender.Contender);
+        await _contenderInfoRepository.SaveChangesAsync();
+
+        return new BaseResponseModel
+        {
+            Id = Guid.Parse(contenderId)
         };
     }
 }

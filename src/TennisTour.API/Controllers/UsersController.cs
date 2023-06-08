@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using TennisTour.API.Extension;
 using TennisTour.Application.Models;
 using TennisTour.Application.Models.User;
 using TennisTour.Application.Services;
@@ -41,5 +42,21 @@ public class UsersController : ApiController
     {
         return Ok(ApiResult<BaseResponseModel>.Success(
             await _userService.ChangePasswordAsync(id, changePasswordModel)));
+    }
+
+    [Authorize]
+    [HttpPost(nameof(Favorite) + "/{contenderId:guid}")]
+    public async Task<IActionResult> Favorite(string contenderId)
+    {
+        return Ok(ApiResult<BaseResponseModel>.Success(
+            await _userService.FavoriteContender(User.GetUserId(), contenderId)));
+    }
+
+    [Authorize]
+    [HttpDelete(nameof(Unfavorite) + "/{contenderId:guid}")]
+    public async Task<IActionResult> Unfavorite(string contenderId)
+    {
+        return Ok(ApiResult<BaseResponseModel>.Success(
+            await _userService.UnfavoriteContender(User.GetUserId(), contenderId)));
     }
 }

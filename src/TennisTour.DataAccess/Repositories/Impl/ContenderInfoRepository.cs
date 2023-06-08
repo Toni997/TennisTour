@@ -32,5 +32,12 @@ namespace TennisTour.DataAccess.Repositories.Impl
         {
             return await GetOneAsync(x => x.ContenderId == contenderId, IncludesForGetOne);
         }
+
+        public async Task<bool> IsFavoritedByUser(string contenderId, string userId)
+        {
+            var contender = await GetOneAsync(x => x.ContenderId == contenderId, includes: x => x.Include(x => x.Contender).ThenInclude(x => x.FavoritedByUsers));
+            var user = contender.Contender.FavoritedByUsers.FirstOrDefault(x => x.Id == userId);
+            return user is not null;
+        }
     }
 }

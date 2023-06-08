@@ -11,5 +11,6 @@ namespace TennisTour.DataAccess.Repositories
     {
         Task<ContenderInfo> GetContenderInfoOfUsenameAsync(string username);
         Task<ContenderInfo> GetContenderInfoWithRankingByContenderIdAsync(string contenderId);
+        Task<bool> IsFavoritedByUser(string contenderId, string userId);
     }
 }

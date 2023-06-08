@@ -48,8 +48,12 @@ else
     }
 
     <MudStack Row="true" Class="d-flex align-center my-3">
-        <MudButton OnClick="FavoriteClick" Variant="Variant.Filled" Color="Color.Primary">Favorite</MudButton>
-        <MudText Typo="Typo.h6">
+        <AuthorizeView>
+            <MudButton OnClick="FavoriteClick" Variant="Variant.Filled" Color="Color.Primary" Disabled="isLoading">
+                @(!contender.Contender.IsFavoritedByUser ? "Favorite" : "Unfavorite")
+            </MudButton>
+        </AuthorizeView>
+                <MudText Typo="Typo.h6">
             Favorited by @contender.Contender.FavoritedByUsersCount users
         </MudText>
     </MudStack>
@@ -167,8 +171,31 @@ else
         }
     }
 
-    private void FavoriteClick()
+    private async Task FavoriteClick()
     {
-        // TODO send post request to api to handle favoriting
+        isLoading = true;
+        try
+        {
+            HttpResponseMessage response;
+            if (!contender.Contender.IsFavoritedByUser)
+            {
+                response = await HttpClient.PostAsync(String.Format(ApiConstants.FavoriteContender, ContenderId), new JsonNewtonContent(""));
+            }
+            else
+            {
+                response = await HttpClient.DeleteAsync(String.Format(ApiConstants.UnfavoriteContender, ContenderId));
+            }
+            response.EnsureSuccessStatusCode();
+            contender.Contender.IsFavoritedByUser = !contender.Contender.IsFavoritedByUser;
+            contender.Contender.FavoritedByUsersCount = contender.Contender.IsFavoritedByUser ? contender.Contender.FavoritedByUsersCount + 1 : contender.Contender.FavoritedByUsersCount - 1;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
     }
 }
