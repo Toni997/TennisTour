@@ -50,7 +50,7 @@ else
 
     <AuthorizeView Roles="@Roles.Contender">
         <MudButton Disabled="tournamentEdition.IsRegistrationTimeOver || isLoading" OnClick="RegisterToPlayClick" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">
-            @(!tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? "Register To Play" : "Unregister To Play")
+            @(!tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? "Register To Play" : "Withdraw registration")
         </MudButton>
     </AuthorizeView>
     <MudButton OnClick="RegisteredContendersClick" StartIcon="@Icons.Material.Filled.List" Variant="Variant.Filled" Color="Color.Secondary" Class="mb-4">
@@ -217,7 +217,7 @@ else
             }
             else
             {
-                response = await HttpClient.DeleteAsync(String.Format(ApiConstants.UnregisterToPlayTournament, TournamentEditionId));
+                response = await HttpClient.DeleteAsync(String.Format(ApiConstants.WithdrawTournamentRegistration, TournamentEditionId));
             }
             response.EnsureSuccessStatusCode();
 
