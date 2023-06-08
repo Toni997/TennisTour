@@ -9,6 +9,7 @@ using TennisTour.Application.Exceptions;
 using TennisTour.Application.Models;
 using TennisTour.Application.Models.Tournament;
 using TennisTour.Application.Models.TournamentEdition;
+using TennisTour.Application.Models.TournamentRegistration;
 using TennisTour.Core.Entities;
 using TennisTour.DataAccess.Repositories;
 using TennisTour.DataAccess.Repositories.Impl;
@@ -18,17 +19,20 @@ namespace TennisTour.Application.Services.Impl
 {
     public class TournametEditionService : ITournamentEditionService
     {
-        private readonly IClaimService _claimService;
         private readonly IMapper _mapper;
         private readonly ITournamentEditionRepository _tournamentEditionRepository;
         private readonly ITournamentRepository _tournamentRepository;
+        private readonly ITournamentRegistrationRepository _tournamentRegistrationRepository;
 
-        public TournametEditionService(ITournamentEditionRepository tournamentEditionRepository, ITournamentRepository tournamentRepository, IMapper mapper, IClaimService claimService)
+        public TournametEditionService(ITournamentEditionRepository tournamentEditionRepository,
+            ITournamentRepository tournamentRepository,
+            IMapper mapper,
+            ITournamentRegistrationRepository tournamentRegistrationRepository)
         {
             _tournamentEditionRepository = tournamentEditionRepository;
             _tournamentRepository = tournamentRepository;
             _mapper = mapper;
-            _claimService = claimService;
+            _tournamentRegistrationRepository = tournamentRegistrationRepository;
         }
 
         public async Task<IEnumerable<TournamentEditionResponseModel>> GetAllOrderedByDateStartDescAsync(
@@ -39,12 +43,15 @@ namespace TennisTour.Application.Services.Impl
             return _mapper.Map<IEnumerable<TournamentEditionResponseModel>>(tournamentEditions);
         }
 
-        public async Task<TournamentEditionWithMatchesAndRegistrationsResponseModel> GetByIdWithMatchesAsync(Guid id,
-            CancellationToken cancellationToken = default)
+        public async Task<TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel> GetByIdWithMatchesAsync(Guid id,
+            string authenticatedUserId, CancellationToken cancellationToken = default)
         {
             var tournamentEdition = await _tournamentEditionRepository.GetByIdWithMatchesAsync(id);
 
-            return _mapper.Map<TournamentEditionWithMatchesAndRegistrationsResponseModel>(tournamentEdition);
+            var tournamentEditionModel = _mapper.Map<TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel>(tournamentEdition);
+            tournamentEditionModel.IsAuthenticatedUserRegisteredToPlay =
+                await _tournamentRegistrationRepository.IsContenderRegisteredForTournamentEdition(authenticatedUserId, id);
+            return tournamentEditionModel;
         }
 
         public async Task<UpsertTournamentEditionResponseModel> CreateAsync(UpsertTournamentEditionModel upsertTournamentEditionModel,
@@ -65,7 +72,8 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task<UpsertTournamentEditionResponseModel> UpdateAsync(Guid id, UpsertTournamentEditionModel upsertTournamentEditionModel)
         {
-            var tournamentEdition = await _tournamentEditionRepository.GetOneAsync(expression: tl => tl.Id == id, includes: q => q.Include(te => te.Matches));
+            var tournamentEdition = await _tournamentEditionRepository.GetOneAsync(
+                expression: tl => tl.Id == id, includes: q => q.Include(te => te.Matches));
 
             if (tournamentEdition.Matches.Any())
                 throw new UnprocessableRequestException("Tournament editions with existing matches cannot be updated");
@@ -80,7 +88,8 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task<BaseResponseModel> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
         {
-            var tournamentEdition = await _tournamentEditionRepository.GetOneAsync(expression: tl => tl.Id == id, includes: q => q.Include(te => te.Matches));
+            var tournamentEdition = await _tournamentEditionRepository.GetOneAsync(
+                expression: tl => tl.Id == id, includes: q => q.Include(te => te.Matches));
 
             if (tournamentEdition.Matches.Any())
                 throw new UnprocessableRequestException("Tournament editions with existing matches cannot be deleted");
@@ -89,6 +98,50 @@ namespace TennisTour.Application.Services.Impl
             {
                 Id = (await _tournamentEditionRepository.DeleteAsync(tournamentEdition)).Id
             };
+        }
+
+        public async Task<BaseResponseModel> RegisterAsync(Guid tournamentEditionId, string contenderId)
+        {
+            await _tournamentEditionRepository.GetByIdAsync(tournamentEditionId);
+
+            var existingRegistration = await _tournamentRegistrationRepository.GetOneOrNullAsync(
+                    x => x.TournamentEditionId == tournamentEditionId && x.ContenderId == contenderId);
+
+            if (existingRegistration is not null)
+                throw new UnprocessableRequestException("You have already registered to play in this tournament");
+
+            var registration = await _tournamentRegistrationRepository.AddAsync(new TournamentRegistration
+            {
+                TournamentEditionId = tournamentEditionId,
+                ContenderId = contenderId,
+            });
+
+            return new BaseResponseModel
+            {
+                Id = registration.Id
+            };
+        }
+
+        public async Task<BaseResponseModel> UnregisterAsync(Guid tournamentEditionId, string contenderId)
+        {
+            await _tournamentEditionRepository.GetByIdAsync(tournamentEditionId);
+
+            var registration = await _tournamentRegistrationRepository.GetOneAsync(
+                    x => x.TournamentEditionId == tournamentEditionId && x.ContenderId == contenderId);
+
+            await _tournamentRegistrationRepository.DeleteAsync(registration);
+
+            return new BaseResponseModel
+            {
+                Id = registration.Id
+            };
+        }
+
+        public async Task<IEnumerable<TournamentRegistrationForEditionResponseModel>> GetAllRegistrationsAsync(Guid id)
+        {
+            var registrations = await _tournamentRegistrationRepository.GetAllByTournamentEditionAsync(id);
+
+            return _mapper.Map<List<TournamentRegistrationForEditionResponseModel>>(registrations);
         }
     }
 }

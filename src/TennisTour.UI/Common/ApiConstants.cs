@@ -28,5 +28,8 @@ namespace TennisTour.UI.Common
         public const string ContendersH2HRoute = "ContenderInfo/{0}/h2h/{1}";
         public const string FavoriteContender = "Users/Favorite/{0}";
         public const string UnfavoriteContender = "Users/Unfavorite/{0}";
+        public const string RegisterToPlayTournament = "TournamentEditions/{0}/Register";
+        public const string UnregisterToPlayTournament = "TournamentEditions/{0}/Unregister";
+        public const string GetAllRegistrationsForTournamentEdition = "TournamentEditions/{0}/Registrations";
     }
 }
