@@ -29,4 +29,5 @@ public interface IBaseRepository<TEntity> where TEntity : BaseEntity
 
     Task<TEntity> DeleteAsync(TEntity entity);
     Task<bool> ExistsAsync(Guid id);
+    Task SaveChangesAsync();
 }

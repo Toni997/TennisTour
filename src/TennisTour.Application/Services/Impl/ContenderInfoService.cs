@@ -72,7 +72,7 @@ namespace TennisTour.Application.Services.Impl
             return response;
         }
 
-        public async Task<ContenderDetailsResponseModel> GetContenderInfoByContenderIdAsync(string contenderId, string authenticatedUsername)
+        public async Task<ContenderDetailsResponseModel> GetContenderInfoByContenderIdAsync(string contenderId, string authenticatedUserId)
         {
             var contenderInfo = await _contenderInfoRepository.GetContenderInfoWithRankingByContenderIdAsync(contenderId);
             var contederDetailsModel = _mapper.Map<ContenderDetailsResponseModel>(contenderInfo);
@@ -80,8 +80,7 @@ namespace TennisTour.Application.Services.Impl
             var lastTournamentsPlayed = await _tournamentEditionRepository.GetLastTenByContenderWithMatchesOrderedByDateStartDescAsync(contenderId);
             contederDetailsModel.LastTournamentsPlayed = _mapper.Map<List<TournamentEditionWithMatchesResponseModel>>(lastTournamentsPlayed);
             
-            contederDetailsModel.Contender.IsFavoritedByUser = authenticatedUsername is not null &&
-                                                contenderInfo.Contender.FavoritedByUsers.Any(x => x.UserName == authenticatedUsername);
+            contederDetailsModel.Contender.IsFavoritedByUser = await _contenderInfoRepository.IsFavoritedByUser(contenderId, authenticatedUserId);
             
             return contederDetailsModel;
         }
