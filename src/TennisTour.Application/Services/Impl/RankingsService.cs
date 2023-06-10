@@ -61,6 +61,7 @@ namespace TennisTour.Application.Services.Impl
                 if (ranking.BestRank != null && ranking.BestRank < ranking.Rank)
                 {
                     ranking.BestRank = ranking.Rank;
+                    ranking.BestRankDate = DateTime.Now;
                 }
                 ranking.UpdatedOn = DateTime.Now;
                 ranking.UpdatedBy = _userManager.GetUserId(claimsPrincipal);

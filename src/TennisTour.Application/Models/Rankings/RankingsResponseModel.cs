@@ -17,6 +17,10 @@ namespace TennisTour.Application.Models.Rankings
         public int? PreviousPoints { get; set; }
         public int? BestRank { get; set; }
         public DateTime? BestRankDate { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string? UpdatedBy { get; set; }
+        public DateTime UpdatedOn { get; set; }
     }
 
 }

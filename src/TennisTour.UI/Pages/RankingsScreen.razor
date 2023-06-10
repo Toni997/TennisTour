@@ -10,6 +10,11 @@
 	<MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
 } else
 {
+	<AuthorizeView>
+		<MudButton Variant="Variant.Text" Color="Color.Primary" Class="mb-6" OnClick="UpadateRankings">Upadate</MudButton>
+		<MudText Typo="Typo.body1" Class="mb-6">Last updated: @LastUpdated</MudText>
+	</AuthorizeView>
+	
 	<MudDataGrid T="RankingsResponseModel" Items="@Rankings" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
 		<Columns>
 			<PropertyColumn Property="x => x.Rank" />
@@ -31,20 +36,26 @@
 
 
 @code {
-	private List<RankingsResponseModel> Rankings { get; set; }
+    private List<RankingsResponseModel> Rankings { get; set; }
+    private DateTime? LastUpdated { get; set; }
 
-	
-
-	protected override async Task OnInitializedAsync() 
-	{
-		await LoadRankings();
-	}
+    protected override async Task OnInitializedAsync() 
+    {
+        await LoadRankings();
+    }
 
 
-	private async Task LoadRankings()
-	{
-		var rangings = await httpClient.GetFromJsonAsync<List<RankingsResponseModel>>(ApiConstants.RankingsGetAll);
-		Rankings = rangings;
-	}
+    private async Task LoadRankings()
+    {
+        var rankings = await httpClient.GetFromJsonAsync<List<RankingsResponseModel>>(ApiConstants.RankingsGetAll);
+        Rankings = rankings;
+        LastUpdated = rankings?[0].UpdatedOn;
+    }
+
+    private async Task UpadateRankings()
+    {
+        var rankings = await httpClient.PostAsync(ApiConstants.RankingsUpdate, null);
+        await LoadRankings();
+    }
 
 }
