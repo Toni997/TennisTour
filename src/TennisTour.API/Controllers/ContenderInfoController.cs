@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.JSInterop;
 using System.Security.Claims;
+using TennisTour.API.Extension;
 using TennisTour.Application.Helpers;
 using TennisTour.Application.Models;
 using TennisTour.Application.Models.User;
@@ -29,7 +30,7 @@ namespace TennisTour.API.Controllers
         [HttpPut]
         public async Task<IActionResult> EditContenderInfoAsync(ContenderInfoModel contenderInfo) 
         {
-            return Ok(ApiResult<ContenderInfoModel>.Success(await _contenderInfoService.EditContenderInfoAsync(contenderInfo, User)));
+            return Ok(ApiResult<ContenderInfoModel>.Success(await _contenderInfoService.EditContenderInfoAsync(contenderInfo, User.GetUserId())));
         }
 
         [HttpGet]
