@@ -34,4 +34,4 @@ namespace TennisTour.UI.Common
 		public const string RankingsGetAll = "Rankings";
 	}
 }
-}
+

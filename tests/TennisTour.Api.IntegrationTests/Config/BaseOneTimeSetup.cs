@@ -94,9 +94,9 @@ public class BaseOneTimeSetup
 
         var client = host.GetTestClient();
 
-        var token = JwtHelper.GenerateToken(user, configuration);
+        var token = JwtHelper.GenerateToken(user, configuration, userManager);
 
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer"+ token);
 
         return client;
     }
