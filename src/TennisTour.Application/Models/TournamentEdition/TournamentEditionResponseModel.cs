@@ -30,14 +30,14 @@ namespace TennisTour.Application.Models.TournamentEdition
         public TournamentResponseModel Tournament { get; set; }
     }
 
-    public class TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel : TournamentEditionResponseModel
-    {
-        public ICollection<MatchResponseModel> Matches { get; set; }
-        public bool IsAuthenticatedUserRegisteredToPlay { get; set; }
-    }
-
     public class TournamentEditionWithMatchesResponseModel : TournamentEditionResponseModel
     {
         public ICollection<MatchResponseModel> Matches { get; set; }
+    }
+
+    public class TournamentEditionWithMatchesForDetailsResponseModel : TournamentEditionWithMatchesResponseModel
+    {
+        public bool IsAuthenticatedUserRegisteredToPlay { get; set; }
+        public int RegistrationsCount { get; set; }
     }
 }

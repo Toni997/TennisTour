@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Models.MatchSet;
 using TennisTour.Core.Entities;
+using TennisTour.Core.Models;
 
 namespace TennisTour.Application.MappingProfiles
 {
@@ -14,6 +15,7 @@ namespace TennisTour.Application.MappingProfiles
         public MatchSetProfile()
         {
             CreateMap<MatchSet, MatchSetResponseModel>();
+            CreateMap<UpsertMatchSetModel, MatchSet>();
         }
     }
 }

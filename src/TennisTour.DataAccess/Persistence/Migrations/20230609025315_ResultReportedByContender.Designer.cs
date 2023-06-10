@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TennisTour.DataAccess.Persistence;
 
@@ -11,9 +12,10 @@ using TennisTour.DataAccess.Persistence;
 namespace TennisTour.DataAccess.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20230609025315_ResultReportedByContender")]
+    partial class ResultReportedByContender
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,22 +53,22 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7ca2c6e3-adc4-4336-9001-1f8476d6c670",
-                            ConcurrencyStamp = "1ff5515b-4e88-4fbc-9f38-e6a9f7805a41",
+                            Id = "16d9d95f-6287-49dc-a115-18bb36ba78fd",
+                            ConcurrencyStamp = "7f08ed4c-e529-444d-9d59-bf785e6dcf86",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8bd80ecd-f5ef-45ac-855d-be73952e478e",
-                            ConcurrencyStamp = "a4e87fe4-4efb-4166-977a-7166358a2ea0",
+                            Id = "21cb1fdc-bf9f-4d51-a09e-75c87a370815",
+                            ConcurrencyStamp = "27004b9c-407d-4455-a29c-252bb347b065",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "11d92756-cdc9-45f2-bd53-46a6546281e4",
-                            ConcurrencyStamp = "6cc0c2f4-8f56-4313-8c41-9ba483804812",
+                            Id = "4edd4d9a-0a60-40c3-9d05-ec6d0a2311c5",
+                            ConcurrencyStamp = "b8fa853f-2e7f-4800-ac5b-47a8ba82e086",
                             Name = "Contender",
                             NormalizedName = "CONTENDER"
                         });
@@ -313,9 +315,6 @@ namespace TennisTour.DataAccess.Persistence.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsResultConfirmed")
-                        .HasColumnType("bit");
 
                     b.Property<int>("NextMatchupControlNumber")
                         .HasColumnType("int");

@@ -1,0 +1,135 @@
+﻿@using TennisTour.Application.Models.MatchSet
+@using TennisTour.Application.Models.Validators.MatchSet
+@using TennisTour.Core.Models;
+@inject TennisRules TennisRules
+
+<MudDialog DisableSidePadding="true">
+    <DialogContent>
+        <MudContainer>
+            @if (errorMessage is not null)
+            {
+                <MudAlert Severity="Severity.Error">
+                    @errorMessage
+                </MudAlert>
+            }
+            @{
+                var index = 0;
+            }
+            <MudForm Model="@model" @ref="@form" Validation="@(upsertMatchSetsValidator.ValidateValue)" ValidationDelay="0">
+                <MudCardContent>
+                    <MudSelect T="MatchWinner" For="@(() => model.Winner)" @bind-Value="model.Winner" Label="Winner*" Immediate="true" Variant="Variant.Outlined" Class="mb-4">
+                        <MudSelectItem T="MatchWinner" Value="MatchWinner.You" />
+                        <MudSelectItem T="MatchWinner" Value="MatchWinner.Opponent" />
+                    </MudSelect>
+                @foreach (var matchSet in model.MatchSets)
+                {
+                    var currentIndex = index++;
+                    <MudText Typo="Typo.h5">
+                        @(currentIndex + 1). Set
+                    </MudText>
+                    <MudForm Model="matchSet" Validation="@(upsertMatchSetValidator.ValidateValue)">
+                        <MudNumericField @bind-Value="matchSet.ContenderOneGamesCount"
+                                        For="(() => matchSet.ContenderOneGamesCount)"
+                                        Immediate="true"
+                                         Label="@(AuthenticatedContenderId == ContenderOneId ? "Your Number Of Games*" : "Opponent's Number Of Games*")"
+                                        Variant="Variant.Outlined" />
+                        <MudNumericField @bind-Value="matchSet.ContenderTwoGamesCount"
+                                        For="(() => matchSet.ContenderTwoGamesCount)"
+                                        Immediate="true"
+                                         Label=@(AuthenticatedContenderId == ContenderTwoId ? "Your Number Of Games*" : "Opponent's Number Of Games*")
+                                        Variant="Variant.Outlined" />
+                        <MudNumericField @bind-Value="matchSet.LoserTiebreakPoints"
+                                        For="(() => matchSet.LoserTiebreakPoints)"
+                                        Immediate="true"
+                                        Label="Loser Tiebreak Points*"
+                                        Variant="Variant.Outlined" />
+                    </MudForm>
+                    <MudTooltip Text="Remove this set">
+                        <MudFab Class="mb-3 mt-3" Color="Color.Error" StartIcon="@Icons.Material.Filled.Remove" Size="Size.Small" OnClick="(e) => RemoveSetClick(currentIndex)" />
+                    </MudTooltip>
+                }
+                </MudCardContent>
+                @if (model.MatchSets.Count < TennisRules.GetMaxNumberOfSetsForTourSeries(Series))
+                    {
+                        <MudTooltip Text="Add another set">
+                            <MudFab Color="Color.Success" StartIcon="@Icons.Material.Filled.Add" Size="Size.Small" OnClick="AddSetClick" />
+                        </MudTooltip>
+                    }
+            </MudForm>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="CloseClick">Close</MudButton>
+        <MudButton Color="Color.Primary" OnClick="SaveClick" Disabled="isLoading">Save</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public Guid MatchId { get; set; }
+    [Parameter] public Series Series { get; set; }
+    [Parameter] public Guid AuthenticatedContenderId { get; set; }
+    [Parameter] public Guid ContenderOneId { get; set; }
+    [Parameter] public Guid ContenderTwoId { get; set; }
+
+    private MudForm form;
+    private UpsertMatchSetsModel model = new UpsertMatchSetsModel();
+    private UpsertMatchSetsValidator upsertMatchSetsValidator = new UpsertMatchSetsValidator();
+    private UpsertMatchSetValidator upsertMatchSetValidator = new UpsertMatchSetValidator();
+    private string errorMessage;
+    private bool isLoading;
+
+    private void CloseClick()
+    {
+        MudDialog.Close(DialogResult.Cancel());
+    }
+
+    private async Task SaveClick()
+    {
+        errorMessage = null;
+
+        await form.Validate();
+        if (!form.IsValid)
+            return;
+
+        if (!TennisRules.AreMatchSetsValid(model.MatchSets, Series))
+        {
+            errorMessage = "Match sets are invalid";
+            return;
+        }
+
+        await ReportResult();
+
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private async Task ReportResult()
+    {
+        isLoading = true;
+        try
+        {
+            var response = await HttpClient.PostAsync(String.Format(ApiConstants.ReportMatchResultRoute, MatchId), new JsonNewtonContent(model));
+            response.EnsureSuccessStatusCode();
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void AddSetClick()
+    {
+        model.MatchSets.Add(new UpsertMatchSetModel());
+    }
+
+    private void RemoveSetClick(int index)
+    {
+        model.MatchSets.RemoveAt(index);
+    }
+}

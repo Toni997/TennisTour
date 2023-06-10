@@ -1,12 +1,15 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Exceptions;
 using TennisTour.Application.Models;
+using TennisTour.Application.Models.Match;
 using TennisTour.Application.Models.Tournament;
 using TennisTour.Application.Models.TournamentEdition;
 using TennisTour.Application.Models.TournamentRegistration;
@@ -43,12 +46,12 @@ namespace TennisTour.Application.Services.Impl
             return _mapper.Map<IEnumerable<TournamentEditionResponseModel>>(tournamentEditions);
         }
 
-        public async Task<TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel> GetByIdWithMatchesAsync(Guid id,
+        public async Task<TournamentEditionWithMatchesForDetailsResponseModel> GetByIdWithMatchesAsync(Guid id,
             string authenticatedUserId, CancellationToken cancellationToken = default)
         {
             var tournamentEdition = await _tournamentEditionRepository.GetByIdWithMatchesAsync(id);
 
-            var tournamentEditionModel = _mapper.Map<TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel>(tournamentEdition);
+            var tournamentEditionModel = _mapper.Map<TournamentEditionWithMatchesForDetailsResponseModel>(tournamentEdition);
             tournamentEditionModel.IsAuthenticatedUserRegisteredToPlay =
                 await _tournamentRegistrationRepository.IsContenderRegisteredForTournamentEdition(authenticatedUserId, id);
             return tournamentEditionModel;
@@ -142,6 +145,67 @@ namespace TennisTour.Application.Services.Impl
             var registrations = await _tournamentRegistrationRepository.GetAllByTournamentEditionAsync(id);
 
             return _mapper.Map<List<TournamentRegistrationForEditionResponseModel>>(registrations);
+        }
+
+        public async Task<IEnumerable<MatchResponseModel>> GenerateRoundAsync(Guid id)
+        {
+            var tournamentEdition = await _tournamentEditionRepository.GetByIdForGeneratingRoundAsync(id);
+
+            var roundToGenerate = tournamentEdition.Matches.Any() ? tournamentEdition.Matches.Max(x => x.Round) + 1 : 1;
+
+            if (roundToGenerate == 1)
+                GenerateDraw(tournamentEdition);
+            else
+                GenerateNextRound(tournamentEdition, roundToGenerate);
+
+            await _tournamentEditionRepository.UpdateAsync(tournamentEdition);
+
+            return _mapper.Map<List<MatchResponseModel>>(tournamentEdition.Matches);
+        }
+
+        private void GenerateDraw(TournamentEdition tournamentEdition)
+        {
+            var contendersNeeded = (int)Math.Pow(2, tournamentEdition.Tournament.NumberOfRounds);
+
+            if (tournamentEdition.TournamentRegistrations.Count < contendersNeeded)
+                throw new UnprocessableRequestException("Not enough registrations to generate draw");
+
+            tournamentEdition.IsRegistrationTimeOver = true;
+            var acceptedRegistrations = tournamentEdition.TournamentRegistrations.OrderBy(x => x.Contender.Ranking.Rank).Take(contendersNeeded);
+            foreach (var registration in acceptedRegistrations)
+                registration.IsAccepted = true;
+
+            GenerateMatches(tournamentEdition, acceptedRegistrations.Select(x => x.Contender), 1);
+        }
+
+        private void GenerateNextRound(TournamentEdition tournamentEdition, int roundToGenerate)
+        {
+            if (roundToGenerate > tournamentEdition.Tournament.NumberOfRounds)
+                throw new UnprocessableRequestException("All rounds have already been generated for this tournament");
+
+            var previousRoundMatches = tournamentEdition.Matches.Where(x => x.Round == roundToGenerate - 1);
+            if (!tournamentEdition.Matches.All(x => x.IsResultConfirmed))
+                throw new UnprocessableRequestException("All match results need to be confirmed before generating next round");
+
+            var contendersWhoAdvanced = previousRoundMatches.Select(x => x.Winner);
+            GenerateMatches(tournamentEdition, contendersWhoAdvanced, roundToGenerate);
+        }
+
+        private void GenerateMatches(TournamentEdition tournamentEdition, IEnumerable<ApplicationUser> contenders, int round)
+        {
+            var contenderIndex = 0;
+            var matchesToGenerate = contenders.Count() / 2;
+            for (var i = 0; i < matchesToGenerate; i++)
+            {
+                var match = new Match
+                {
+                    ContenderOneId = contenders.ElementAt(contenderIndex++).Id,
+                    ContenderTwoId = contenders.ElementAt(contenderIndex++).Id,
+                    Round = round,
+                    NextMatchupControlNumber = i,
+                };
+                tournamentEdition.Matches.Add(match);
+            }
         }
     }
 }

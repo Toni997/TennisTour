@@ -11,5 +11,6 @@ namespace TennisTour.DataAccess.Repositories
     {
         Task<bool> IsContenderRegisteredForTournamentEdition(string contenderId, Guid tournamentEditionId);
         Task<IList<TournamentRegistration>> GetAllByTournamentEditionAsync(Guid tournamentEditionId);
+        Task<IList<TournamentRegistration>> GetAllAcceptedByTournamentEditionAsync(Guid tournamentEditionId);
     }
 }

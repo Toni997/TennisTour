@@ -31,5 +31,8 @@ namespace TennisTour.UI.Common
         public const string RegisterToPlayTournament = "TournamentEditions/{0}/Register";
         public const string WithdrawTournamentRegistration = "TournamentEditions/{0}/Unregister";
         public const string GetAllRegistrationsForTournamentEdition = "TournamentEditions/{0}/Registrations";
+        public const string GenerateRoundRoute = "TournamentEditions/{0}/GenerateRound";
+        public const string ReportMatchResultRoute = "Matches/{0}/ReportResult";
+        public const string ConfirmMatchResultRoute = "Matches/{0}/ConfirmResult";
     }
 }

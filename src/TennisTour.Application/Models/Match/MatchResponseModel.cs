@@ -16,6 +16,8 @@ namespace TennisTour.Application.Models.Match
         public ContenderResponseModel ContenderOne { get; set; }
         public ContenderResponseModel ContenderTwo { get; set; }
         public ContenderResponseModel Winner { get; set; }
+        public ContenderResponseModel ResultReportedByContender { get; set; }
+        public bool IsResultConfirmed { get; set; }
         public int NextMatchupControlNumber { get; set; }
         public int Round { get; set; }
 
@@ -49,6 +51,7 @@ namespace TennisTour.Application.Models.Match
         public H2HMatchWinnerResponseModel Winner { get; set; }
         public H2HMatchTournamentEditionResponseModel TournamentEdition { get; set; }
         public ICollection<MatchSetResponseModel> MatchSets { get; set; }
+        public bool IsResultConfirmed { get; set; }
 
         public MarkupString GetMatchScore()
         {

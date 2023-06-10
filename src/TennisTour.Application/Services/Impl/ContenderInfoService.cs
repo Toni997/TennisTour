@@ -13,7 +13,6 @@ using TennisTour.Application.Models.User;
 using TennisTour.Core.Entities;
 using TennisTour.Core.Helpers;
 using TennisTour.DataAccess.Repositories;
-using TennisTour.DataAccess.Repositories.Impl;
 
 namespace TennisTour.Application.Services.Impl
 {

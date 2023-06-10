@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TennisTour.API.Extension;
 using TennisTour.Application.Models;
+using TennisTour.Application.Models.Match;
 using TennisTour.Application.Models.Tournament;
 using TennisTour.Application.Models.TournamentEdition;
 using TennisTour.Application.Models.TournamentRegistration;
@@ -36,7 +37,7 @@ namespace TennisTour.API.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            return Ok(ApiResult<TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel>
+            return Ok(ApiResult<TournamentEditionWithMatchesForDetailsResponseModel>
                 .Success(await _tournamentEditionService.GetByIdWithMatchesAsync(id, _claimService.GetUserId())));
         }
 
@@ -85,6 +86,14 @@ namespace TennisTour.API.Controllers
         {
             return Ok(ApiResult<IEnumerable<TournamentRegistrationForEditionResponseModel>>
                 .Success(await _tournamentEditionService.GetAllRegistrationsAsync(id)));
+        }
+
+        [Authorize(Roles = Roles.Admin)]
+        [HttpPost("{id:guid}/" + nameof(GenerateRound))]
+        public async Task<IActionResult> GenerateRound(Guid id)
+        {
+            return Ok(ApiResult<IEnumerable<MatchResponseModel>>
+                .Success(await _tournamentEditionService.GenerateRoundAsync(id)));
         }
     }
 }

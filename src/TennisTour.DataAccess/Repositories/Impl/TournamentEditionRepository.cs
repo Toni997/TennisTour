@@ -19,6 +19,7 @@ namespace TennisTour.DataAccess.Repositories.Impl
         {
             return x.Include(x => x.Winner)
                     .Include(x => x.Tournament)
+                    .Include(x => x.TournamentRegistrations)
                     .Include(x => x.Matches)
                         .ThenInclude(x => x.MatchSets)
                     .Include(x => x.Matches)
@@ -38,7 +39,9 @@ namespace TennisTour.DataAccess.Repositories.Impl
                     .Include(x => x.Matches)
                         .ThenInclude(x => x.Winner.ContenderInfo)
                     .Include(x => x.Matches)
-                        .ThenInclude(x => x.Winner.Ranking);
+                        .ThenInclude(x => x.Winner.Ranking)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ResultReportedByContender.ContenderInfo);
         }
 
         private IIncludableQueryable<TournamentEdition, object> IncludesForGetAll(IQueryable<TournamentEdition> x)
@@ -72,7 +75,45 @@ namespace TennisTour.DataAccess.Repositories.Impl
                     .Include(x => x.Matches)
                         .ThenInclude(x => x.ContenderTwo.ContenderInfo)
                     .Include(x => x.Matches)
-                        .ThenInclude(x => x.ContenderTwo.Ranking);
+                        .ThenInclude(x => x.ContenderTwo.Ranking)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ResultReportedByContender)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ResultReportedByContender.ContenderInfo)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ResultReportedByContender.Ranking);
+        }
+
+        private IIncludableQueryable<TournamentEdition, object> IncludesForGeneratingRound(IQueryable<TournamentEdition> x)
+        {
+            return x.Include(x => x.Winner)
+                    .Include(x => x.Tournament)
+                    .Include(x => x.TournamentRegistrations)
+                        .ThenInclude(x => x.Contender)
+                    .Include(x => x.TournamentRegistrations)
+                        .ThenInclude(x => x.Contender.ContenderInfo)
+                    .Include(x => x.TournamentRegistrations)
+                        .ThenInclude(x => x.Contender.Ranking)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ContenderOne)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ContenderTwo)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.Winner)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ContenderOne.ContenderInfo)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ContenderOne.Ranking)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ContenderTwo.ContenderInfo)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ContenderTwo.Ranking)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ResultReportedByContender)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ResultReportedByContender.ContenderInfo)
+                    .Include(x => x.Matches)
+                        .ThenInclude(x => x.ResultReportedByContender.Ranking);
         }
 
         private IOrderedQueryable<TournamentEdition> OrderBy(IQueryable<TournamentEdition> x)
@@ -88,6 +129,11 @@ namespace TennisTour.DataAccess.Repositories.Impl
         public async Task<TournamentEdition> GetByIdWithMatchesAsync(Guid id)
         {
             return await GetOneAsync(x => x.Id == id, IncludesForGetOne);
+        }
+
+        public async Task<TournamentEdition> GetByIdForGeneratingRoundAsync(Guid id)
+        {
+            return await GetOneAsync(x => x.Id == id, IncludesForGeneratingRound);
         }
 
         public async Task<IList<TournamentEdition>> GetLastTenByContenderWithMatchesOrderedByDateStartDescAsync(string contenderId)

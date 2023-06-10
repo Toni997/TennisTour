@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Core.Enums;
 using TennisTour.Core.Exceptions;
+using TennisTour.Core.Models;
 
 namespace TennisTour.Core.Helpers
 {
@@ -24,7 +26,7 @@ namespace TennisTour.Core.Helpers
         public const double CentimetersPerInch = 2.54;
         public const double PoundsPerKilogram = 2.20462262185;
 
-        public int GetBestOfSetsForTourSeries(Series series) => series switch
+        public int GetMaxNumberOfSetsForTourSeries(Series series) => series switch
         {
             Series.TTChallenger => BestOfThree,
             Series.TT250 => BestOfThree,
@@ -43,34 +45,67 @@ namespace TennisTour.Core.Helpers
             if (!IsGamesWonInSetByContenderInValidRange(gamesCountHigh) ||
                 !IsGamesWonInSetByContenderInValidRange(gamesCountLow) ||
                 !IsTotalGamesPlayedInSetInValidRange(gamesCountHigh + gamesCountLow))
-            {
-                return false;
-            }
+                   return false;
 
             if (loserTiebreakPoints.HasValue && !IsLoserTiebreakPointsWonInValidRange(loserTiebreakPoints.Value))
-            {
                 return false;
-            }
 
             var gamesCountDifference = gamesCountHigh - gamesCountLow;
 
             if (gamesCountHigh == MaximumPossibleGamesWonInSet && gamesCountDifference > MinimumGamesWonDifferenceToWinSetBeforeTiebreak)
-            {
                 return false;
-            }
 
             if (loserTiebreakPoints.HasValue && !IsTiebreakNeededToEndSet(gamesCountHigh, gamesCountLow))
-            {
                 return false;
-            }
 
-            if (shouldCheckIfSetEnded && gamesCountDifference < MinimumGamesWonDifferenceToWinSetBeforeTiebreak && !loserTiebreakPoints.HasValue)
+            if (shouldCheckIfSetEnded)
             {
-                return false;
+                if (gamesCountHigh < 6)
+                    return false;
+
+                if (gamesCountDifference < MinimumGamesWonDifferenceToWinSetBeforeTiebreak && !loserTiebreakPoints.HasValue)
+                    return false;
+
+                if (gamesCountHigh == 7 && gamesCountLow == 6 && !loserTiebreakPoints.HasValue)
+                    return false;
             }
 
             return true;
         }
+
+        public MatchSetValidity GetSetScoreValidity(int contenderOneGamesCount, int contenderTwoGamesCount, int? loserTiebreakPoints)
+        {
+            var gamesCountHigh = contenderOneGamesCount > contenderTwoGamesCount ? contenderOneGamesCount : contenderTwoGamesCount;
+            var gamesCountLow = gamesCountHigh == contenderOneGamesCount ? contenderTwoGamesCount : contenderOneGamesCount;
+
+            if (!IsGamesWonInSetByContenderInValidRange(gamesCountHigh) ||
+                !IsGamesWonInSetByContenderInValidRange(gamesCountLow) ||
+                !IsTotalGamesPlayedInSetInValidRange(gamesCountHigh + gamesCountLow))
+                return new MatchSetValidity(false, false);
+
+            if (loserTiebreakPoints.HasValue && !IsLoserTiebreakPointsWonInValidRange(loserTiebreakPoints.Value))
+                return new MatchSetValidity(false, false);
+
+            var gamesCountDifference = gamesCountHigh - gamesCountLow;
+
+            if (gamesCountHigh == MaximumPossibleGamesWonInSet && gamesCountDifference > MinimumGamesWonDifferenceToWinSetBeforeTiebreak)
+                return new MatchSetValidity(false, false);
+
+            if (loserTiebreakPoints.HasValue && !IsTiebreakNeededToEndSet(gamesCountHigh, gamesCountLow))
+                return new MatchSetValidity(false, false);
+
+            if (gamesCountHigh < 6)
+                return new MatchSetValidity(true, false);
+
+            if (gamesCountDifference < MinimumGamesWonDifferenceToWinSetBeforeTiebreak && !loserTiebreakPoints.HasValue)
+                return new MatchSetValidity(true, false);
+
+            if (gamesCountHigh == 7 && gamesCountLow == 6 && !loserTiebreakPoints.HasValue)
+                return new MatchSetValidity(true, false);
+
+            return new MatchSetValidity(true, true);
+        }
+
 
         private bool IsGamesWonInSetByContenderInValidRange(int gamesWon)
         {
@@ -128,6 +163,42 @@ namespace TennisTour.Core.Helpers
                 age--;
 
             return age;
+        }
+
+        public bool AreMatchSetsValid(List<UpsertMatchSetModel> matchSets, Series series)
+        {
+            var maxNumberOfSets = GetMaxNumberOfSetsForTourSeries(series);
+            if (matchSets.Count > maxNumberOfSets)
+                return false;
+
+            var contenderOneSets = 0;
+            var contenderTwoSets = 0;
+
+            foreach (var matchSet in matchSets)
+            {
+                var setScoreValidity = GetSetScoreValidity(matchSet.ContenderOneGamesCount, matchSet.ContenderTwoGamesCount, matchSet.LoserTiebreakPoints);
+                if (!setScoreValidity.IsValid || setScoreValidity.IsValid && !setScoreValidity.HasEnded && matchSets.Last() != matchSet)
+                    return false;
+
+                if (setScoreValidity.HasEnded)
+                {
+                    if (matchSet.ContenderOneGamesCount > matchSet.ContenderTwoGamesCount)
+                        contenderOneSets++;
+                    else
+                        contenderTwoSets++;
+                }
+            }
+
+            return MatchScoreValid(contenderOneSets, contenderTwoSets, maxNumberOfSets);
+        }
+
+        private bool MatchScoreValid(int contenderOneSets, int contenderTwoSets, int maxNumberOfSets)
+        {
+            if (contenderOneSets + contenderTwoSets > maxNumberOfSets)
+                return false;
+
+            var maxValidWonSets = (int)Math.Ceiling((float)maxNumberOfSets / 2);
+            return contenderOneSets <= maxValidWonSets && contenderTwoSets <= maxValidWonSets;
         }
     }
 }

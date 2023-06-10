@@ -37,6 +37,12 @@ namespace TennisTour.DataAccess.Persistence.Configurations
                 .HasForeignKey(m => m.WinnerId)
                 .IsRequired(false)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(m => m.ResultReportedByContender)
+                .WithMany()
+                .HasForeignKey(m => m.ResultReportedByContenderId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
