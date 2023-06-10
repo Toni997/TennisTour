@@ -23,10 +23,18 @@ namespace TennisTour.DataAccess.Repositories.Impl
             return x.OrderByDescending(x => x.Points);
         }
 
-        public async Task<IList<Ranking>> GetAllRankingsWithContenderDataOrderedByRank()
+        public async Task<IList<Ranking>> GetAllRankingsWithContenderDataOrderedByPoints()
         {
             return await GetAllAsync(orderBy: OrderByRankingPoints, includes: IncludesContenderData);
         }
+
+        public async Task<IList<Ranking>> GetAllOfContenderIds(IList<string> contenderIds)
+        {
+            return await GetAllAsync(expression: e => contenderIds.Contains(e.ContenderId),includes: IncludesContenderData);
+        }
+
+     
+
         public RankingRepository(DatabaseContext context) : base(context) { }
     }
 }

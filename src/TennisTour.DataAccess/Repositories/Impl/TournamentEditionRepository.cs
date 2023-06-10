@@ -103,5 +103,11 @@ namespace TennisTour.DataAccess.Repositories.Impl
             var careerTitles = await GetAllAsync(x => x.WinnerId == contenderId);
             return careerTitles.Count;
         }
+
+        public async Task<IList<TournamentEdition>> GetAllFinishedBeforeDate(DateTime date)
+        {
+            return await GetAllAsync(expression: x => x.DateEnd >= date, includes: IncludesForGetAll);
+                
+        }
     }
 }

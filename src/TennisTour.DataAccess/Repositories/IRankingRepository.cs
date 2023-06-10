@@ -9,6 +9,9 @@ namespace TennisTour.DataAccess.Repositories
 {
     public interface IRankingRepository : IBaseRepository<Ranking>
     {
-        public Task<IList<Ranking>> GetAllRankingsWithContenderDataOrderedByRank();
+        public Task<IList<Ranking>> GetAllRankingsWithContenderDataOrderedByPoints();
+
+
+        public Task<IList<Ranking>> GetAllOfContenderIds(IList<string> contenderIds);
     }
 }
