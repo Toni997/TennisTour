@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +14,30 @@ namespace TennisTour.DataAccess.Repositories.Impl
     {
         public ContenderInfoRepository(DatabaseContext context) : base(context) { }
 
-        public Task<IList<ContenderInfo>> GetContenderInfosByContenderIds(List<string> ids)
+        private IIncludableQueryable<ContenderInfo, object> IncludesForGetOne(IQueryable<ContenderInfo> x)
         {
-            return GetAllAsync((contenderInfo) => ids.Contains(contenderInfo.Contender.Id));
+            return x.Include(x => x.Contender)
+                        .ThenInclude(x => x.FavoritedByUsers)
+                .Include(x => x.Contender)
+                        .ThenInclude(x => x.Ranking);
         }
 
-        public Task<ContenderInfo> GetContenderInfoByUsenameAsync(string username)
+        public Task<ContenderInfo> GetContenderInfoOfUsenameAsync(string username)
         {
+            // TODO we should change this to normalized username as it is indexed
             return GetOneOrNullAsync((contenderInfo) =>  contenderInfo.Contender.UserName == username);
+        }
+
+        public async Task<ContenderInfo> GetContenderInfoWithRankingByContenderIdAsync(string contenderId)
+        {
+            return await GetOneAsync(x => x.ContenderId == contenderId, IncludesForGetOne);
+        }
+
+        public async Task<bool> IsFavoritedByUser(string contenderId, string userId)
+        {
+            var contender = await GetOneAsync(x => x.ContenderId == contenderId, includes: x => x.Include(x => x.Contender).ThenInclude(x => x.FavoritedByUsers));
+            var user = contender.Contender.FavoritedByUsers.FirstOrDefault(x => x.Id == userId);
+            return user is not null;
         }
     }
 }

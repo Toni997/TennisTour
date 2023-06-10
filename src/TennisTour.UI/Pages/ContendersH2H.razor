@@ -1,0 +1,109 @@
+﻿@page "/contender/{ContenderOneId:guid}/h2h/{ContenderTwoId:guid}"
+@using TennisTour.Application.Models.Tournament;
+@using TennisTour.Application.Models.TournamentEdition;
+@using TennisTour.Application.Models.Match;
+@using TennisTour.Application.Models.User;
+@inject TennisRules TennisRules
+
+
+@if (contenders == null)
+{
+    <PageTitle>@(isLoading ? "Loading..." : (contenders != null ? contenders : "Error")) | H2H | Tennis Tour</PageTitle>
+
+    if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error">Error while getting contender details</MudAlert>
+    }
+}
+else
+{
+    <PageTitle>@contenders.ContenderOne vs @contenders.ContenderTwo | H2H | Tennis Tour</PageTitle>
+
+    <MudStack Row="true" Class="d-flex align-center gap-5 my-3 flex-column flex-md-row">
+        <MudText Typo="Typo.h2">@contenders.ContenderOne</MudText>
+        <MudText Style="color: #aaa;" Typo="Typo.h4">VS</MudText>
+        <MudText Typo="Typo.h2">@contenders.ContenderTwo</MudText>
+    </MudStack>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+    var h2hTable = new H2HTableModel(contenders.ContenderOne, contenders.ContenderTwo, TennisRules);
+    <MudTable T="H2HTableItemModel" Items="h2hTable.H2HTableItems" Bordered="true" Dense="true">
+        <RowTemplate>
+            <MudTd Style="font-weight: bold">@context.FirstColumn</MudTd>
+            <MudTd Style="color: #aaa; text-align: center;">@context.SecondColumn</MudTd>
+            <MudTd Style="font-weight: bold; text-align: right;">@context.ThirdColumn</MudTd>
+        </RowTemplate>
+    </MudTable>
+
+    <MudText Class="mt-6" Typo="Typo.h3" GutterBottom="true">Head-to-Head Matches</MudText>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+    if (!contenders.HeadToHeadMatches.Any())
+    {
+        <MudAlert Severity="Severity.Info">No head to head matches to display</MudAlert>
+    }
+    else
+    {
+        <MudDataGrid T="H2HMatchResponseModel" Items="@contenders.HeadToHeadMatches" ReadOnly="true" Bordered="true" Filterable="false" SortMode="@SortMode.None">
+            <Columns>
+                <PropertyColumn Property="x => x.TournamentEdition.DateStart.Year" Title="Year" />
+                <PropertyColumn Property="x => x.TournamentEdition.Tournament.Name" Title="Tournament" />
+                <PropertyColumn Property="x => x.TournamentEdition.Tournament.Surface" Title="Surface" />
+                <PropertyColumn Property="x => TennisRules.GetRoundName(x.Round, x.TournamentEdition.Tournament.NumberOfRounds)" Title="Round" />
+                <TemplateColumn Title="Result">
+                    <CellTemplate>
+                        <MudText>@context.Item.GetMatchScore()</MudText>
+                    </CellTemplate>
+                </TemplateColumn>
+                <PropertyColumn Property="x => x.Winner" Title="Winner" />
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="H2HMatchResponseModel" />
+            </PagerContent>
+        </MudDataGrid>
+    }
+}
+
+
+@code {
+    [Parameter]
+    public Guid ContenderOneId { get; set; }
+
+    [Parameter]
+    public Guid ContenderTwoId { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private H2HResponseModel contenders;
+    private bool isLoading;
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var authState = await AuthState;
+        var user = authState.User;
+
+        contenders = null;
+        isLoading = true;
+        try
+        {
+            var response = await HttpClient.GetAsync(String.Format(ApiConstants.ContendersH2HRoute, ContenderOneId, ContenderTwoId));
+            response.EnsureSuccessStatusCode();
+
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<H2HResponseModel>>(await response.Content.ReadAsStringAsync());
+            contenders = apiResult.Result;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

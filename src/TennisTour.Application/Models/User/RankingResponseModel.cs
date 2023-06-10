@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,5 +16,8 @@ namespace TennisTour.Application.Models.User
         public int? PreviousPoints { get; set; }
         public int? BestRank { get; set; }
         public DateTime? BestRankDate { get; set; }
+
+        public string GetBestRank => $"{BestRank ?? Rank}";
+        public string GetBestRankDate => BestRankDate?.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture) ?? "-";
     }
 }

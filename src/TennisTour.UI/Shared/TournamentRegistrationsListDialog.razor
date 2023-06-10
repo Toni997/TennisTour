@@ -1,0 +1,103 @@
+﻿@using TennisTour.Application.Models.TournamentRegistration;
+
+@if (tournamentRegistrations == null)
+{
+    if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error">Error while getting tournament registrations</MudAlert>
+    }
+}
+else
+{
+    <MudDialog DisableSidePadding="true">
+        <DialogContent>
+            <MudContainer>
+                @if (!tournamentRegistrations.Any())
+                {
+                    <MudAlert Severity="Severity.Info">Nobody has registered yet</MudAlert>
+                }
+                else
+                {
+                    <MudDataGrid T="TournamentRegistrationForEditionResponseModel" Items="@tournamentRegistrations" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
+                        <Columns>
+                            <PropertyColumn Property="x => x.Contender.Ranking.Rank" Title="Current Rank" />
+                            <TemplateColumn Title="Contender" SortBy="x => x.Contender.ToString()">
+                                <CellTemplate>
+                                    <MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.Contender.Id)">
+                                        @context.Item.Contender
+                                    </MudLink>
+                                </CellTemplate>
+                            </TemplateColumn>
+                            <TemplateColumn Title="Accepted" SortBy="@(x => x.IsAccepted)">
+                                <CellTemplate>
+                                    @if (context.Item.IsAccepted)
+                                    {
+                                        <MudTooltip Text="Accepted">
+                                            <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" />
+                                        </MudTooltip>
+                                    }
+                                    else
+                                    {
+                                        <MudTooltip Text="Not Accepted">
+                                            <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" />
+                                        </MudTooltip>
+                                    }
+                                </CellTemplate>
+                            </TemplateColumn>
+                        </Columns>
+                        <PagerContent>
+                            <MudDataGridPager T="TournamentRegistrationForEditionResponseModel" />
+                        </PagerContent>
+                    </MudDataGrid>
+                }
+            </MudContainer>
+        </DialogContent>
+        <DialogActions>
+            <MudButton Color="Color.Primary" OnClick="Ok">Close</MudButton>
+        </DialogActions>
+    </MudDialog>
+}
+
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public Guid TournamentEditionId { get; set; }
+
+    private List<TournamentRegistrationForEditionResponseModel> tournamentRegistrations;
+    private bool isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        isLoading = true;
+        try
+        {
+            var response = await HttpClient.GetAsync(String.Format(ApiConstants.GetAllRegistrationsForTournamentEdition, TournamentEditionId));
+            response.EnsureSuccessStatusCode();
+
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<List<TournamentRegistrationForEditionResponseModel>>>(await response.Content.ReadAsStringAsync());
+            tournamentRegistrations = apiResult.Result;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private string LicenseText;
+    private bool Loading = false;
+
+    private void Ok()
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+}

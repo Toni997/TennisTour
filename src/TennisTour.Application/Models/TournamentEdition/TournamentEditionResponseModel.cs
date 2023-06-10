@@ -21,9 +21,23 @@ namespace TennisTour.Application.Models.TournamentEdition
         public TournamentResponseModel Tournament { get; set; }
     }
 
-    public class TournamentEditionWithMatchesAndRegistrationsResponseModel : TournamentEditionResponseModel
+    public class H2HMatchTournamentEditionResponseModel : BaseResponseModel
+    {
+        public DateTime DateStart { get; set; }
+        public DateTime DateEnd { get; set; }
+        public Guid TournamentId { get; set; }
+        public bool IsRegistrationTimeOver { get; set; }
+        public TournamentResponseModel Tournament { get; set; }
+    }
+
+    public class TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel : TournamentEditionResponseModel
     {
         public ICollection<MatchResponseModel> Matches { get; set; }
-        public ICollection<TournamentRegistrationForEditionResponseModel> TournamentRegistrations { get; set; }
+        public bool IsAuthenticatedUserRegisteredToPlay { get; set; }
+    }
+
+    public class TournamentEditionWithMatchesResponseModel : TournamentEditionResponseModel
+    {
+        public ICollection<MatchResponseModel> Matches { get; set; }
     }
 }

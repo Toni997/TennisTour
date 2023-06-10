@@ -10,6 +10,7 @@ public interface IUserService
     Task<ConfirmEmailResponseModel> ConfirmEmailAsync(ConfirmEmailModel confirmEmailModel);
 
     Task<CreateUserResponseModel> CreateAsync(CreateUserModel createUserModel);
-
     Task<LoginResponseModel> LoginAsync(LoginUserModel loginUserModel);
+    Task<BaseResponseModel> FavoriteContender(string userId, string contenderId);
+    Task<BaseResponseModel> UnfavoriteContender(string userId, string contenderId);
 }

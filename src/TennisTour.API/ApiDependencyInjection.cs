@@ -30,6 +30,8 @@ public static class ApiDependencyInjection
                     ValidateAudience = false
                 };
             });
+
+        services.AddHttpContextAccessor();
     }
 
     public static void AddSwagger(this IServiceCollection services)

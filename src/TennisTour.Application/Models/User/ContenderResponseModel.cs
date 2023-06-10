@@ -17,4 +17,22 @@ namespace TennisTour.Application.Models.User
             return $"{ContenderInfo.FirstName} {ContenderInfo.LastName}";
         }
     }
+
+    public class H2HMatchWinnerResponseModel : BaseResponseModel
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
+        public override string? ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
+    }
+
+    public class ContenderRankingResponseModel : BaseResponseModel
+    {
+        public RankingResponseModel Ranking { get; set; }
+        public int FavoritedByUsersCount { get; set; }
+        public bool IsFavoritedByUser { get; set; }
+    }
 }

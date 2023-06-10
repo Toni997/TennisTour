@@ -9,7 +9,8 @@ namespace TennisTour.DataAccess.Repositories
 {
     public interface IContenderInfoRepository : IBaseRepository<ContenderInfo>
     {
-        Task<ContenderInfo> GetContenderInfoByUsenameAsync(string username);
-        Task<IList<ContenderInfo>> GetContenderInfosByContenderIds(List<string> ids);
+        Task<ContenderInfo> GetContenderInfoOfUsenameAsync(string username);
+        Task<ContenderInfo> GetContenderInfoWithRankingByContenderIdAsync(string contenderId);
+        Task<bool> IsFavoritedByUser(string contenderId, string userId);
     }
 }

@@ -49,8 +49,13 @@ else
     <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
     <AuthorizeView Roles="@Roles.Contender">
-        <MudButton Disabled="tournamentEdition.IsRegistrationTimeOver" OnClick="@(() => NavigationManager.NavigateTo("#"))" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">Register To Play</MudButton>
+        <MudButton Disabled="tournamentEdition.IsRegistrationTimeOver || isLoading" OnClick="RegisterToPlayClick" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">
+            @(!tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? "Register To Play" : "Withdraw registration")
+        </MudButton>
     </AuthorizeView>
+    <MudButton OnClick="RegisteredContendersClick" StartIcon="@Icons.Material.Filled.List" Variant="Variant.Filled" Color="Color.Secondary" Class="mb-4">
+        Registered Contenders
+    </MudButton>
 
     <MudText>Series: @tournamentEdition.Tournament.Series.GetDescription()</MudText>
     <MudText>Surface: @tournamentEdition.Tournament.Surface.GetDescription()</MudText>
@@ -141,15 +146,16 @@ else
     }
 }
 
-
 @code {
+    [Inject] ISnackbar Snackbar { get; set; }
+
     [Parameter]
     public Guid TournamentEditionId { get; set; }
 
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
 
-    private TournamentEditionWithMatchesAndRegistrationsResponseModel tournamentEdition;
+    private TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel tournamentEdition;
     private IOrderedEnumerable<IGrouping<int, MatchResponseModel>> groupedMatchesByRound;
     private int numberOfRounds;
     private bool isLoading;
@@ -165,7 +171,7 @@ else
             var response = await HttpClient.GetAsync(String.Format(ApiConstants.TournamentEditionsGetOneRoute, TournamentEditionId));
             response.EnsureSuccessStatusCode();
 
-            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentEditionWithMatchesAndRegistrationsResponseModel>>(await response.Content.ReadAsStringAsync());
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel>>(await response.Content.ReadAsStringAsync());
             tournamentEdition = apiResult.Result;
             groupedMatchesByRound = tournamentEdition.Matches.GroupBy(x => x.Round).OrderBy(g => g.Key);
             if (groupedMatchesByRound.Any())
@@ -197,5 +203,44 @@ else
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
 
         DialogService.Show<DeleteEntityDialog>("Delete", parameters, options);
+    }
+
+    public async Task RegisterToPlayClick()
+    {
+        isLoading = true;
+        try
+        {
+            HttpResponseMessage response;
+            if (!tournamentEdition.IsAuthenticatedUserRegisteredToPlay)
+            {
+                response = await HttpClient.PostAsync(String.Format(ApiConstants.RegisterToPlayTournament, TournamentEditionId), new JsonNewtonContent(""));
+            }
+            else
+            {
+                response = await HttpClient.DeleteAsync(String.Format(ApiConstants.WithdrawTournamentRegistration, TournamentEditionId));
+            }
+            response.EnsureSuccessStatusCode();
+
+            tournamentEdition.IsAuthenticatedUserRegisteredToPlay = !tournamentEdition.IsAuthenticatedUserRegisteredToPlay;
+            
+            var snackMessage = tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? "Successfully registered to play in this tournament" : "Successfully withdrawn the registration";
+            Snackbar.Add(snackMessage, Severity.Success);
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void RegisteredContendersClick()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("TournamentEditionId", tournamentEdition.Id);
+
+        DialogService.Show<TournamentRegistrationsListDialog>("Registered Contenders", parameters);
     }
 }

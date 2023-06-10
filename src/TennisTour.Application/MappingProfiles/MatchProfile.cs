@@ -14,6 +14,8 @@ namespace TennisTour.Application.MappingProfiles
         public MatchProfile()
         {
             CreateMap<Match, MatchResponseModel>();
+            CreateMap<Match, H2HMatchResponseModel>()
+                .ForMember(x => x.Winner, opt => opt.MapFrom(x => x.Winner.ContenderInfo));
         }
     }
 }
