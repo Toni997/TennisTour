@@ -29,8 +29,8 @@ namespace TennisTour.API.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateRankings()
         {
-            var result = await _rankingsService.UpdatePoints(User);
-            return Ok(result);
+            await _rankingsService.UpdatePoints(User);
+            return Ok();
         }
     }
 }

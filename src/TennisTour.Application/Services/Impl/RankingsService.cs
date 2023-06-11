@@ -43,14 +43,13 @@ namespace TennisTour.Application.Services.Impl
          
         }
 
-        public async Task<List<RankingsResponseModel>> UpdatePoints(ClaimsPrincipal claimsPrincipal)
+        public async Task UpdatePoints(ClaimsPrincipal claimsPrincipal)
         {
             var allNewFinished = await _tournamentEditionRepository.GetAllFinishedBeforeDate(startDate: DateTime.Now);
             await CalculateNewPoints(allNewFinished);
-            var rankings = await UpdateRankings(claimsPrincipal);
-            return _mapper.Map<IEnumerable<RankingsResponseModel>>(rankings).ToList();
+            await UpdateRankings(claimsPrincipal);
         }
-        private async Task<IList<RankingsResponseModel>> UpdateRankings(ClaimsPrincipal claimsPrincipal)
+        private async Task UpdateRankings(ClaimsPrincipal claimsPrincipal)
         {
             var allRankings = await _rankingRepository.GetAllRankingsWithContenderDataOrderedByPoints();
             var i = 1;
@@ -71,7 +70,6 @@ namespace TennisTour.Application.Services.Impl
             {
                 await _rankingRepository.UpdateAsync(ranking);
             }
-            return _mapper.Map<IEnumerable<RankingsResponseModel>>(allRankings).ToList();
         }
         private async Task CalculateNewPoints(IList<TournamentEdition> editions)
         {

@@ -5,12 +5,14 @@
 @using TennisTour.UI.Common;
 @inject HttpClient httpClient
 
+
 @if (Rankings == null)
 {
 	<MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
 } else
 {
-	<AuthorizeView>
+	<AuthorizeView Roles="Admin">
+		
 		<MudButton Variant="Variant.Text" Color="Color.Primary" Class="mb-6" OnClick="UpadateRankings">Upadate</MudButton>
 		<MudText Typo="Typo.body1" Class="mb-6">Last updated: @LastUpdated</MudText>
 	</AuthorizeView>
@@ -36,25 +38,25 @@
 
 
 @code {
-    private List<RankingsResponseModel> Rankings { get; set; }
-    private DateTime? LastUpdated { get; set; }
+	private List<RankingsResponseModel> Rankings { get; set; }
+	private DateTime? LastUpdated { get; set; }
 
-    protected override async Task OnInitializedAsync() 
-    {
-        await LoadRankings();
-    }
+	protected override async Task OnInitializedAsync() 
+	{
+		await LoadRankings();
+	}
 
 
-    private async Task LoadRankings()
-    {
-        var rankings = await httpClient.GetFromJsonAsync<List<RankingsResponseModel>>(ApiConstants.RankingsGetAll);
-        Rankings = rankings;
-        LastUpdated = rankings?[0].UpdatedOn;
-    }
+	private async Task LoadRankings()
+	{
+		var rankings = await httpClient.GetFromJsonAsync<List<RankingsResponseModel>>(ApiConstants.RankingsGetAll);
+		Rankings = rankings ?? new List<RankingsResponseModel>();
+		LastUpdated = rankings?[0].UpdatedOn;
+	}
 
-    private async Task UpadateRankings()
-    {
-        var rankings = await httpClient.PostAsync(ApiConstants.RankingsUpdate, null);
+	private async Task UpadateRankings()
+	{
+		var rankings = await httpClient.PostAsync(ApiConstants.RankingsUpdate, null);
         await LoadRankings();
     }
 

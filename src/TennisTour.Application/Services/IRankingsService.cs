@@ -11,6 +11,6 @@ namespace TennisTour.Application.Services
     public interface IRankingsService
     {
         Task<List<RankingsResponseModel>> GetAllRankings();
-        Task<List<RankingsResponseModel>> UpdatePoints(ClaimsPrincipal claimsPrincipal);
+        Task UpdatePoints(ClaimsPrincipal claimsPrincipal);
     }
 }
