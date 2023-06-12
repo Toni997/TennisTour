@@ -51,7 +51,7 @@
 	{
 		var rankings = await httpClient.GetFromJsonAsync<List<RankingsResponseModel>>(ApiConstants.RankingsGetAll);
 		Rankings = rankings ?? new List<RankingsResponseModel>();
-		LastUpdated = rankings?[0].UpdatedOn;
+		LastUpdated = Rankings.Any() ? Rankings[0].UpdatedOn : null;
 	}
 
 	private async Task UpadateRankings()

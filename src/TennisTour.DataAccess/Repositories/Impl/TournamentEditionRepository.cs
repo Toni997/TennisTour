@@ -80,6 +80,13 @@ namespace TennisTour.DataAccess.Repositories.Impl
             return x.OrderByDescending(x => x.DateStart);
         }
 
+        private IOrderedQueryable<TournamentEdition> OrderByUpdateDate(IQueryable<TournamentEdition> x)
+        {
+            return x.OrderByDescending(x => x.UpdatedOn);
+        }
+
+
+
         public async Task<IList<TournamentEdition>> GetAllOrderedByDateStartDescAsync()
         {
             return await GetAllAsync(orderBy: OrderBy, includes: IncludesForGetAll);
@@ -104,9 +111,11 @@ namespace TennisTour.DataAccess.Repositories.Impl
             return careerTitles.Count;
         }
 
-        public async Task<IList<TournamentEdition>> GetAllFinishedBeforeDate(DateTime date)
+        public async Task<IList<TournamentEdition>> GetAllFinishedAfterLastUpdate()
         {
-            return await GetAllAsync(expression: x => x.DateEnd >= date, includes: IncludesForGetAll);
+            var orderedByUpdateDateTime = await GetAllAsync(orderBy: OrderByUpdateDate);
+            var lastUpdate = orderedByUpdateDateTime.Any() ? orderedByUpdateDateTime.First().UpdatedOn : new DateTime();
+            return await GetAllAsync(expression: x => x.DateEnd >= lastUpdate, includes: IncludesForGetAll);
                 
         }
     }
