@@ -20,8 +20,7 @@
 	<MudDataGrid T="RankingsResponseModel" Items="@Rankings" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
 		<Columns>
 			<PropertyColumn Property="x => x.Rank" />
-			<PropertyColumn Property="x => x.ContenderInfo.FirstName" Title="First name" />
-			<PropertyColumn Property="x => x.ContenderInfo.LastName" Title="Last name" />
+			<PropertyColumn Property="x => x.ContenderInfo.FirstName + ' ' + x.ContenderInfo.LastName " Title="Name" />
 			<PropertyColumn Property="x => x.Points" Title="Points" />
 			<PropertyColumn Property="x => x.PreviousPoints" Title="Previous points" />
 			<PropertyColumn Property="x => x.PreviousRank" Title="Previous rank" />

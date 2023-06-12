@@ -9,17 +9,17 @@ namespace TennisTour.Core.Helpers
 {
     public class PointsCalculator
     {
-        private static readonly Dictionary<Series, List<int>> pointsMap = Enum.GetValues(typeof(Series)).Cast<Series>().Select(
+        private static readonly Dictionary<Series,int> pointsFactorsMap = Enum.GetValues(typeof(Series)).Cast<Series>().Select(
             (e) =>
             {
                 return e switch
                 {
-                    Series.TTChallenger => KeyValuePair.Create(e, new List<int> { 15, 32, 60, 100, 175 }),
-                    Series.TT250 => KeyValuePair.Create(e, new List<int> { 20, 45, 90, 150, 250 }),
-                    Series.TT500 => KeyValuePair.Create(e, new List<int> { 45, 90, 180, 300, 500 }),
-                    Series.TTMasters1000 => KeyValuePair.Create(e, new List<int> { 10, 45, 90, 180, 360, 600, 1000 }),
-                    Series.TTGrandSlam => KeyValuePair.Create(e, new List<int> { 10, 45, 90, 180, 360, 720, 1200, 2000 }),
-                    Series.TTFinals => KeyValuePair.Create(e, new List<int> { 200, 200, 200, 400, 500 }),
+                    Series.TTChallenger => KeyValuePair.Create(e, 30),
+                    Series.TT250 => KeyValuePair.Create(e, 50),
+                    Series.TT500 => KeyValuePair.Create(e, 100),
+                    Series.TTMasters1000 => KeyValuePair.Create(e, 150),
+                    Series.TTGrandSlam => KeyValuePair.Create(e, 200),
+                    Series.TTFinals => KeyValuePair.Create(e, 200),
                     _ => throw new NotImplementedException(),
                 };
             }
@@ -27,7 +27,7 @@ namespace TennisTour.Core.Helpers
 
         public static int GetPoints(Series series, int round )
         {
-            return pointsMap[series][round];
+            return pointsFactorsMap[series] * round;
         }
     }
 }
