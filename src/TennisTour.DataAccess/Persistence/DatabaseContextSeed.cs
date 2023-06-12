@@ -23,8 +23,6 @@ public static class DatabaseContextSeed
         if (ShouldResetDatabase)
         {
             context.Matches.RemoveRange(context.Matches.ToList());
-            //context.TournamentRegistrations.RemoveRange(context.TournamentRegistrations.ToList());
-            //context.TournamentEditions.RemoveRange(context.TournamentEditions.ToList());
             context.Tournaments.RemoveRange(context.Tournaments.ToList());
 
             var users = await context.Users.ToListAsync();
@@ -143,7 +141,11 @@ public static class DatabaseContextSeed
             var settings = new JsonSerializerSettings();
             settings.Converters.Add(new NullableDateTimeConverter());
             var matches = JsonConvert.DeserializeObject<List<Match>>(json, settings);
-
+            foreach (var match in matches)
+            {
+                match.ResultReportedByContenderId = match.ContenderOneId;
+                match.IsResultConfirmed = true;
+            }
             await context.Matches.AddRangeAsync(matches);
         }
         catch (FileNotFoundException ex)

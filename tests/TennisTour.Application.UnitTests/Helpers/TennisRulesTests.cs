@@ -18,6 +18,7 @@ public class TennisRulesTests
     [Fact]
     public void IsSetScoreIsValid_ShouldWorkProperly()
     {
+        _tennisRules.IsSetScoreValid(2, 0, null, false).Should().Be(false);
         _tennisRules.IsSetScoreValid(0, 0, 9, false).Should().Be(false);
         _tennisRules.IsSetScoreValid(3, 2, 9, false).Should().Be(false);
         _tennisRules.IsSetScoreValid(7, 6, 2, false).Should().Be(true);

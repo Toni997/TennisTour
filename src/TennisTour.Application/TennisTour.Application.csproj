@@ -25,4 +25,8 @@
         <ProjectReference Include="..\TennisTour.DataAccess\TennisTour.DataAccess.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Models\MatchSet\" />
+    </ItemGroup>
+
 </Project>

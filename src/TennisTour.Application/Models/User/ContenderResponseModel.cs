@@ -29,10 +29,15 @@ namespace TennisTour.Application.Models.User
         }
     }
 
-    public class ContenderRankingResponseModel : BaseResponseModel
+    public class ContenderWithRankingResponseModel : BaseResponseModel
     {
         public RankingResponseModel Ranking { get; set; }
         public int FavoritedByUsersCount { get; set; }
         public bool IsFavoritedByUser { get; set; }
+    }
+
+    public class ContenderWithRankingForFavoritesResponseModel : BaseResponseModel
+    {
+        public RankingResponseModel Ranking { get; set; }
     }
 }

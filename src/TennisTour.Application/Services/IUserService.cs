@@ -13,4 +13,5 @@ public interface IUserService
     Task<LoginResponseModel> LoginAsync(LoginUserModel loginUserModel);
     Task<BaseResponseModel> FavoriteContender(string userId, string contenderId);
     Task<BaseResponseModel> UnfavoriteContender(string userId, string contenderId);
+    Task<IEnumerable<ContenderDetailsForFavoritesResponseModel>> GetFavorites(string userId);
 }

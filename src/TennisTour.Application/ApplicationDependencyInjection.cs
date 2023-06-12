@@ -8,6 +8,7 @@ using TennisTour.Application.MappingProfiles;
 using TennisTour.Application.Services;
 using TennisTour.Application.Services.DevImpl;
 using TennisTour.Application.Services.Impl;
+using TennisTour.Core.Helpers;
 using TennisTour.Shared.Services;
 using TennisTour.Shared.Services.Impl;
 
@@ -34,6 +35,8 @@ public static class ApplicationDependencyInjection
         services.AddScoped<IClaimService, ClaimService>();
         services.AddScoped<ITemplateService, TemplateService>();
         services.AddScoped<IContenderInfoService, ContenderInfoService>();
+        services.AddScoped<IMatchService, MatchService>();
+        services.AddScoped<TennisRules, TennisRules>();
         services.AddScoped<IRankingsService, RankingsService>();
 
         if (env.IsDevelopment())

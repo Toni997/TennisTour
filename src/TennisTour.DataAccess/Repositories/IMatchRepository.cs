@@ -13,5 +13,6 @@ namespace TennisTour.DataAccess.Repositories
         Task<int> GetCareerTotalLosesByContender(string contenderId);
         Task<int> GetCareerTotalH2HWinsByContenderOneAgainstContenderTwo(string contenderOneId, string contenderTwoId);
         Task<IList<Match>> GetAllH2HMatchesBetweenContenderOneAndContenderTwo(string contenderOneId, string contenderTwoId);
+        Task<Match> GetByIdWithMatchSetsAndWinner(Guid id);
     }
 }

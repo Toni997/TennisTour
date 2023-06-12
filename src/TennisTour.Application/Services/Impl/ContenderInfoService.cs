@@ -13,7 +13,6 @@ using TennisTour.Application.Models.User;
 using TennisTour.Core.Entities;
 using TennisTour.Core.Helpers;
 using TennisTour.DataAccess.Repositories;
-using TennisTour.DataAccess.Repositories.Impl;
 
 namespace TennisTour.Application.Services.Impl
 {
@@ -39,28 +38,30 @@ namespace TennisTour.Application.Services.Impl
             _userManager = userManager;
         }
 
-        public async Task<ContenderInfoModel>  EditContenderInfoAsync(ContenderInfoModel contenderInfo, ClaimsPrincipal claimsPrincipal)
+        public async Task<ContenderInfoModel>  EditContenderInfoAsync(ContenderInfoModel contenderInfoModel, string userId)
         {
-            var toUpdate = _mapper.Map<ContenderInfo>(contenderInfo);
-            var user = await _userManager.GetUserAsync(claimsPrincipal);
-            toUpdate.ContenderId = user.Id;
-         
-            if (await _contenderInfoRepository.ExistsAsync(contenderInfo.Id))
+            var contenderInfo = await _contenderInfoRepository.GetOneOrNullAsync(x => x.ContenderId == userId);
+            
+            if (contenderInfo is not null)
             {
-                var savedContenderInfo = await _contenderInfoRepository.GetByIdAsync(contenderInfo.Id);
-
-                if (savedContenderInfo.ContenderId != user.Id)
+                if (contenderInfo.ContenderId != userId)
                     throw new UnauthorizedException("You are not authorized to change this contender's info");
 
-                toUpdate.Contender = user;
-                var result = await _contenderInfoRepository.UpdateAsync(toUpdate);
+                var savedContenderInfo = _mapper.Map(contenderInfoModel, contenderInfo);
+                var result = await _contenderInfoRepository.UpdateAsync(savedContenderInfo);
+
                 return _mapper.Map<ContenderInfoModel>(result);
             }
             // TODO this should be a post request
             else
             {
-                var result =  await _contenderInfoRepository.AddAsync(toUpdate);
+                var contendeInfo = _mapper.Map<ContenderInfo>(contenderInfoModel);
+                contendeInfo.ContenderId = userId;
+                var result =  await _contenderInfoRepository.AddAsync(contendeInfo);
+
+                var user = await _userManager.FindByIdAsync(userId);
                 await _userManager.AddToRoleAsync(user, Roles.Contender);
+
                 return _mapper.Map<ContenderInfoModel>(result);
             }
         }
