@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TennisTour.Application.Exceptions;
 using TennisTour.Application.Models;
-using TennisTour.Application.Models.MatchSet;
 using TennisTour.Core.Entities;
 using TennisTour.Core.Enums;
 using TennisTour.Core.Helpers;
@@ -46,7 +45,8 @@ namespace TennisTour.Application.Services.Impl
             if (match.IsResultConfirmed)
                 throw new UnprocessableRequestException("This match has already been concluded");
 
-            if (!_tennisRules.AreMatchSetsValid(upsertMatchSetsModel.MatchSets, match.TournamentEdition.Tournament.Series))
+            if (!_tennisRules.AreMatchSetsValid(upsertMatchSetsModel.MatchSets, match.TournamentEdition.Tournament.Series,
+                upsertMatchSetsModel.Winner, new Guid(authenticatedContenderId), new Guid(match.ContenderOneId), new Guid(match.ContenderTwoId)))
                 throw new BadRequestException("Match sets are invalid");
 
             UpdateMatch(match, upsertMatchSetsModel, authenticatedContenderId);

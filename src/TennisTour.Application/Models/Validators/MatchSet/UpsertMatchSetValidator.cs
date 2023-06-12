@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TennisTour.Application.Models.MatchSet;
 using TennisTour.Core.Models;
 
 namespace TennisTour.Application.Models.Validators.MatchSet

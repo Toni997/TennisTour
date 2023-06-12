@@ -165,10 +165,24 @@ namespace TennisTour.Core.Helpers
             return age;
         }
 
-        public bool AreMatchSetsValid(List<UpsertMatchSetModel> matchSets, Series series)
+        public bool IsFullMatchPlayed(IEnumerable<BaseMatchSetModel> matchSets)
+        {
+            foreach (var matchSet in matchSets)
+            {
+                var setScoreValidity = GetSetScoreValidity(
+                    matchSet.ContenderOneGamesCount, matchSet.ContenderTwoGamesCount, matchSet.LoserTiebreakPoints);
+                if (!setScoreValidity.HasEnded)
+                    return false;
+            }
+
+            return true;
+        }
+
+        public bool AreMatchSetsValid(IEnumerable<BaseMatchSetModel> matchSets, Series series, MatchWinner matchWinner,
+            Guid authenticatedContenderId, Guid contenderOneId, Guid contenderTwoId)
         {
             var maxNumberOfSets = GetMaxNumberOfSetsForTourSeries(series);
-            if (matchSets.Count > maxNumberOfSets)
+            if (matchSets.Count() > maxNumberOfSets)
                 return false;
 
             var contenderOneSets = 0;
@@ -189,7 +203,16 @@ namespace TennisTour.Core.Helpers
                 }
             }
 
-            return MatchScoreValid(contenderOneSets, contenderTwoSets, maxNumberOfSets);
+            if (!MatchScoreValid(contenderOneSets, contenderTwoSets, maxNumberOfSets))
+                return false;
+
+            if (IsFullMatchPlayed(matchSets))
+            {
+                var winnerId = contenderOneSets > contenderTwoSets ? contenderOneId : contenderTwoId;
+                return IsWinnerCorrect(winnerId, authenticatedContenderId, matchWinner);
+            }
+
+            return true;
         }
 
         private bool MatchScoreValid(int contenderOneSets, int contenderTwoSets, int maxNumberOfSets)
@@ -198,7 +221,21 @@ namespace TennisTour.Core.Helpers
                 return false;
 
             var maxValidWonSets = (int)Math.Ceiling((float)maxNumberOfSets / 2);
-            return contenderOneSets <= maxValidWonSets && contenderTwoSets <= maxValidWonSets;
+            if (contenderOneSets > maxValidWonSets || contenderTwoSets > maxValidWonSets)
+                return false;
+
+            return true;
+        }
+
+        private bool IsWinnerCorrect(Guid winnerId, Guid authenticatedContenderId, MatchWinner matchWinner)
+        {
+            if (matchWinner == MatchWinner.You && winnerId != authenticatedContenderId)
+                return false;
+
+            if (matchWinner == MatchWinner.Opponent && winnerId == authenticatedContenderId)
+                return false;
+
+            return true;
         }
     }
 }

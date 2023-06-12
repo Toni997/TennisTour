@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TennisTour.Application.Models.MatchSet;
 using TennisTour.Application.Models.TournamentEdition;
 using TennisTour.Application.Models.User;
 using TennisTour.Core.Entities;
+using TennisTour.Core.Models;
 
 namespace TennisTour.Application.Models.Match
 {

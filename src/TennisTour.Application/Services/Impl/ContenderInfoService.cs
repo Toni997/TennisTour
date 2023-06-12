@@ -41,7 +41,7 @@ namespace TennisTour.Application.Services.Impl
         public async Task<ContenderInfoModel>  EditContenderInfoAsync(ContenderInfoModel contenderInfoModel, string userId)
         {
             var contenderInfo = await _contenderInfoRepository.GetOneOrNullAsync(x => x.ContenderId == userId);
-         
+            
             if (contenderInfo is not null)
             {
                 if (contenderInfo.ContenderId != userId)

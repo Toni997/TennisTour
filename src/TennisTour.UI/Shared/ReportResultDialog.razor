@@ -1,5 +1,4 @@
-﻿@using TennisTour.Application.Models.MatchSet
-@using TennisTour.Application.Models.Validators.MatchSet
+﻿@using TennisTour.Application.Models.Validators.MatchSet
 @using TennisTour.Core.Models;
 @inject TennisRules TennisRules
 
@@ -94,7 +93,7 @@
         if (!form.IsValid)
             return;
 
-        if (!TennisRules.AreMatchSetsValid(model.MatchSets, Series))
+        if (!TennisRules.AreMatchSetsValid(model.MatchSets, Series, model.Winner, AuthenticatedContenderId, ContenderOneId, ContenderTwoId))
         {
             errorMessage = "Match sets are invalid";
             return;

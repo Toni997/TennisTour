@@ -5,7 +5,6 @@ using Org.BouncyCastle.Asn1.X509.Qualified;
 using System.Formats.Asn1;
 using TennisTour.API.Extension;
 using TennisTour.Application.Models;
-using TennisTour.Application.Models.MatchSet;
 using TennisTour.Application.Services;
 using TennisTour.Core.Helpers;
 using TennisTour.Core.Models;

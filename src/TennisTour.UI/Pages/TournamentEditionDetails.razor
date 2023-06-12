@@ -2,7 +2,7 @@
 @using TennisTour.Application.Models.Tournament;
 @using TennisTour.Application.Models.TournamentEdition;
 @using TennisTour.Application.Models.Match;
-@using TennisTour.Application.Models.MatchSet;
+@using TennisTour.Core.Models;
 @using TennisTour.Application.Models.User;
 @inject IDialogService DialogService
 @inject TennisRules TennisRules
@@ -49,9 +49,12 @@ else
     <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
     <AuthorizeView Roles="@Roles.Contender">
-        <MudButton Disabled="tournamentEdition.IsRegistrationTimeOver || isLoading" OnClick="RegisterToPlayClick" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">
-            @(!tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? "Register To Play" : "Withdraw registration")
-        </MudButton>
+        @if (!tournamentEdition.IsRegistrationTimeOver)
+        {
+            <MudButton Disabled="isLoading" OnClick="RegisterToPlayClick" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">
+                @(!tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? "Register To Play" : "Withdraw registration")
+            </MudButton>
+        }
     </AuthorizeView>
     <MudButton OnClick="RegisteredContendersClick" StartIcon="@Icons.Material.Filled.List" Variant="Variant.Filled" Color="Color.Secondary" Class="mb-4">
         Registrations
@@ -116,6 +119,12 @@ else
                                         <MudLink Style="@((context.Id == match.Winner?.Id) ? "font-weight: bold" : "font-weight: normal")" Href="@(String.Format(UiConstants.ContenderDetailsRoute, context.Id))">
                                             @context.FullName
                                         </MudLink>
+                                        @if (!TennisRules.IsFullMatchPlayed(match.MatchSets) && match.Winner.Id != context.Id)
+                                        {
+                                            <MudTooltip Class="" Text="Retired">
+                                                <MudIcon Class="ml-2" Icon="@Icons.Material.Outlined.PersonalInjury" Color="Color.Warning" />
+                                            </MudTooltip>
+                                        }
                                         @if (context.Id == match.Winner?.Id)
                                         {
                                             <MudTooltip Text="@(roundNumber != tournamentEdition.Tournament.NumberOfRounds ? "Advances" : "Winner")">
