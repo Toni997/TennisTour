@@ -51,22 +51,22 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7ca2c6e3-adc4-4336-9001-1f8476d6c670",
-                            ConcurrencyStamp = "1ff5515b-4e88-4fbc-9f38-e6a9f7805a41",
+                            Id = "223f27ac-9c93-44ba-9f5f-1dc2de3a16f2",
+                            ConcurrencyStamp = "0fbe0c91-7d25-424d-b7f5-e4e9de3013a0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8bd80ecd-f5ef-45ac-855d-be73952e478e",
-                            ConcurrencyStamp = "a4e87fe4-4efb-4166-977a-7166358a2ea0",
+                            Id = "ae482458-5f0b-438a-ab5a-ef54d264449a",
+                            ConcurrencyStamp = "257eeed9-3730-450e-9b19-a9f8db0b12c6",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "11d92756-cdc9-45f2-bd53-46a6546281e4",
-                            ConcurrencyStamp = "6cc0c2f4-8f56-4313-8c41-9ba483804812",
+                            Id = "8e01de3c-6ac9-4c3a-8d9f-c04c102c75bd",
+                            ConcurrencyStamp = "b96e8222-8e37-415d-806d-42efc283e4b1",
                             Name = "Contender",
                             NormalizedName = "CONTENDER"
                         });

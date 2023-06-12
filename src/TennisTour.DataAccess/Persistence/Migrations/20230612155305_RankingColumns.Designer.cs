@@ -12,7 +12,7 @@ using TennisTour.DataAccess.Persistence;
 namespace TennisTour.DataAccess.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230610174154_RankingColumns")]
+    [Migration("20230612155305_RankingColumns")]
     partial class RankingColumns
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,22 +53,22 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1fb5fb07-d40c-4494-9e78-2063dea86e5b",
-                            ConcurrencyStamp = "1ed8c6bf-a6c7-47f9-8976-3da235a6b4b9",
+                            Id = "223f27ac-9c93-44ba-9f5f-1dc2de3a16f2",
+                            ConcurrencyStamp = "0fbe0c91-7d25-424d-b7f5-e4e9de3013a0",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "d18f2e58-097b-44e7-bce3-6c1074541b9f",
-                            ConcurrencyStamp = "be5f94d2-9de2-4433-b8f8-5cea1d5a0f6f",
+                            Id = "ae482458-5f0b-438a-ab5a-ef54d264449a",
+                            ConcurrencyStamp = "257eeed9-3730-450e-9b19-a9f8db0b12c6",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "73335c1a-11e7-4f42-b65c-5fe69cf38c91",
-                            ConcurrencyStamp = "455f35a3-468f-440d-9998-840d3e5cb76c",
+                            Id = "8e01de3c-6ac9-4c3a-8d9f-c04c102c75bd",
+                            ConcurrencyStamp = "b96e8222-8e37-415d-806d-42efc283e4b1",
                             Name = "Contender",
                             NormalizedName = "CONTENDER"
                         });
@@ -316,8 +316,14 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsResultConfirmed")
+                        .HasColumnType("bit");
+
                     b.Property<int>("NextMatchupControlNumber")
                         .HasColumnType("int");
+
+                    b.Property<string>("ResultReportedByContenderId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Round")
                         .HasColumnType("int");
@@ -339,6 +345,8 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.HasIndex("ContenderOneId");
 
                     b.HasIndex("ContenderTwoId");
+
+                    b.HasIndex("ResultReportedByContenderId");
 
                     b.HasIndex("TournamentEditionId");
 
@@ -688,6 +696,11 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("TennisTour.Core.Entities.ApplicationUser", "ResultReportedByContender")
+                        .WithMany()
+                        .HasForeignKey("ResultReportedByContenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("TennisTour.Core.Entities.TournamentEdition", "TournamentEdition")
                         .WithMany("Matches")
                         .HasForeignKey("TournamentEditionId")
@@ -702,6 +715,8 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.Navigation("ContenderOne");
 
                     b.Navigation("ContenderTwo");
+
+                    b.Navigation("ResultReportedByContender");
 
                     b.Navigation("TournamentEdition");
 
