@@ -21,12 +21,42 @@ namespace TennisTour.Application.Models.User
         public Hand DominantHand { get; set; }
         public DateTime TurnedProOn { get; set; }
         public DateTime? RetiredOn { get; set; }
-        public ContenderRankingResponseModel Contender { get; set; }
+        public ContenderWithRankingResponseModel Contender { get; set; }
         public ICollection<TournamentEditionWithMatchesResponseModel> LastTournamentsPlayed { get; set; }
 
         public override string ToString()
         {
             return $"{FirstName} {LastName}";
+        }
+    }
+
+    public class ContenderDetailsForFavoritesResponseModel
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public int WeightKg { get; set; }
+        public int HeightCm { get; set; }
+        public BackhandType BackhandType { get; set; }
+        public Hand DominantHand { get; set; }
+        public DateTime TurnedProOn { get; set; }
+        public DateTime? RetiredOn { get; set; }
+
+        public ContenderWithRankingForFavoritesResponseModel Contender { get; set; }
+
+        public override string ToString()
+        {
+            return $"{FirstName} {LastName}";
+        }
+
+        public string GetCurrentRank()
+        {
+            return Contender.Ranking?.Rank.ToString() ?? "Unranked";
+        }
+
+        public string GetCurrentPoints()
+        {
+            return Contender.Ranking?.Points.ToString() ?? "Unranked";
         }
     }
 

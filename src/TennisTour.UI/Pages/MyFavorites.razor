@@ -1,0 +1,106 @@
+﻿@page "/myFavorites"
+@using TennisTour.Application.Models.User;
+@attribute [Authorize]
+
+
+<PageTitle>My Favorites | Tennis Tour</PageTitle>
+
+<MudText Typo="Typo.h1" GutterBottom="true">My Favorites</MudText>
+
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+@if (isLoading)
+{
+    <PageTitle>My Favorites | Tennis Tour</PageTitle>
+
+    if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error">Error while getting favorites</MudAlert>
+    }
+}
+else if (!myFavorites.Any())
+{
+    <MudAlert Severity="Severity.Info">No favorites</MudAlert>
+}
+else {
+    <MudDataGrid T="ContenderDetailsForFavoritesResponseModel" Items="@myFavorites" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
+        <Columns>
+            <PropertyColumn Property="x => x.GetCurrentRank()" Title="Rank" />
+            <PropertyColumn Property="x => x.GetCurrentPoints()" Title="Points" />
+            <TemplateColumn SortBy="x => x.ToString()" Title="Contender">
+                <CellTemplate>
+                    <MudLink Href="@(String.Format(UiConstants.ContenderDetailsRoute, context.Item.Contender.Id))" Color="Color.Primary" Size="@Size.Small" Icon="@Icons.Material.Outlined.Visibility">
+                        @context.Item
+                    </MudLink>
+                </CellTemplate>
+            </TemplateColumn>
+            <TemplateColumn Sortable="false" Filterable="false" Title="Unfavorite">
+                <CellTemplate>
+                    <MudIconButton OnClick="(e) => UnfavoriteClick(context.Item)" Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Filled.HeartBroken" />
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+        <PagerContent>
+            <MudDataGridPager T="ContenderDetailsForFavoritesResponseModel" />
+        </PagerContent>
+    </MudDataGrid>
+}
+
+@code {
+    [Inject] ISnackbar Snackbar { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private bool isLoading = false;
+    private List<ContenderDetailsForFavoritesResponseModel> myFavorites;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthState;
+        var user = authState.User;
+
+        await LoadMyFavorites();
+    }
+
+    private async Task LoadMyFavorites()
+    {
+        myFavorites = null;
+        isLoading = true;
+
+        try
+        {
+            var response = await HttpClient.GetStringAsync(ApiConstants.MyFavoritesRoute);
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<List<ContenderDetailsForFavoritesResponseModel>>>(response);
+            myFavorites = apiResult.Result;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task UnfavoriteClick(ContenderDetailsForFavoritesResponseModel model)
+    {
+        try
+        {
+            var response = await HttpClient.DeleteAsync(String.Format(ApiConstants.UnfavoriteContender, model.Contender.Id));
+            response.EnsureSuccessStatusCode();
+
+            Snackbar.Add("Succesfully unfavorited contender", Severity.Success);
+            myFavorites.Remove(model);
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+    }
+}

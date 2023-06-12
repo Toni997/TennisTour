@@ -4,6 +4,7 @@ using TennisTour.API.Extension;
 using TennisTour.Application.Models;
 using TennisTour.Application.Models.User;
 using TennisTour.Application.Services;
+using TennisTour.DataAccess.Repositories;
 
 namespace TennisTour.API.Controllers;
 
@@ -58,5 +59,13 @@ public class UsersController : ApiController
     {
         return Ok(ApiResult<BaseResponseModel>.Success(
             await _userService.UnfavoriteContender(User.GetUserId(), contenderId)));
+    }
+
+    [Authorize]
+    [HttpGet(nameof(MyFavorites))]
+    public async Task<IActionResult> MyFavorites()
+    {
+        return Ok(ApiResult<IEnumerable<ContenderDetailsForFavoritesResponseModel>>.Success(
+            await _userService.GetFavorites(User.GetUserId())));
     }
 }
