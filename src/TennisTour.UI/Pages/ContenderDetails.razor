@@ -181,7 +181,7 @@ else
             HttpResponseMessage response;
             if (!contender.Contender.IsFavoritedByUser)
             {
-                response = await HttpClient.PostAsync(String.Format(ApiConstants.FavoriteContender, ContenderId), new JsonNewtonContent(""));
+                response = await HttpClient.PostAsync(String.Format(ApiConstants.FavoriteContender, ContenderId), null);
             }
             else
             {
