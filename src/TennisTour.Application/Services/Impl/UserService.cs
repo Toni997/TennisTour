@@ -164,4 +164,11 @@ public class UserService : IUserService
             Id = Guid.Parse(contenderId)
         };
     }
+
+    public async Task<IEnumerable<ContenderDetailsForFavoritesResponseModel>> GetFavorites(string userId)
+    {
+        var favoritedContenders = await _contenderInfoRepository.GetUserFavorites(userId);
+
+        return _mapper.Map<List<ContenderDetailsForFavoritesResponseModel>>(favoritedContenders);
+    }
 }

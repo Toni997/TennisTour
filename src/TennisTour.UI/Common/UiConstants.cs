@@ -12,5 +12,6 @@
         public const string TournamentEditionAddRoute = "/tournament-editions/add/{0}";
         public const string ContenderDetailsRoute = "/contender/{0}";
         public const string ContenderH2HRoute = "/contender/{0}/h2h/{1}";
+        public const string MyFavoritesRoute = "/myFavorites";
     }
 }
