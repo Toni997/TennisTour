@@ -175,7 +175,7 @@ namespace TennisTour.Application.Services.Impl
             foreach (var registration in acceptedRegistrations)
                 registration.IsAccepted = true;
 
-            GenerateMatches(tournamentEdition, acceptedRegistrations.Select(x => x.Contender), 1);
+            GenerateRoundOneMatches(tournamentEdition, acceptedRegistrations.Select(x => x.Contender));
         }
 
         private void GenerateNextRound(TournamentEdition tournamentEdition, int roundToGenerate)
@@ -183,15 +183,14 @@ namespace TennisTour.Application.Services.Impl
             if (roundToGenerate > tournamentEdition.Tournament.NumberOfRounds)
                 throw new UnprocessableRequestException("All rounds have already been generated for this tournament");
 
-            var previousRoundMatches = tournamentEdition.Matches.Where(x => x.Round == roundToGenerate - 1);
-            if (!tournamentEdition.Matches.All(x => x.IsResultConfirmed))
+            var previousRoundMatches = tournamentEdition.Matches.Where(x => x.Round == roundToGenerate - 1).OrderBy(x => x.NextMatchupControlNumber);
+            if (tournamentEdition.Matches.Any(x => !x.IsResultConfirmed))
                 throw new UnprocessableRequestException("All match results need to be confirmed before generating next round");
 
-            var contendersWhoAdvanced = previousRoundMatches.Select(x => x.Winner);
-            GenerateMatches(tournamentEdition, contendersWhoAdvanced, roundToGenerate);
+            GenerateMatchesForRound(tournamentEdition, previousRoundMatches, roundToGenerate);
         }
 
-        private void GenerateMatches(TournamentEdition tournamentEdition, IEnumerable<ApplicationUser> contenders, int round)
+        private void GenerateRoundOneMatches(TournamentEdition tournamentEdition, IEnumerable<ApplicationUser> contenders)
         {
             var contenderIndex = 0;
             var matchesToGenerate = contenders.Count() / 2;
@@ -201,8 +200,24 @@ namespace TennisTour.Application.Services.Impl
                 {
                     ContenderOneId = contenders.ElementAt(contenderIndex++).Id,
                     ContenderTwoId = contenders.ElementAt(contenderIndex++).Id,
-                    Round = round,
+                    Round = 1,
                     NextMatchupControlNumber = i,
+                };
+                tournamentEdition.Matches.Add(match);
+            }
+        }
+
+        private void GenerateMatchesForRound(TournamentEdition tournamentEdition, IEnumerable<Match> previousRoundMatches, int round)
+        {
+            var controlNumber = 0;
+            for (var i = 0; i < previousRoundMatches.Count(); i+=2)
+            {
+                var match = new Match
+                {
+                    ContenderOneId = previousRoundMatches.ElementAt(i).WinnerId,
+                    ContenderTwoId = previousRoundMatches.ElementAt(i + 1).WinnerId,
+                    Round = round,
+                    NextMatchupControlNumber = controlNumber++,
                 };
                 tournamentEdition.Matches.Add(match);
             }
