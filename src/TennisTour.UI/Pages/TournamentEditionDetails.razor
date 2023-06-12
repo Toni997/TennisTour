@@ -2,7 +2,7 @@
 @using TennisTour.Application.Models.Tournament;
 @using TennisTour.Application.Models.TournamentEdition;
 @using TennisTour.Application.Models.Match;
-@using TennisTour.Application.Models.MatchSet;
+@using TennisTour.Core.Models;
 @using TennisTour.Application.Models.User;
 @inject IDialogService DialogService
 @inject TennisRules TennisRules
@@ -49,21 +49,36 @@ else
     <MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
     <AuthorizeView Roles="@Roles.Contender">
-        <MudButton Disabled="tournamentEdition.IsRegistrationTimeOver || isLoading" OnClick="RegisterToPlayClick" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">
-            @(!tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? "Register To Play" : "Withdraw registration")
-        </MudButton>
+        @if (!tournamentEdition.IsRegistrationTimeOver)
+        {
+            <MudButton Disabled="isLoading" OnClick="RegisterToPlayClick" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">
+                @(!tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? "Register To Play" : "Withdraw registration")
+            </MudButton>
+        }
     </AuthorizeView>
     <MudButton OnClick="RegisteredContendersClick" StartIcon="@Icons.Material.Filled.List" Variant="Variant.Filled" Color="Color.Secondary" Class="mb-4">
-        Registered Contenders
+        Registrations
     </MudButton>
 
     <MudText>Series: @tournamentEdition.Tournament.Series.GetDescription()</MudText>
     <MudText>Surface: @tournamentEdition.Tournament.Surface.GetDescription()</MudText>
-    <MudText>Rounds: @numberOfRounds</MudText>
+    <MudText>Rounds: @tournamentEdition.Tournament.NumberOfRounds</MudText>
     <MudText>@tournamentEdition.DateStart.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture) - @tournamentEdition.DateEnd.ToString("MMMM d, yyyy", CultureInfo.InvariantCulture)</MudText>
 
     <MudText class="mt-4" Typo="Typo.h3" GutterBottom="true">Matches</MudText>
     <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+    @if (tournamentEdition.Winner is null && lastPlayedRound < tournamentEdition.Tournament.NumberOfRounds) {
+        <AuthorizeView Roles="@Roles.Admin">
+            <MudButton Disabled="tournamentEdition.RegistrationsCount < contendersNeeded || !tournamentEdition.Matches.All(x => x.IsResultConfirmed) || isLoading" OnClick="GenerateRoundClick" Variant="Variant.Filled" Color="Color.Primary" Class="mb-4">
+                @(tournamentEdition.IsRegistrationTimeOver ? "Generate Next Round" : "Generate Draw")
+            </MudButton>
+            @if (!tournamentEdition.IsRegistrationTimeOver)
+            {
+                <MudAlert Class="mb-3" Severity="Severity.Info">@tournamentEdition.RegistrationsCount registrations, @contendersNeeded needed</MudAlert>
+            }
+        </AuthorizeView>
+    }
 
     if (!tournamentEdition.Matches.Any())
     {
@@ -76,7 +91,7 @@ else
             {
                 var roundNumber = group.Key;
                 var orderedMatches = group.OrderBy(x => x.NextMatchupControlNumber);
-                <MudTabPanel Text="@TennisRules.GetRoundName(roundNumber, numberOfRounds)">
+                <MudTabPanel Text="@TennisRules.GetRoundName(roundNumber, tournamentEdition.Tournament.NumberOfRounds)">
                     @foreach (var match in orderedMatches)
                     {
                         var matchup = new List<ContenderMatchupModel>
@@ -85,13 +100,15 @@ else
                             {
                                 Id = match.ContenderOne.Id,
                                 FullName = match.ContenderOne.ToString(),
-                                GamesPerSet = match.MatchSets.OrderBy(x => x.Order).Select(x => new MarkupString($"<span>{x.ContenderOneGamesCount}{(x.ContenderOneGamesCount == 6 && x.ContenderTwoGamesCount == 7 ? $"<sup>{x.LoserTiebreakPoints}</sup></span>" : "</span>")}")),
+                                GamesPerSet = match.MatchSets.OrderBy(x => x.Order).Select(
+                                    x => new MarkupString($"<span>{x.ContenderOneGamesCount}{(x.ContenderOneGamesCount == 6 && x.ContenderTwoGamesCount == 7 ? $"<sup>{x.LoserTiebreakPoints}</sup></span>" : "</span>")}")),
                             },
                             new ContenderMatchupModel
                             {
                                 Id = match.ContenderTwo.Id,
                                 FullName = match.ContenderTwo.ToString(),
-                                GamesPerSet = match.MatchSets.OrderBy(x => x.Order).Select(x => new MarkupString($"<span>{x.ContenderTwoGamesCount}{(x.ContenderTwoGamesCount == 6 && x.ContenderOneGamesCount == 7 ? $"<sup>{x.LoserTiebreakPoints}</sup></span>" : "</span>")}")),
+                                GamesPerSet = match.MatchSets.OrderBy(x => x.Order).Select(
+                                    x => new MarkupString($"<span>{x.ContenderTwoGamesCount}{(x.ContenderTwoGamesCount == 6 && x.ContenderOneGamesCount == 7 ? $"<sup>{x.LoserTiebreakPoints}</sup></span>" : "</span>")}")),
                             }
                         };
                         <div class="d-flex align-md-center gap-3 flex-column flex-md-row mb-3">
@@ -99,13 +116,19 @@ else
                             <RowTemplate>
                                 <MudTd DataLabel="Full Name">
                                     <span class="d-flex items-center">
-                                        <MudLink Style="@((context.Id == match.Winner.Id) ? "font-weight: bold" : "font-weight: normal")" Href="@(String.Format(UiConstants.ContenderDetailsRoute, context.Id))">
+                                        <MudLink Style="@((context.Id == match.Winner?.Id) ? "font-weight: bold" : "font-weight: normal")" Href="@(String.Format(UiConstants.ContenderDetailsRoute, context.Id))">
                                             @context.FullName
                                         </MudLink>
-                                        @if (context.Id == match.Winner.Id)
+                                        @if (!TennisRules.IsFullMatchPlayed(match.MatchSets) && match.Winner.Id != context.Id)
                                         {
-                                                <MudTooltip Text="@(roundNumber != numberOfRounds ? "Advances" : "Winner")">
-                                                    <MudIcon Class="ml-2" Icon="@(roundNumber != numberOfRounds ? MaterialDesignIcons.Normal.Check : MaterialDesignIcons.Normal.Trophy)" Color="Color.Primary" />
+                                            <MudTooltip Class="" Text="Retired">
+                                                <MudIcon Class="ml-2" Icon="@Icons.Material.Outlined.PersonalInjury" Color="Color.Warning" />
+                                            </MudTooltip>
+                                        }
+                                        @if (context.Id == match.Winner?.Id)
+                                        {
+                                            <MudTooltip Text="@(roundNumber != tournamentEdition.Tournament.NumberOfRounds ? "Advances" : "Winner")">
+                                                <MudIcon Class="ml-2" Icon="@(roundNumber != tournamentEdition.Tournament.NumberOfRounds ? MaterialDesignIcons.Normal.Check : MaterialDesignIcons.Normal.Trophy)" Color="Color.Primary" />
                                             </MudTooltip>
                                         }
                                     </span>
@@ -115,28 +138,36 @@ else
                                 }
                                 @foreach (var gamesWon in context.GamesPerSet)
                                 {
-                                        <MudTd DataLabel="@($"Set No. {setNumber++}")">@gamesWon</MudTd>
+                                    <MudTd DataLabel="@($"Set No. {setNumber++}")">@gamesWon</MudTd>
                                 }
                             </RowTemplate>
                         </MudTable>
                         <MudStack Row="true" Style="height: fit-content">
+                            @if (match.ResultReportedByContender is not null && !match.IsResultConfirmed)
+                            {
+                                <MudTooltip Text="@($"Result reported by {match.ResultReportedByContender} (Not yet confirmed)")">
+                                    <MudIcon Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Info" />
+                                </MudTooltip>
+                            }
+                            <AuthorizeView Roles="@Roles.Contender">
+                                @if (!match.IsResultConfirmed && (match.ContenderOne.Id == authenticatedUserId || match.ContenderTwo.Id == authenticatedUserId))
+                                {
+                                    <MudTooltip Text="Report Result">
+                                        <MudIconButton OnClick="(e) => ReportResultClick(match)" Color="Color.Primary" Size="@Size.Small" Icon="@Icons.Material.Outlined.Scoreboard" />
+                                    </MudTooltip>
+                                    @if (match.ResultReportedByContender is not null && match.ResultReportedByContender.Id != authenticatedUserId)
+                                    {
+                                        <MudTooltip Text="Confirm Result">
+                                            <MudIconButton OnClick="(e) => ConfirmResultClick(match.Id)" Color="Color.Success" Size="@Size.Small" Icon="@Icons.Material.Outlined.Check" />
+                                        </MudTooltip>
+                                    }
+                                }
+                            </AuthorizeView>
                             <MudTooltip Text="@($"{match.ContenderOne} vs {match.ContenderTwo} matchups and achievements")">
                                 <MudButton OnClick="@(() => NavigationManager.NavigateTo(String.Format(UiConstants.ContenderH2HRoute, match.ContenderOne.Id, match.ContenderTwo.Id)))" Variant="Variant.Filled" DisableElevation="true" Color="Color.Default">
                                     H2H
                                 </MudButton>
                             </MudTooltip>
-                            @if (match.Winner == null)
-                            {
-                                <MudTooltip Text="Submit Score">
-                                    <MudIconButton Color="Color.Warning" Size="@Size.Small" Icon="@Icons.Material.Outlined.Edit" />
-                                </MudTooltip>
-                                <MudTooltip Text="Confirm Score">
-                                    <MudIconButton Color="Color.Success" Size="@Size.Small" Icon="@Icons.Material.Outlined.Check" />
-                                </MudTooltip>
-                                <MudTooltip Text="Decline Score">
-                                    <MudIconButton Color="Color.Error" Size="@Size.Small" Icon="@Icons.Material.Filled.Report" />
-                                </MudTooltip>
-                            }
                         </MudStack>
                         </div>
                     }
@@ -155,33 +186,36 @@ else
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; }
 
-    private TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel tournamentEdition;
+    private TournamentEditionWithMatchesForDetailsResponseModel tournamentEdition;
     private IOrderedEnumerable<IGrouping<int, MatchResponseModel>> groupedMatchesByRound;
-    private int numberOfRounds;
     private bool isLoading;
+    private Guid authenticatedUserId;
+    private int contendersNeeded;
+    private int lastPlayedRound;
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthState;
         var user = authState.User;
+        authenticatedUserId = new Guid(user.FindFirst("nameid")?.Value ?? default(Guid).ToString());
 
+        await LoadData();
+    }
+
+    private async Task LoadData()
+    {
+        tournamentEdition = null;
         isLoading = true;
         try
         {
             var response = await HttpClient.GetAsync(String.Format(ApiConstants.TournamentEditionsGetOneRoute, TournamentEditionId));
             response.EnsureSuccessStatusCode();
 
-            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentEditionWithMatchesAndIsAuthenticatedRegisteredResponseModel>>(await response.Content.ReadAsStringAsync());
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<TournamentEditionWithMatchesForDetailsResponseModel>>(await response.Content.ReadAsStringAsync());
             tournamentEdition = apiResult.Result;
             groupedMatchesByRound = tournamentEdition.Matches.GroupBy(x => x.Round).OrderBy(g => g.Key);
-            if (groupedMatchesByRound.Any())
-            {
-                numberOfRounds = groupedMatchesByRound.Select(x => x.Key).Max();
-            }
-            else
-            {
-                numberOfRounds = tournamentEdition.Tournament.NumberOfRounds;
-            }
+            contendersNeeded = (int)Math.Pow(2, tournamentEdition.Tournament.NumberOfRounds);
+            lastPlayedRound =  tournamentEdition.Matches.Any() ? tournamentEdition.Matches.Max(x => x.Round) : 0;
         }
         catch (HttpRequestException ex)
         {
@@ -193,7 +227,7 @@ else
         }
     }
 
-    private async Task DeleteClick()
+    private void DeleteClick()
     {
         var parameters = new DialogParameters();
         parameters.Add("DisplayName", $"{tournamentEdition.Tournament.Name} ({tournamentEdition.DateStart.Year})");
@@ -213,7 +247,7 @@ else
             HttpResponseMessage response;
             if (!tournamentEdition.IsAuthenticatedUserRegisteredToPlay)
             {
-                response = await HttpClient.PostAsync(String.Format(ApiConstants.RegisterToPlayTournament, TournamentEditionId), new JsonNewtonContent(""));
+                response = await HttpClient.PostAsync(String.Format(ApiConstants.RegisterToPlayTournament, TournamentEditionId), null);
             }
             else
             {
@@ -222,7 +256,8 @@ else
             response.EnsureSuccessStatusCode();
 
             tournamentEdition.IsAuthenticatedUserRegisteredToPlay = !tournamentEdition.IsAuthenticatedUserRegisteredToPlay;
-            
+            tournamentEdition.RegistrationsCount = tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? tournamentEdition.RegistrationsCount + 1 : tournamentEdition.RegistrationsCount - 1;
+
             var snackMessage = tournamentEdition.IsAuthenticatedUserRegisteredToPlay ? "Successfully registered to play in this tournament" : "Successfully withdrawn the registration";
             Snackbar.Add(snackMessage, Severity.Success);
         }
@@ -242,5 +277,63 @@ else
         parameters.Add("TournamentEditionId", tournamentEdition.Id);
 
         DialogService.Show<TournamentRegistrationsListDialog>("Registered Contenders", parameters);
+    }
+
+    private async Task GenerateRoundClick()
+    {
+        isLoading = true;
+        try
+        {
+            var response = await HttpClient.PostAsync(String.Format(ApiConstants.GenerateRoundRoute, TournamentEditionId), null);
+            response.EnsureSuccessStatusCode();
+            Snackbar.Add("Successfully genereted round", Severity.Success);
+            await LoadData();
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task ConfirmResultClick(Guid matchId)
+    {
+        isLoading = true;
+        try
+        {
+            var response = await HttpClient.PostAsync(String.Format(ApiConstants.ConfirmMatchResultRoute, matchId), null);
+            response.EnsureSuccessStatusCode();
+            Snackbar.Add("Successfully confirmed the reported result", Severity.Success);
+            await LoadData();
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task ReportResultClick(MatchResponseModel model)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("MatchId", model.Id);
+        parameters.Add("Series", tournamentEdition.Tournament.Series);
+        parameters.Add("AuthenticatedContenderId", authenticatedUserId);
+        parameters.Add("ContenderOneId", model.ContenderOne.Id);
+        parameters.Add("ContenderTwoId", model.ContenderTwo.Id);
+
+        var result = await DialogService.Show<ReportResultDialog>("Report Match Result", parameters).Result;
+
+        if (result.Canceled)
+            return;
+
+        Snackbar.Add("Successfully reported match result", Severity.Success);
+        await LoadData();
     }
 }

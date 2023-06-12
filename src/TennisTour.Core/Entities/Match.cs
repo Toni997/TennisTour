@@ -16,6 +16,9 @@ namespace TennisTour.Core.Entities
         public string ContenderTwoId { get; set; }
         public ApplicationUser Winner { get; set; }
         public string? WinnerId { get; set; }
+        public ApplicationUser ResultReportedByContender { get; set; }
+        public string? ResultReportedByContenderId { get; set; }
+        public bool IsResultConfirmed { get; set; }
         public TournamentEdition TournamentEdition { get; set; }
         public Guid TournamentEditionId { get; set; }
         public int NextMatchupControlNumber { get; set; }

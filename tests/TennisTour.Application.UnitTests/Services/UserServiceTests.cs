@@ -16,6 +16,8 @@ using TennisTour.Core.Entities;
 using NSubstitute;
 using Xunit;
 using TennisTour.Core.Entities;
+using TennisTour.DataAccess.Repositories;
+using TennisTour.DataAccess.Repositories.Impl;
 
 namespace TennisTour.Application.UnitTests.Services;
 
@@ -26,6 +28,7 @@ public class UserServiceTests : BaseServiceTestConfiguration
     private readonly UserService _sut;
     private readonly ITemplateService _templateService;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IContenderInfoRepository _contenderInfoRepository;
 
     public UserServiceTests()
     {
@@ -38,9 +41,10 @@ public class UserServiceTests : BaseServiceTestConfiguration
             userPrincipalFactory, null, null, null, null);
         _templateService = Substitute.For<ITemplateService>();
         _emailService = Substitute.For<IEmailService>();
+        _contenderInfoRepository = Substitute.For<IContenderInfoRepository>();
 
         _sut = new UserService(Mapper, _userManager, _signInManager, Configuration, _templateService,
-            _emailService);
+            _emailService, _contenderInfoRepository);
     }
 
     [Fact]

@@ -14,7 +14,7 @@ namespace TennisTour.DataAccess.Repositories.Impl
     {
         public MatchRepository(DatabaseContext context) : base(context) { }
 
-        private IIncludableQueryable<Match, object> IncludesForH2H(IQueryable<Match> x)
+        private IIncludableQueryable<Match, object> Includes(IQueryable<Match> x)
         {
             return x.Include(x => x.MatchSets)
                     .Include(x => x.Winner)
@@ -23,16 +23,21 @@ namespace TennisTour.DataAccess.Repositories.Impl
                         .ThenInclude(x => x.Tournament);
         }
 
+        public async Task<Match> GetByIdWithMatchSetsAndWinner(Guid id)
+        {
+            return await GetOneAsync(x => x.Id == id, Includes);
+        }
+
         public async Task<int> GetCareerTotalWinsByContender(string contenderId)
         {
-            var careerWins = await GetAllAsync(x => x.WinnerId == contenderId);
+            var careerWins = await GetAllAsync(x => x.WinnerId == contenderId && x.IsResultConfirmed);
             return careerWins.Count;
         }
 
         public async Task<int> GetCareerTotalLosesByContender(string contenderId)
         {
             var careerLoses = await GetAllAsync(x => (x.ContenderOneId == contenderId || x.ContenderTwoId == contenderId) &&
-                                                        x.WinnerId != contenderId);
+                                                        x.WinnerId != contenderId && x.IsResultConfirmed);
             return careerLoses.Count;
         }
 
@@ -40,7 +45,7 @@ namespace TennisTour.DataAccess.Repositories.Impl
         {
             var h2hWins = await GetAllAsync(x => (x.ContenderOneId == contenderOneId && x.ContenderTwoId == contenderTwoId ||
                                                         x.ContenderOneId == contenderTwoId && x.ContenderTwoId == contenderOneId) &&
-                                                        x.WinnerId == contenderOneId);
+                                                        x.WinnerId == contenderOneId && x.IsResultConfirmed);
             return h2hWins.Count;
         }
 
@@ -48,7 +53,7 @@ namespace TennisTour.DataAccess.Repositories.Impl
         {
             return await GetAllAsync(x => x.ContenderOneId == contenderOneId && x.ContenderTwoId == contenderTwoId ||
                                             x.ContenderOneId == contenderTwoId && x.ContenderTwoId == contenderOneId,
-                                    includes: IncludesForH2H);
+                                    includes: Includes);
         }
     }
 }

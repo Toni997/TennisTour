@@ -40,5 +40,11 @@ namespace TennisTour.DataAccess.Repositories.Impl
             return await GetAllAsync(x => x.TournamentEditionId == tournamentEditionId,
                 includes: Includes, orderBy: OrderBy);
         }
+
+        public async Task<IList<TournamentRegistration>> GetAllAcceptedByTournamentEditionAsync(Guid tournamentEditionId)
+        {
+            return await GetAllAsync(x => x.TournamentEditionId == tournamentEditionId && x.IsAccepted,
+                includes: Includes, orderBy: OrderBy);
+        }
     }
 }
