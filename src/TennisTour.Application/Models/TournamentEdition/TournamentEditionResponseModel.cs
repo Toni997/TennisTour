@@ -21,6 +21,12 @@ namespace TennisTour.Application.Models.TournamentEdition
         public TournamentResponseModel Tournament { get; set; }
     }
 
+    public class TournamentEditionForScheduleResponseModel : TournamentEditionResponseModel
+    {
+        public bool IsAuthenticatedUserRegisteredToPlay { get; set; }
+        public bool IsAuthenticatedUserAccepted { get; set; }
+    }
+
     public class H2HMatchTournamentEditionResponseModel : BaseResponseModel
     {
         public DateTime DateStart { get; set; }

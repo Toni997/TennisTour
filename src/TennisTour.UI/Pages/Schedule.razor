@@ -1,0 +1,153 @@
+﻿@page "/schedule"
+@using TennisTour.Application.Models.TournamentEdition;
+
+
+<PageTitle>Schedule | Tennis Tour</PageTitle>
+
+<MudText Typo="Typo.h1" GutterBottom="true">Schedule</MudText>
+
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+@if (isLoading)
+{
+    if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error">Error while getting scheduled tournaments</MudAlert>
+    }
+}
+else if (!shownScheduledTournaments.Any())
+{
+    <MudAlert Severity="Severity.Info">No scheduled tournaments to display</MudAlert>
+}
+else
+{
+    <AuthorizeView Roles="@Roles.Contender">
+        <MudSwitch Class="mb-3" Color="Color.Primary" Label="Show only my schedule" CheckedChanged="@((bool value) => ShowOnlyMySchedule(value))" />
+    </AuthorizeView>
+
+    <MudExpansionPanels>
+    @foreach (var scheduledTournamentsPerMonth in shownScheduledTournaments)
+    {
+        <MudExpansionPanel Text="@scheduledTournamentsPerMonth.Key">
+            <MudDataGrid T="TournamentEditionForScheduleResponseModel" Items="@scheduledTournamentsPerMonth" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
+                <Columns>
+                    <PropertyColumn Property="x => x.DateStart" Format="d" Title="Start Date" />
+                    <PropertyColumn Property="x => x.DateEnd" Format="d" Title="End Date" />
+                    <PropertyColumn Property="x => x.Tournament.Name" Title="Tournament" />
+                    <PropertyColumn Property="x => x.Tournament.Series.GetDescription()" Title="Series" />
+                    <PropertyColumn Property="x => x.Tournament.Surface.GetDescription()" Title="Surface" />
+                    <TemplateColumn Title="Registrations Status" SortBy="@(x => x.IsRegistrationTimeOver)">
+                        <CellTemplate>
+                            @if (context.Item.IsRegistrationTimeOver)
+                            {
+                                <MudTooltip Text="Closed">
+                                    <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" />
+                                </MudTooltip>
+                            }
+                            else
+                            {
+                                <MudTooltip Text="Open">
+                                    <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" />
+                                </MudTooltip>
+                            }
+                        </CellTemplate>
+                    </TemplateColumn>
+                    @if (authState.User?.IsInRole(Roles.Contender) ?? false)
+                    {
+                        <TemplateColumn Title="Is Registered" SortBy="@(x => x.IsAuthenticatedUserRegisteredToPlay)">
+                            <CellTemplate>
+                                @if (context.Item.IsAuthenticatedUserRegisteredToPlay)
+                                {
+                                    <MudTooltip Text="Registered">
+                                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" />
+                                    </MudTooltip>
+                                }
+                                else
+                                {
+                                    <MudTooltip Text="Not Registered">
+                                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" />
+                                    </MudTooltip>
+                                }
+                            </CellTemplate>
+                        </TemplateColumn>
+                        <TemplateColumn Title="Is Accepted" SortBy="@(x => x.IsAuthenticatedUserAccepted)">
+                            <CellTemplate>
+                                @if (context.Item.IsAuthenticatedUserAccepted)
+                                {
+                                    <MudTooltip Text="Accepted">
+                                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Success" />
+                                    </MudTooltip>
+                                }
+                                else
+                                {
+                                    <MudTooltip Text="Not Acccepted">
+                                        <MudIcon Icon="@Icons.Material.Filled.Circle" Color="Color.Error" />
+                                    </MudTooltip>
+                                }
+                            </CellTemplate>
+                        </TemplateColumn>
+                    }
+                    
+                    <TemplateColumn StickyRight="true" Sortable="false" Filterable="false">
+                        <CellTemplate>
+                            <MudTooltip Text="Tournament Edition Details">
+                                <MudIconButton OnClick="@((e) => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionDetailsRoute, context.Item?.Id)))" Color="Color.Primary" Size="@Size.Small" Icon="@Icons.Material.Outlined.Visibility" />
+                            </MudTooltip>
+                        </CellTemplate>
+                    </TemplateColumn>
+                </Columns>
+                <PagerContent>
+                    <MudDataGridPager T="TournamentEditionForScheduleResponseModel" />
+                </PagerContent>
+            </MudDataGrid>
+
+        </MudExpansionPanel>
+    }
+    </MudExpansionPanels>
+}
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; }
+
+    private AuthenticationState authState;
+
+    private bool showOnlyMySchedule;
+    private List<TournamentEditionForScheduleResponseModel> allScheduledTournaments;
+    private IEnumerable<IGrouping<string, TournamentEditionForScheduleResponseModel>> shownScheduledTournaments;
+    private bool isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await AuthState;
+        isLoading = true;
+
+        try
+        {
+            var response = await HttpClient.GetStringAsync(ApiConstants.ScheduleRoute);
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<List<TournamentEditionForScheduleResponseModel>>>(response);
+            allScheduledTournaments = apiResult.Result;
+            shownScheduledTournaments = allScheduledTournaments.GroupBy(x => x.DateStart.ToString("MMMM yyyy", CultureInfo.InvariantCulture)); ;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void ShowOnlyMySchedule(bool e)
+    {
+        showOnlyMySchedule = e;
+        shownScheduledTournaments = showOnlyMySchedule ?
+                                    allScheduledTournaments.Where(x => x.IsAuthenticatedUserRegisteredToPlay).GroupBy(x => x.DateStart.ToString("MMMM yyyy", CultureInfo.InvariantCulture)) :
+                                    allScheduledTournaments.GroupBy(x => x.DateStart.ToString("MMMM yyyy", CultureInfo.InvariantCulture));
+    }
+}

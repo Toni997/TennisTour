@@ -95,5 +95,12 @@ namespace TennisTour.API.Controllers
             return Ok(ApiResult<IEnumerable<MatchResponseModel>>
                 .Success(await _tournamentEditionService.GenerateRoundAsync(id)));
         }
+
+        [HttpGet(nameof(Schedule))]
+        public async Task<IActionResult> Schedule()
+        {
+            return Ok(ApiResult<IEnumerable<TournamentEditionForScheduleResponseModel>>
+                .Success(await _tournamentEditionService.GetScheduleAsync(_claimService.GetUserId())));
+        }
     }
 }

@@ -149,5 +149,10 @@ namespace TennisTour.DataAccess.Repositories.Impl
             var careerTitles = await GetAllAsync(x => x.WinnerId == contenderId);
             return careerTitles.Count;
         }
+
+        public async Task<IList<TournamentEdition>> GetAllUnfinishedTournamentEditionsOrderedByDateStartAsc()
+        {
+            return await GetAllAsync(x => x.Winner == null, orderBy: x => x.OrderBy(x => x.DateStart), includes: IncludesForGetOne);
+        }
     }
 }

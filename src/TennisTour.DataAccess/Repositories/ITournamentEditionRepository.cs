@@ -15,5 +15,6 @@ namespace TennisTour.DataAccess.Repositories
         Task<IList<TournamentEdition>> GetLastTenByContenderWithMatchesOrderedByDateStartDescAsync(string contenderId);
         Task<int> GetCareerTotalTitlesByContender(string contenderId);
         Task<TournamentEdition> GetByIdForGeneratingRoundAsync(Guid id);
+        Task<IList<TournamentEdition>> GetAllUnfinishedTournamentEditionsOrderedByDateStartAsc();
     }
 }
