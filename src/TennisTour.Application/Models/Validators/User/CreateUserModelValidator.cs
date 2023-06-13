@@ -15,6 +15,7 @@ public class CreateUserModelValidator : AbstractValidator<CreateUserModel>
 
         RuleFor(u => u.Username)
             .Cascade(CascadeMode.Stop)
+            .NotEmpty().WithMessage("Username is required")
             .MinimumLength(UserValidatorConfiguration.MinimumUsernameLength)
             .WithMessage($"Username should have minimum {UserValidatorConfiguration.MinimumUsernameLength} characters")
             .MaximumLength(UserValidatorConfiguration.MaximumUsernameLength)
@@ -24,12 +25,15 @@ public class CreateUserModelValidator : AbstractValidator<CreateUserModel>
             .WithMessage("Username is not available");
 
         RuleFor(u => u.Password)
+            .Cascade(CascadeMode.Stop)
             .MinimumLength(UserValidatorConfiguration.MinimumPasswordLength)
             .WithMessage($"Password should have minimum {UserValidatorConfiguration.MinimumPasswordLength} characters")
             .MaximumLength(UserValidatorConfiguration.MaximumPasswordLength)
             .WithMessage($"Password should have maximum {UserValidatorConfiguration.MaximumPasswordLength} characters");
 
         RuleFor(u => u.Email)
+            .Cascade(CascadeMode.Stop)
+            .NotEmpty().WithMessage("E-Mail is required")
             .EmailAddress()
             .WithMessage("Email address is not valid")
             .MustAsync(EmailAddressIsUniqueAsync)

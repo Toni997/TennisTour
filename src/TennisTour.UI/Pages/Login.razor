@@ -12,7 +12,11 @@
 @inject HttpClient client;
 @attribute [AllowAnonymous]
 
-<h1>Login</h1>
+<PageTitle>Login | Tennis Tour</PageTitle>
+
+<MudText Typo="Typo.h1">Login</MudText>
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
 <MudGrid>
     <MudItem xs="12" sm="6" md="4">
         <MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined"></MudTextField>

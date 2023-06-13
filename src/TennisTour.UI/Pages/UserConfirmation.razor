@@ -1,0 +1,80 @@
+﻿@using TennisTour.Application.Models.User;
+@using TennisTour.Application.Models;
+@attribute [AllowAnonymous]
+
+
+@page "/confirm-user"
+
+<PageTitle>User Confirmation | Tennis Tour</PageTitle>
+
+<MudText Typo="Typo.h1">User Confirmation</MudText>
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+@if (isLoading)
+{
+    <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+}
+@if (messages.Any())
+{
+    <MudAlert Severity="severity" Class="mb-3">
+        <ul>
+            @foreach (var message in messages)
+            {
+                <li>@message</li>
+            }
+        </ul>
+    </MudAlert>
+}
+
+@code {
+    [Inject] ISnackbar Snackbar { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public Guid? UserId { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Token { get; set; }
+
+    private List<string> messages = new List<string>();
+    private Severity severity;
+    private bool isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine($"token is: {Uri.EscapeDataString(Token)}");
+        if (UserId is null || Token is null)
+        {
+            severity = Severity.Error;
+            messages.Add("No parameters provided");
+            return;
+        }
+        try
+        {
+            var content = new JsonNewtonContent(new ConfirmEmailModel { UserId = UserId.ToString(), Token = Token });
+            var result = await HttpClient.PostAsync(ApiConstants.ConfirmUserRoute, content);
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<ConfirmEmailResponseModel>>(await result.Content.ReadAsStringAsync());
+
+            if (result.IsSuccessStatusCode)
+            {
+                severity = Severity.Success;
+                messages.Add("Successfully confirmed your account");
+            }
+            else
+            {
+                messages.AddRange(apiResult.Errors);
+                severity = Severity.Error;
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+            Snackbar.Add("Error while trying to send request.", Severity.Error);
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}
