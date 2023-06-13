@@ -39,7 +39,7 @@ public static class ApplicationDependencyInjection
         services.AddScoped<TennisRules, TennisRules>();
 
         if (env.IsDevelopment())
-            services.AddScoped<IEmailService, DevEmailService>();
+            services.AddScoped<IEmailService, EmailService>();
         else
             services.AddScoped<IEmailService, EmailService>();
     }

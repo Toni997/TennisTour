@@ -49,13 +49,14 @@ public class UserService : IUserService
         if (!result.Succeeded) throw new BadRequestException(result.Errors.FirstOrDefault()?.Description);
 
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        token = Uri.EscapeDataString(token);
 
         var emailTemplate = await _templateService.GetTemplateAsync(TemplateConstants.ConfirmationEmail);
 
         var emailBody = _templateService.ReplaceInTemplate(emailTemplate,
             new Dictionary<string, string> { { "{UserId}", user.Id }, { "{Token}", token } });
 
-        await _emailService.SendEmailAsync(EmailMessage.Create(user.Email, emailBody, "[TennisTour]Confirm your email"));
+        await _emailService.SendEmailAsync(EmailMessage.Create(user.Email, emailBody, "Tennis Tour | Confirm your email"));
 
         return new CreateUserResponseModel
         {
@@ -92,7 +93,9 @@ public class UserService : IUserService
         if (user == null)
             throw new UnprocessableRequestException("Your verification link is incorrect");
 
-        var result = await _userManager.ConfirmEmailAsync(user, confirmEmailModel.Token);
+        var token = Uri.UnescapeDataString(confirmEmailModel.Token);
+
+        var result = await _userManager.ConfirmEmailAsync(user, token);
 
         if (!result.Succeeded)
             throw new UnprocessableRequestException("Your verification link has expired");
