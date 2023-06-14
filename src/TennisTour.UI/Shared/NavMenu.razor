@@ -1,11 +1,9 @@
 ﻿@using TennisTour.UI.AuthProviders;
 <MudNavMenu>
-    <AuthorizeView>
-        <Authorized>
-            <MudText Class="px-3" Color="Color.Primary">
-                Logged in as <MudLink Style="font-weight: bold;" Href="@(String.Format(UiConstants.ContenderDetailsRoute, context.User.FindFirst("nameid").Value))">@context.User.Identity?.Name</MudLink>
-            </MudText>
-        </Authorized>
+    <AuthorizeView Roles="@Roles.User">
+        <MudText Class="px-3" Color="Color.Primary">
+            Logged in as <MudLink Style="font-weight: bold;" Href="@(context.User.IsInRole(Roles.Contender) ? String.Format(UiConstants.ContenderDetailsRoute, context.User.FindFirst("nameid")?.Value) : UiConstants.MyProfileRoute)">@context.User.Identity?.Name</MudLink>
+        </MudText>
     </AuthorizeView>
     <MudNavLink Href="@UiConstants.HomeRoute" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
     <MudNavLink Href="@UiConstants.TournamentsRoute" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Tournaments</MudNavLink>
@@ -34,6 +32,6 @@
 	async void Logout()
 	{
 		await ((UiAuthStateProvider)AuthenticationStateProvider).Logout();
-		NavigationManager.NavigateTo("/");
+		NavigationManager.NavigateTo(UiConstants.LoginRoute);
 	}
 }

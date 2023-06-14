@@ -10,6 +10,7 @@ namespace TennisTour.UI.Common
     {
         public const string BaseUrl = "https://localhost:5001/api/";
         public const string TournamentsGetAllRoute = "Tournaments";
+        public const string HomeRoute = "Home";
         public const string TournamentsSearchAllRoute = "Tournaments/Search?value={0}";
         public const string TournamentsGetOneRoute = "Tournaments/{0}";
         public const string TournamentsAddRoute = "Tournaments";

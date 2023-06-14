@@ -126,8 +126,6 @@ namespace TennisTour.DataAccess.Repositories.Impl
             return x.OrderByDescending(x => x.UpdatedOn);
         }
 
-
-
         public async Task<IList<TournamentEdition>> GetAllOrderedByDateStartDescAsync()
         {
             return await GetAllAsync(orderBy: OrderBy, includes: IncludesForGetAll);
@@ -148,6 +146,14 @@ namespace TennisTour.DataAccess.Repositories.Impl
             return await GetAllAsync(expression: x => x.Matches.Any(x => x.ContenderOneId == contenderId || x.ContenderTwoId == contenderId),
                 orderBy: OrderBy,
                 includes: q => IncludesForContenderDetails(q, contenderId),
+                take: 10);
+        }
+
+        public async Task<IList<TournamentEdition>> GetLastTenFinishedOrderedByDateStartDescAsync()
+        {
+            return await GetAllAsync(expression: x => x.Winner != null,
+                orderBy: OrderBy,
+                includes: IncludesForGetAll,
                 take: 10);
         }
 

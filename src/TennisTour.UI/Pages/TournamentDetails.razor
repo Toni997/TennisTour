@@ -66,7 +66,7 @@ else
                         }
                     </CellTemplate>
                 </TemplateColumn>
-                <TemplateColumn Title="Winner" SortBy="@(x => x.Winner)">
+                <TemplateColumn Title="Winner" SortBy="x => GetWinnerName(x.Winner)">
                     <CellTemplate>
                         @if (context.Item?.Winner != null)
                         {
@@ -167,5 +167,10 @@ else
         {
             tournament.TournamentEditions.Remove(tournamentEdition);
         }
+    }
+
+    private string GetWinnerName(ContenderResponseModel winner)
+    {
+        return winner?.ToString() ?? "-";
     }
 }

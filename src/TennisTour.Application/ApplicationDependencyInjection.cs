@@ -38,6 +38,7 @@ public static class ApplicationDependencyInjection
         services.AddScoped<IMatchService, MatchService>();
         services.AddScoped<TennisRules, TennisRules>();
         services.AddScoped<IRankingsService, RankingsService>();
+        services.AddScoped<IHomeService, HomeService>();
 
         if (env.IsDevelopment())
             services.AddScoped<IEmailService, EmailService>();
