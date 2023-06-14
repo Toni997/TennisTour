@@ -1,19 +1,27 @@
 ﻿@using TennisTour.UI.AuthProviders;
 <MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="tournaments" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Tournaments</MudNavLink>
-	<MudNavLink Href="rankings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Rankings</MudNavLink>
+  <AuthorizeView>
+      <Authorized>
+          <MudText Class="px-3" Color="Color.Primary">
+              Logged in as <MudLink Style="font-weight: bold;" Href="@(String.Format(UiConstants.ContenderDetailsRoute, context.User.FindFirst("nameid").Value))">@context.User.Identity?.Name</MudLink>
+          </MudText>
+      </Authorized>
+  </AuthorizeView>
+  <MudNavLink Href="@UiConstants.HomeRoute" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+  <MudNavLink Href="@UiConstants.TournamentsRoute" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Tournaments</MudNavLink>
+  <MudNavLink Href="@UiConstants.ScheduleRoute" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.CalendarMonth">Schedule</MudNavLink>
+  <MudNavLink Href="rankings" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.List">Rankings</MudNavLink>
 	<AuthorizeView>
 		<Authorized>
-            <MudNavLink Href="myProfile" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">My Profile</MudNavLink>
-            <MudNavLink Href="myFavorites" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Favorite">My Favorites</MudNavLink>
-            <MudDivider DividerType="DividerType.Middle" Class="my-3" />
-            <MudNavLink OnClick="Logout" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Logout">Logout</MudNavLink>
+      <MudNavLink Href="@UiConstants.MyProfileRoute" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Settings">My Profile</MudNavLink>
+      <MudNavLink Href="@UiConstants.MyFavoritesRoute" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Favorite">My Favorites</MudNavLink>
+      <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+      <MudNavLink OnClick="Logout" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Logout">Logout</MudNavLink>
 		</Authorized>
 		<NotAuthorized>
-            <MudDivider DividerType="DividerType.Middle" Class="my-3" />
-			<MudNavLink Href="login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
-			<MudNavLink Href="register" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AppRegistration">Register</MudNavLink>
+      <MudDivider DividerType="DividerType.Middle" Class="my-3" />
+      <MudNavLink Href="@UiConstants.LoginRoute" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
+      <MudNavLink Href="@UiConstants.RegisterRoute" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.AppRegistration">Register</MudNavLink>
 		</NotAuthorized>
 	</AuthorizeView>
 </MudNavMenu>

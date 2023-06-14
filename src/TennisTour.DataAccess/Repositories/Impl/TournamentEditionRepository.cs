@@ -162,7 +162,11 @@ namespace TennisTour.DataAccess.Repositories.Impl
             var orderedByUpdateDateTime = await GetAllAsync(orderBy: OrderByUpdateDate);
             var lastUpdate = orderedByUpdateDateTime.Any() ? orderedByUpdateDateTime.First().UpdatedOn : new DateTime();
             return await GetAllAsync(expression: x => x.DateEnd >= lastUpdate, includes: IncludesForGetAll);
-                
+        }
+        
+        public async Task<IList<TournamentEdition>> GetAllUnfinishedTournamentEditionsOrderedByDateStartAsc()
+        {
+            return await GetAllAsync(x => x.Winner == null, orderBy: x => x.OrderBy(x => x.DateStart), includes: IncludesForGetOne);
         }
     }
 }

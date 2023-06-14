@@ -8,35 +8,43 @@
 @using TennisTour.UI.Common;
 @attribute [AllowAnonymous]
 
-<h1>Register</h1>
+<PageTitle>Register | Tennis Tour</PageTitle>
+
+<MudText Typo="Typo.h1">Register</MudText>
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
+
+@if (errors.Any())
+{
+    <MudAlert Severity="Severity.Error" Class="mb-3">
+        <ul>
+            @foreach (var error in errors)
+            {
+                <li>@error</li>
+            }
+        </ul>
+    </MudAlert>
+}
+
 <MudGrid>
     <MudItem xs="12" sm="6" md="4">
-        <MudTextField @bind-Value="Username" Label="Username" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="model.Username" Label="Username" Variant="Variant.Outlined"></MudTextField>
     </MudItem>
     <MudItem xs="12" sm="6" md="4">
-        <MudTextField @bind-Value="Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="PasswordToggle" AdornmentAriaLabel="Show Password" />
+        <MudTextField @bind-Value="model.Password" Label="Password" Variant="Variant.Outlined" InputType="@PasswordInput" Adornment="Adornment.End" AdornmentIcon="@PasswordInputIcon" OnAdornmentClick="PasswordToggle" AdornmentAriaLabel="Show Password" />
     </MudItem>
     <MudItem xs="12" sm="6" md="4">
-        <MudTextField @bind-Value="Email" Label="Email" Variant="Variant.Outlined"></MudTextField>
+        <MudTextField @bind-Value="model.Email" Label="Email" Variant="Variant.Outlined"></MudTextField>
     </MudItem>
-
 </MudGrid>
-<MudButton Variant="Variant.Filled" class="my-12" Color="Color.Primary" OnClick="TryRegister">Register</MudButton>
-@if (errorVisibility)
-{
-    <MudAlert Severity="Severity.Error">@StatusMessage</MudAlert>
-}
+<MudButton Variant="Variant.Filled" class="my-12" Color="Color.Primary" OnClick="TryRegister" Disabled="isLoading">Register</MudButton>
 
 
 @code {
-    private string Username { get; set; }
-    private string Password { get; set; }
-    private string Email { get; set; }
-    private string StatusMessage { get; set; }
+    [Inject] ISnackbar Snackbar { get; set; }
 
-    private bool errorVisibility = false;
-    [CascadingParameter]
-    private Task<AuthenticationState>? authenticationState { get; set; }
+    private CreateUserModel model = new CreateUserModel();
+    private List<string> errors = new List<string>();
+    private bool isLoading;
 
     InputType PasswordInput = InputType.Password;
     string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
@@ -59,33 +67,32 @@
 
     private async Task TryRegister()
     {
-        var client = new HttpClient();
-        var registerUserModel = new CreateUserModel();
-        registerUserModel.Username = Username;
-        registerUserModel.Password = Password;
-        registerUserModel.Email = Email;
-        var content = new JsonNewtonContent(registerUserModel);
-        var result = await client.PostAsync(ApiConstants.RegisterRoute, content);
-        if (result.Content != null)
+        isLoading = true;
+        errors.Clear();
+        try
         {
+            var content = new JsonNewtonContent(model);
+            var result = await HttpClient.PostAsync(ApiConstants.RegisterRoute, content);
             var apiResult = JsonConvert.DeserializeObject<ApiResult<CreateUserResponseModel>>(await result.Content.ReadAsStringAsync());
-            if (apiResult?.Errors.Any() == true)
-            {
-                StatusMessage = string.Join(",", apiResult.Errors);
-            }
-            else if (apiResult?.Succeeded == true)
-            {
-                StatusMessage = "Successfully registered user!";
-            }
 
-
+            if (result.IsSuccessStatusCode)
+            {
+                NavigationManager.NavigateTo("/login");
+                Snackbar.Add("Succes! You have to confirm your e-mail before loging in.", Severity.Success);
+            }
+            else
+            {
+                errors = apiResult.Errors.ToList();
+            }
         }
-        else
+        catch (HttpRequestException ex)
         {
-            StatusMessage = "Unknown error";
-
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+            Snackbar.Add("Error while trying to send request.", Severity.Error);
         }
-        errorVisibility = true;
-        Console.WriteLine(StatusMessage);
+        finally
+        {
+            isLoading = false;
+        }
     }
 }

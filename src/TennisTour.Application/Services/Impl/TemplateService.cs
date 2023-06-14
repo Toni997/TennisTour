@@ -23,11 +23,9 @@ public class TemplateService : ITemplateService
 
     public string ReplaceInTemplate(string input, IDictionary<string, string> replaceWords)
     {
-        var response = string.Empty;
-
         foreach (var temp in replaceWords)
-            response = input.Replace(temp.Key, temp.Value);
+            input = input.Replace(temp.Key, temp.Value);
 
-        return response;
+        return input;
     }
 }
