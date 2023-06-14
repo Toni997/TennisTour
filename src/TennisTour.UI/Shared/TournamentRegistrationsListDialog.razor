@@ -24,7 +24,7 @@ else
                 {
                     <MudDataGrid T="TournamentRegistrationForEditionResponseModel" Items="@tournamentRegistrations" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
                         <Columns>
-                            <PropertyColumn Property="x => x.Contender.Ranking.Rank" Title="Current Rank" />
+                            <PropertyColumn Property="x => x.Contender.GetCurrentRank()" Title="Current Rank" />
                             <TemplateColumn Title="Contender" SortBy="x => x.Contender.ToString()">
                                 <CellTemplate>
                                     <MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.Contender.Id)">

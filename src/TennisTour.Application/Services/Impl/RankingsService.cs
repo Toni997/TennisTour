@@ -39,61 +39,52 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task UpdatePoints()
         {
-            var allNewFinished = await _tournamentEditionRepository.GetAllFinishedAfterLastUpdate();
-            await CalculateNewPoints(allNewFinished);
-            await UpdateRankings();
-        }
-
-        private async Task UpdateRankings()
-        {
-            var allRankings = await _rankingRepository.GetAllRankingsWithContenderDataOrderedByPoints();
-            var i = 1;
-            foreach (var ranking in allRankings)
+            var rankings = await _rankingRepository.GetAllRankingsWithContenderDataOrderedByPoints();
+            // reset all rankings before recalculation
+            foreach (var ranking in rankings)
+            {
+                ranking.PreviousPoints = ranking.Points;
+                ranking.PreviousRank = ranking.Rank;
+                ranking.Points = 0;
+            }
+            var tournamentEditions = await _tournamentEditionRepository.GetLastEditionForEveryTournamentAsync();
+            // go through every last edition of every tournament and give winners points
+            foreach (var edition in tournamentEditions)
+            {
+                foreach (var match in edition.Matches)
+                {
+                    var ranking = rankings.FirstOrDefault(x => x.ContenderId == match.WinnerId) ?? await AddRankingForContender(rankings, match.WinnerId);
+                    ranking.Points += PointsCalculator.GetPointsPerRoundForSeries(edition.Tournament.Series);
+                }
+            }
+            // we loop through all rankings ordered by points and update rank to reflect new points
+            var newRankings = rankings.OrderByDescending(x => x.Points);
+            var index = 1;
+            foreach (var ranking in newRankings)
             {
                 ranking.PreviousRank = ranking.Rank;
-                ranking.Rank = i;
-                if (!ranking.BestRank.HasValue || ranking.BestRank < ranking.Rank)
+                ranking.Rank = index++;
+                var newBestRank = !ranking.BestRank.HasValue || ranking.Rank < ranking.BestRank;
+                if (newBestRank)
                 {
                     ranking.BestRank = ranking.Rank;
                     ranking.BestRankDate = DateTime.Now;
                 }
-                i++;
-            }
-            foreach (var ranking in allRankings)
-            {
                 await _rankingRepository.UpdateAsync(ranking);
             }
         }
 
-        private async Task CalculateNewPoints(IList<TournamentEdition> editions)
+        private async Task<Ranking> AddRankingForContender(IList<Ranking> rankings, string contenderId)
         {
-            var allRankChanges = editions.Select(e => e.Matches).SelectMany(list => list).Select(e => new RankChangeModel(e.WinnerId, e.Round, e.TournamentEdition.Tournament.Series));
-            var allContenderIdsChangedSet = new HashSet<string>(allRankChanges.Select(e => e.ContenderId));
-            var allNeededRankings = await _rankingRepository.GetAllOfContenderIds(allContenderIdsChangedSet.ToList());
-            var updatedRankings = allNeededRankings.Select(e =>
+            var ranking = await _rankingRepository.AddAsync(new Ranking
             {
-                e.PreviousPoints = e.Points;
-                e.Points += allRankChanges.Where(it => it.ContenderId == e.ContenderId).Select(it => PointsCalculator.GetPoints(it.Series, it.Round)).Sum();
-                return e;
+                ContenderId = contenderId,
+                Points = 0,
+                Rank = 0,
+                PreviousPoints = 0
             });
-            foreach (var ranking in updatedRankings)
-            {
-                await _rankingRepository.UpdateAsync(ranking);
-            }
-
-            var allNewContenderIdsSetChanged = new HashSet<string>(allRankChanges.Select(e => e.ContenderId));
-            var allNewContenderIdsSetWithoutRanking = allContenderIdsChangedSet.Except(allNewContenderIdsSetChanged);
-
-            foreach(var contenderIdToAdd in  allNewContenderIdsSetWithoutRanking)
-            {
-                var contender = await _contenderInfoRepository.GetContenderInfoWithRankingByContenderIdAsync(contenderIdToAdd);
-                await _rankingRepository.AddAsync(new Ranking
-                {
-                    Contender = contender.Contender,
-                    ContenderId = contender.ContenderId,
-                    Points =  allRankChanges.Where(it => it.ContenderId == contender.ContenderId).Select(it => PointsCalculator.GetPoints(it.Series, it.Round)).Sum()
-                }) ;
-            }
-        } 
+            rankings.Add(ranking);
+            return ranking;
+        }
     }
 }

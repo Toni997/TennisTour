@@ -19,5 +19,6 @@ namespace TennisTour.DataAccess.Repositories
         Task<TournamentEdition> GetByIdForGeneratingRoundAsync(Guid id);
         Task<IList<TournamentEdition>> GetAllUnfinishedTournamentEditionsOrderedByDateStartAsc();
         Task<IList<TournamentEdition>> GetLastTenFinishedOrderedByDateStartDescAsync();
+        Task<IList<TournamentEdition>> GetLastEditionForEveryTournamentAsync();
     }
 }

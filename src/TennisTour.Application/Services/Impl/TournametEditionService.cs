@@ -171,7 +171,7 @@ namespace TennisTour.Application.Services.Impl
                 throw new UnprocessableRequestException("Not enough registrations to generate draw");
 
             tournamentEdition.IsRegistrationTimeOver = true;
-            var acceptedRegistrations = tournamentEdition.TournamentRegistrations.OrderBy(x => x.Contender.Ranking.Rank).Take(contendersNeeded);
+            var acceptedRegistrations = tournamentEdition.TournamentRegistrations.OrderBy(x => x.Contender.Ranking?.Rank ?? int.MaxValue).Take(contendersNeeded);
             foreach (var registration in acceptedRegistrations)
                 registration.IsAccepted = true;
 
