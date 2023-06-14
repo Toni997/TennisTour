@@ -25,7 +25,7 @@ namespace TennisTour.Core.Helpers
             }
             ).ToDictionary(pair => pair.Key, pair => pair.Value);
 
-        public static int GetPoints(Series series, int round )
+        public static int GetPoints(Series series, int round)
         {
             return pointsFactorsMap[series] * round;
         }

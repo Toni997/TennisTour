@@ -54,6 +54,7 @@ namespace TennisTour.Application.Services.Impl
             await CalculateNewPoints(allNewFinished);
             await UpdateRankings();
         }
+
         private async Task UpdateRankings()
         {
             var allRankings = await _rankingRepository.GetAllRankingsWithContenderDataOrderedByPoints();
@@ -74,6 +75,7 @@ namespace TennisTour.Application.Services.Impl
                 await _rankingRepository.UpdateAsync(ranking);
             }
         }
+
         private async Task CalculateNewPoints(IList<TournamentEdition> editions)
         {
             var allRankChanges = editions.Select(e => e.Matches).SelectMany(list => list).Select(e => new RankChangeModel(e.WinnerId, e.Round, e.TournamentEdition.Tournament.Series));
@@ -103,10 +105,6 @@ namespace TennisTour.Application.Services.Impl
                     Points =  allRankChanges.Where(it => it.ContenderId == contender.ContenderId).Select(it => PointsCalculator.GetPoints(it.Series, it.Round)).Sum()
                 }) ;
             }
-
-            
-         
-
         } 
     }
 }

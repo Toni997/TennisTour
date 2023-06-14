@@ -16,16 +16,15 @@
 	<MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
 } else
 {
-	<AuthorizeView Roles="Admin">
-		
-		<MudButton Variant="Variant.Text" Color="Color.Primary" Class="mb-6" OnClick="UpadateRankings">Upadate</MudButton>
-		<MudText Typo="Typo.body1" Class="mb-6">Last updated: @LastUpdated</MudText>
+	<AuthorizeView Roles="@Roles.Admin">
+		<MudButton Variant="Variant.Text" Color="Color.Primary" Class="mb-6" OnClick="UpdateRankings">Update</MudButton>
 	</AuthorizeView>
+    <MudText Typo="Typo.body1" Class="mb-6">Last updated: @LastUpdated</MudText>
 	
 	<MudDataGrid T="RankingsResponseModel" Items="@Rankings" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
 		<Columns>
 			<PropertyColumn Property="x => x.Rank" />
-			<TemplateColumn T="RankingsResponseModel" Title="Name">
+            <TemplateColumn T="RankingsResponseModel" Title="Name" SortBy="@((x) => $"{x.ContenderInfo.FirstName} {x.ContenderInfo.LastName}")">
 				<CellTemplate>
 					<MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.ContenderInfo.Id)">
 						@context.Item.ContenderInfo.FirstName  @context.Item.ContenderInfo.LastName
@@ -46,25 +45,24 @@
 }
 
 
-
 @code {
-	private List<RankingsResponseModel> Rankings { get; set; }
-	private DateTime? LastUpdated { get; set; }
+    private List<RankingsResponseModel> Rankings { get; set; }
+    private DateTime? LastUpdated { get; set; }
 
-	protected override async Task OnInitializedAsync() 
-	{
-		await LoadRankings();
-	}
+    protected override async Task OnInitializedAsync() 
+    {
+        await LoadRankings();
+    }
 
-
-	private async Task LoadRankings()
-	{
-		var rankings = await httpClient.GetFromJsonAsync<List<RankingsResponseModel>>(ApiConstants.RankingsGetAll);
+    private async Task LoadRankings()
+    {
+        Rankings = null;
+        var rankings = await httpClient.GetFromJsonAsync<List<RankingsResponseModel>>(ApiConstants.RankingsGetAll);
 		Rankings = rankings ?? new List<RankingsResponseModel>();
 		LastUpdated = Rankings.Any() ? Rankings[0].UpdatedOn : null;
 	}
 
-	private async Task UpadateRankings()
+	private async Task UpdateRankings()
 	{
 		var rankings = await httpClient.PostAsync(ApiConstants.RankingsUpdate, null);
         await LoadRankings();

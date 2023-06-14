@@ -9,8 +9,6 @@ namespace TennisTour.Core.Helpers
 {
     public class RankChangeModel
     {
-      
-
         public RankChangeModel(string contenderId, int round, Series series)
         {
             ContenderId = contenderId;
