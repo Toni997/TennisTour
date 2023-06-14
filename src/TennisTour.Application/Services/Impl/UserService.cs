@@ -9,6 +9,7 @@ using TennisTour.Application.Models;
 using TennisTour.Application.Models.User;
 using TennisTour.Application.Templates;
 using TennisTour.Core.Entities;
+using TennisTour.Core.Helpers;
 using TennisTour.DataAccess.Repositories;
 
 namespace TennisTour.Application.Services.Impl;
@@ -47,6 +48,8 @@ public class UserService : IUserService
         var result = await _userManager.CreateAsync(user, createUserModel.Password);
 
         if (!result.Succeeded) throw new BadRequestException(result.Errors.FirstOrDefault()?.Description);
+
+        await _userManager.AddToRoleAsync(user, Roles.User);
 
         var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         token = Uri.EscapeDataString(token);
