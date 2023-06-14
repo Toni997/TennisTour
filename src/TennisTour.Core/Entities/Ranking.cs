@@ -8,7 +8,7 @@ using TennisTour.Core.Common;
 
 namespace TennisTour.Core.Entities
 {
-    public class Ranking : BaseEntity
+    public class Ranking : BaseAuditedEntity
     {
         public ApplicationUser Contender { get; set; }
         public string ContenderId { get; set; }

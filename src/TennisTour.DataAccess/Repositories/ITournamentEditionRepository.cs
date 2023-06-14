@@ -12,6 +12,8 @@ namespace TennisTour.DataAccess.Repositories
         Task<TournamentEdition> GetByIdWithMatchesAsync(Guid id);
 
         Task<IList<TournamentEdition>> GetAllOrderedByDateStartDescAsync();
+
+        Task<IList<TournamentEdition>> GetAllFinishedAfterLastUpdate();
         Task<IList<TournamentEdition>> GetLastTenByContenderWithMatchesOrderedByDateStartDescAsync(string contenderId);
         Task<int> GetCareerTotalTitlesByContender(string contenderId);
         Task<TournamentEdition> GetByIdForGeneratingRoundAsync(Guid id);

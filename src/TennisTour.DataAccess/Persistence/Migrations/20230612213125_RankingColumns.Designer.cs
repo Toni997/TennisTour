@@ -12,8 +12,8 @@ using TennisTour.DataAccess.Persistence;
 namespace TennisTour.DataAccess.Persistence.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20230429130341_SeedRoles")]
-    partial class SeedRoles
+    [Migration("20230612213125_RankingColumns")]
+    partial class RankingColumns
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,22 +53,22 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a8c1cd57-cc8b-47f1-a735-7e26e841fb5c",
-                            ConcurrencyStamp = "9fd6b3dc-178f-4c23-af78-65b074da0a05",
+                            Id = "056dee8b-6f89-454a-905d-2823b83b9dba",
+                            ConcurrencyStamp = "a86d0c37-9fcc-457f-86ce-f44997d08577",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "ff9e2cff-a6c0-46f0-bf3e-b1809cbe18b2",
-                            ConcurrencyStamp = "c7304164-f973-4bf5-8925-be24235118e4",
+                            Id = "e125da91-5642-4c94-b464-510d61c29492",
+                            ConcurrencyStamp = "0a2be491-3070-43f4-97f5-b4ee970886c8",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "ff99aba7-a64e-4a42-8eca-eb0f07af97f2",
-                            ConcurrencyStamp = "838bd940-29f5-4194-a96c-dd5553a3af12",
+                            Id = "8bc6de53-2fba-47bd-b4e4-055171ad59f0",
+                            ConcurrencyStamp = "7fcb60bf-ed02-41c9-bf6e-4368e82dcdd9",
                             Name = "Contender",
                             NormalizedName = "CONTENDER"
                         });
@@ -303,21 +303,27 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("ContenderOneId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ContenderTwoId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<Guid?>("NextMatchId")
-                        .IsRequired()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<bool>("IsResultConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NextMatchupControlNumber")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ResultReportedByContenderId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("Round")
                         .HasColumnType("int");
@@ -326,10 +332,9 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedOn")
+                    b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("WinnerId")
@@ -341,7 +346,7 @@ namespace TennisTour.DataAccess.Persistence.Migrations
 
                     b.HasIndex("ContenderTwoId");
 
-                    b.HasIndex("NextMatchId");
+                    b.HasIndex("ResultReportedByContenderId");
 
                     b.HasIndex("TournamentEditionId");
 
@@ -362,7 +367,7 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.Property<int>("ContenderTwoGamesCount")
                         .HasColumnType("int");
 
-                    b.Property<int>("LoserTiebreakPoints")
+                    b.Property<int?>("LoserTiebreakPoints")
                         .HasColumnType("int");
 
                     b.Property<Guid>("MatchId")
@@ -394,6 +399,12 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
@@ -405,6 +416,12 @@ namespace TennisTour.DataAccess.Persistence.Migrations
 
                     b.Property<int>("Rank")
                         .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -426,7 +443,6 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("nvarchar(1000)");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -444,10 +460,9 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedOn")
+                    b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -464,7 +479,6 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -476,10 +490,9 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedOn")
+                    b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -494,7 +507,6 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -514,10 +526,9 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedOn")
+                    b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -534,7 +545,6 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedOn")
@@ -553,10 +563,9 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UpdatedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("UpdatedOn")
+                    b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("WinnerId")
@@ -587,16 +596,11 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.Property<Guid>("TournamentEditionId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("TournamentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ContenderId");
 
                     b.HasIndex("TournamentEditionId");
-
-                    b.HasIndex("TournamentId");
 
                     b.ToTable("TournamentRegistrations");
                 });
@@ -682,17 +686,20 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                 {
                     b.HasOne("TennisTour.Core.Entities.ApplicationUser", "ContenderOne")
                         .WithMany()
-                        .HasForeignKey("ContenderOneId");
+                        .HasForeignKey("ContenderOneId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("TennisTour.Core.Entities.ApplicationUser", "ContenderTwo")
                         .WithMany()
-                        .HasForeignKey("ContenderTwoId");
-
-                    b.HasOne("TennisTour.Core.Entities.Match", "NextMatch")
-                        .WithMany()
-                        .HasForeignKey("NextMatchId")
+                        .HasForeignKey("ContenderTwoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("TennisTour.Core.Entities.ApplicationUser", "ResultReportedByContender")
+                        .WithMany()
+                        .HasForeignKey("ResultReportedByContenderId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("TennisTour.Core.Entities.TournamentEdition", "TournamentEdition")
                         .WithMany("Matches")
@@ -702,13 +709,14 @@ namespace TennisTour.DataAccess.Persistence.Migrations
 
                     b.HasOne("TennisTour.Core.Entities.ApplicationUser", "Winner")
                         .WithMany()
-                        .HasForeignKey("WinnerId");
+                        .HasForeignKey("WinnerId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("ContenderOne");
 
                     b.Navigation("ContenderTwo");
 
-                    b.Navigation("NextMatch");
+                    b.Navigation("ResultReportedByContender");
 
                     b.Navigation("TournamentEdition");
 
@@ -779,10 +787,6 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TennisTour.Core.Entities.Tournament", null)
-                        .WithMany("TournamentRegistrations")
-                        .HasForeignKey("TournamentId");
-
                     b.Navigation("Contender");
 
                     b.Navigation("TournamentEdition");
@@ -827,8 +831,6 @@ namespace TennisTour.DataAccess.Persistence.Migrations
             modelBuilder.Entity("TennisTour.Core.Entities.Tournament", b =>
                 {
                     b.Navigation("TournamentEditions");
-
-                    b.Navigation("TournamentRegistrations");
                 });
 
             modelBuilder.Entity("TennisTour.Core.Entities.TournamentEdition", b =>

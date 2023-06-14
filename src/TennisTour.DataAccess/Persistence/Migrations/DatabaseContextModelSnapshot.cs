@@ -51,22 +51,22 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "7ca2c6e3-adc4-4336-9001-1f8476d6c670",
-                            ConcurrencyStamp = "1ff5515b-4e88-4fbc-9f38-e6a9f7805a41",
+                            Id = "056dee8b-6f89-454a-905d-2823b83b9dba",
+                            ConcurrencyStamp = "a86d0c37-9fcc-457f-86ce-f44997d08577",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "8bd80ecd-f5ef-45ac-855d-be73952e478e",
-                            ConcurrencyStamp = "a4e87fe4-4efb-4166-977a-7166358a2ea0",
+                            Id = "e125da91-5642-4c94-b464-510d61c29492",
+                            ConcurrencyStamp = "0a2be491-3070-43f4-97f5-b4ee970886c8",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = "11d92756-cdc9-45f2-bd53-46a6546281e4",
-                            ConcurrencyStamp = "6cc0c2f4-8f56-4313-8c41-9ba483804812",
+                            Id = "8bc6de53-2fba-47bd-b4e4-055171ad59f0",
+                            ConcurrencyStamp = "7fcb60bf-ed02-41c9-bf6e-4368e82dcdd9",
                             Name = "Contender",
                             NormalizedName = "CONTENDER"
                         });
@@ -397,6 +397,12 @@ namespace TennisTour.DataAccess.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Points")
                         .HasColumnType("int");
 
@@ -408,6 +414,12 @@ namespace TennisTour.DataAccess.Persistence.Migrations
 
                     b.Property<int>("Rank")
                         .HasColumnType("int");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

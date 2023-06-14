@@ -120,9 +120,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
         var entity = await query.FirstOrDefaultAsync(expression);
 
-        if (entity == null) throw new ResourceNotFoundException(typeof(TEntity));
-
-        return entity;
+        return entity ?? throw new ResourceNotFoundException(typeof(TEntity));
     }
 
     public async Task<TEntity> GetOneOrNullAsync(Expression<Func<TEntity, bool>> expression, Func<IQueryable<TEntity>,
