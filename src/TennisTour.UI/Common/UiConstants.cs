@@ -17,5 +17,6 @@
         public const string MyFavoritesRoute = "/myFavorites";
         public const string MyProfileRoute = "/myProfile";
         public const string ScheduleRoute = "/schedule";
+        public const string RankingsRoute = "/rankings";
     }
 }

@@ -5,6 +5,11 @@
 @using TennisTour.UI.Common;
 @inject HttpClient httpClient
 
+<PageTitle>Rankings | Tennis Tour</PageTitle>
+
+<MudText Typo="Typo.h1" GutterBottom="true">Rankings</MudText>
+
+<MudDivider DividerType="DividerType.Middle" Class="my-6" />
 
 @if (Rankings == null)
 {
@@ -24,15 +29,14 @@
 				<CellTemplate>
 					<MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.ContenderInfo.Id)">
 						@context.Item.ContenderInfo.FirstName  @context.Item.ContenderInfo.LastName
-						</MudLink>
-						
+					</MudLink>
 				</CellTemplate>
 			</TemplateColumn>
 			<PropertyColumn Property="x => x.Points" Title="Points" />
 			<PropertyColumn Property="x => x.PreviousPoints" Title="Previous points" />
 			<PropertyColumn Property="x => x.PreviousRank" Title="Previous rank" />
 			<PropertyColumn Property="x => x.BestRank" Title="Best rank" />
-			<PropertyColumn Property="x => x.BestRankDate" Title="Best rank date" />
+			<PropertyColumn Property="x => x.BestRankDate" Format="d" Title="Best rank date" />
 		</Columns>
 		<PagerContent>
 			<MudDataGridPager T="RankingsResponseModel" />
