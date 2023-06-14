@@ -1,18 +1,114 @@
 ﻿@page "/"
 @using TennisTour.UI.AuthProviders;
+@using TennisTour.Application.Models.Rankings;
+@using TennisTour.Application.Models.TournamentEdition;
+
 
 <PageTitle>Home | Tennis Tour</PageTitle>
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
 
-@code{
-	[Inject]
-	private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-	protected override async void OnInitialized()
-	{
-		
+@if (model is null)
+{
+    if (isLoading)
+    {
+        <MudProgressCircular Color="Color.Primary" Size="Size.Large" Indeterminate="true" />
+    }
+    else
+    {
+        <MudAlert Severity="Severity.Error">Error while getting scheduled tournaments</MudAlert>
+    }
+}
+else
+{
+    <MudText class="mt-4" Typo="Typo.h3" GutterBottom="true">Top 10 Ranked Contenders</MudText>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+    if (!model.TopTenRankedConenders.Any())
+    {
+        <MudAlert Severity="Severity.Info">No rankings to display</MudAlert>
+    }
+    else
+    {
+        <MudDataGrid T="RankingsResponseModel" Items="@model.TopTenRankedConenders" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
+            <Columns>
+                <PropertyColumn Property="x => x.Rank" />
+                <TemplateColumn T="RankingsResponseModel" Title="Name" SortBy="@((x) => $"{x.ContenderInfo.FirstName} {x.ContenderInfo.LastName}")">
+                    <CellTemplate>
+                        <MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.Id)">
+                            @context.Item.ContenderInfo.FirstName  @context.Item.ContenderInfo.LastName
+                        </MudLink>
+                    </CellTemplate>
+                </TemplateColumn>
+                <PropertyColumn Property="x => x.Points" Title="Points" />
+                <PropertyColumn Property="x => x.PreviousPoints" Title="Previous points" />
+                <PropertyColumn Property="x => x.PreviousRank" Title="Previous rank" />
+                <PropertyColumn Property="x => x.BestRank" Title="Best rank" />
+                <PropertyColumn Property="x => x.BestRankDate" Format="d" Title="Best rank date" />
+            </Columns>
+        </MudDataGrid>
+    }
+    <MudText class="mt-4" Typo="Typo.h3" GutterBottom="true">Last 10 Finished Tournaments</MudText>
+    <MudDivider DividerType="DividerType.Middle" Class="my-6" />
+    if (!model.LastTenFinishedTournaments.Any())
+    {
+        <MudAlert Severity="Severity.Info">No tournaments to display</MudAlert>
+    }
+    else
+    {
+        <MudDataGrid T="TournamentEditionResponseModel" Items="@model.LastTenFinishedTournaments" ReadOnly="true" Bordered="true" Filterable="true" FilterMode="DataGridFilterMode.Simple" FilterCaseSensitivity="DataGridFilterCaseSensitivity.CaseInsensitive">
+            <Columns>
+                <PropertyColumn Property="x => x.DateStart" Format="d" Title="Start Date" />
+                <PropertyColumn Property="x => x.DateEnd" Format="d" Title="End Date" />
+                <PropertyColumn Property="x => x.Tournament.Name" Title="Tournament" />
+                <PropertyColumn Property="x => x.Tournament.Series.GetDescription()" Title="Series" />
+                <PropertyColumn Property="x => x.Tournament.Surface.GetDescription()" Title="Surface" />
+                <TemplateColumn Title="Winner" SortBy="x => x.Winner.ToString()">
+                    <CellTemplate>
+                        <MudLink Href="@String.Format(UiConstants.ContenderDetailsRoute, context.Item.Winner.Id)">
+                            @context.Item.Winner
+                        </MudLink>
+                    </CellTemplate>
+                </TemplateColumn>
+                <TemplateColumn StickyRight="true" Sortable="false" Filterable="false">
+                    <CellTemplate>
+                        <MudTooltip Text="Tournament Edition Details">
+                            <MudIconButton OnClick="@((e) => NavigationManager.NavigateTo(String.Format(UiConstants.TournamentEditionDetailsRoute, context.Item?.Id)))" Color="Color.Primary" Size="@Size.Small" Icon="@Icons.Material.Outlined.Visibility" />
+                        </MudTooltip>
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+            <PagerContent>
+                <MudDataGridPager T="TournamentEditionResponseModel" />
+            </PagerContent>
+        </MudDataGrid>
+    }
+}
+
+
+@code {
+    [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+    private HomePageResponseModel model;
+    private bool isLoading;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Console.WriteLine("clicked");
+        isLoading = true;
+
+        try
+        {
+            var response = await HttpClient.GetStringAsync(ApiConstants.HomeRoute);
+            var apiResult = JsonConvert.DeserializeObject<ApiResult<HomePageResponseModel>>(response);
+            model = apiResult.Result;
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"HTTP request failed: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
 	}
-	
 }

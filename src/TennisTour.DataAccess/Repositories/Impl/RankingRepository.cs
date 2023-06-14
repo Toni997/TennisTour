@@ -12,6 +12,7 @@ namespace TennisTour.DataAccess.Repositories.Impl
 {
     public class RankingRepository : BaseRepository<Ranking>, IRankingRepository
     {
+        public RankingRepository(DatabaseContext context) : base(context) { }
 
         private IIncludableQueryable<Ranking, object> IncludesContenderData(IQueryable<Ranking> x)
         {
@@ -28,13 +29,14 @@ namespace TennisTour.DataAccess.Repositories.Impl
             return await GetAllAsync(orderBy: OrderByRankingPoints, includes: IncludesContenderData);
         }
 
+        public async Task<IList<Ranking>> GetTopTenRankingsWithContenderDataOrderedByPoints()
+        {
+            return await GetAllAsync(orderBy: OrderByRankingPoints, includes: IncludesContenderData, take: 10);
+        }
+
         public async Task<IList<Ranking>> GetAllOfContenderIds(IList<string> contenderIds)
         {
             return await GetAllAsync(expression: e => contenderIds.Contains(e.ContenderId),includes: IncludesContenderData);
         }
-
-     
-
-        public RankingRepository(DatabaseContext context) : base(context) { }
     }
 }

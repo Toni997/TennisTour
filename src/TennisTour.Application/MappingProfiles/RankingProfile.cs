@@ -13,7 +13,9 @@ namespace TennisTour.Application.MappingProfiles
     {
         public RankingProfile()
         {
-            CreateMap<Ranking, RankingsResponseModel>();
+            CreateMap<Ranking, RankingsResponseModel>()
+                .ForMember(x => x.ContenderInfo, opt => opt.MapFrom(x => x.Contender.ContenderInfo))
+                .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Contender.Id));
             CreateMap<RankingsResponseModel, Ranking>();
         }
     }

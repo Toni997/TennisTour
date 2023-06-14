@@ -33,19 +33,8 @@ namespace TennisTour.Application.Services.Impl
 
         public async Task<List<RankingsResponseModel>> GetAllRankings()
         {
-            var allLocal = await _rankingRepository.GetAllRankingsWithContenderDataOrderedByPoints();
-            var mapped = _mapper.Map<IEnumerable<RankingsResponseModel>>(allLocal).ToList();
-            var infoDtos = allLocal.Select(e => {
-                var entity = _mapper.Map<ContenderInfoModel>(e.Contender.ContenderInfo);
-                entity.Id = new Guid(e.Contender.Id);
-                return entity;
-                }).ToList();
-         
-            return mapped.Select(e => {
-                e.ContenderInfo = infoDtos[mapped.IndexOf(e)];
-                return e;
-            }).ToList();
-         
+            var rankings = await _rankingRepository.GetAllRankingsWithContenderDataOrderedByPoints();
+            return _mapper.Map<List<RankingsResponseModel>>(rankings);
         }
 
         public async Task UpdatePoints()
