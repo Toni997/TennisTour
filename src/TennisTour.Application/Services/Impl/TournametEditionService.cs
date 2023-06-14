@@ -222,5 +222,12 @@ namespace TennisTour.Application.Services.Impl
                 tournamentEdition.Matches.Add(match);
             }
         }
+
+        public async Task<IEnumerable<TournamentEditionForScheduleResponseModel>> GetScheduleAsync(string userId)
+        {
+            var tournamentEditions = await _tournamentEditionRepository.GetAllUnfinishedTournamentEditionsOrderedByDateStartAsc();
+
+            return _mapper.Map<List<TournamentEditionForScheduleResponseModel>>(tournamentEditions, opt => opt.Items["userId"] = userId);
+        }
     }
 }

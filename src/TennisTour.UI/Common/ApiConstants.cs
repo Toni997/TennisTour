@@ -36,5 +36,6 @@ namespace TennisTour.UI.Common
         public const string ConfirmMatchResultRoute = "Matches/{0}/ConfirmResult";
         public const string MyFavoritesRoute = "Users/MyFavorites";
         public const string ConfirmUserRoute = "Users/confirmEmail";
+        public const string ScheduleRoute = "TournamentEditions/Schedule";
     }
 }

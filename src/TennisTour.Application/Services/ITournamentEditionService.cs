@@ -22,5 +22,6 @@ namespace TennisTour.Application.Services
         Task<BaseResponseModel> UnregisterAsync(Guid tournamentEditionId, string contenderId);
         Task<IEnumerable<TournamentRegistrationForEditionResponseModel>> GetAllRegistrationsAsync(Guid id);
         Task<IEnumerable<MatchResponseModel>> GenerateRoundAsync(Guid id);
+        Task<IEnumerable<TournamentEditionForScheduleResponseModel>> GetScheduleAsync(string userId);
     }
 }
