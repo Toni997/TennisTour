@@ -174,5 +174,15 @@ namespace TennisTour.DataAccess.Repositories.Impl
         {
             return await GetAllAsync(x => x.Winner == null, orderBy: x => x.OrderBy(x => x.DateStart), includes: IncludesForGetOne);
         }
+
+        public async Task<IList<TournamentEdition>> GetLastEditionForEveryTournamentAsync()
+        {
+            var query = Query();
+            query = Expression(x => x.Winner != null, query);
+            query = Include(IncludesForGetOne, query);
+            return await query.GroupBy(te => te.TournamentId)
+            .Select(group => group.OrderByDescending(te => te.DateStart).FirstOrDefault())
+            .ToListAsync();
+        }
     }
 }

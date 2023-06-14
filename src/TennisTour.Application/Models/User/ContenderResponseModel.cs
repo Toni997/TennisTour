@@ -16,6 +16,16 @@ namespace TennisTour.Application.Models.User
         {
             return $"{ContenderInfo.FirstName} {ContenderInfo.LastName}";
         }
+
+        public string GetCurrentRank()
+        {
+            return Ranking?.Rank.ToString() ?? "Unranked";
+        }
+
+        public string GetCurrentPoints()
+        {
+            return Ranking?.Points.ToString() ?? "Unranked";
+        }
     }
 
     public class H2HMatchWinnerResponseModel : BaseResponseModel
